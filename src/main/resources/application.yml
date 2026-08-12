@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springboot-base
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/framework_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: abc123
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+
+jwt:
+  # HS256 密钥，长度至少 32 字符，生产环境务必修改
+  secret: springboot-base-framework-jwt-secret-key-please-change-in-production-2026
+  # 过期时间（秒），默认 7 天
+  expiration: 604800
+  header: Authorization
+  prefix: "Bearer "
+
+app:
+  # 首次启动自动创建的默认管理员账号
+  default-admin:
+    username: admin
+    password: admin123
