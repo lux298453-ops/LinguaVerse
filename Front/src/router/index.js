@@ -8,6 +8,7 @@ const routes = [
     component: () => import('../components/Layout.vue'),
     children: [
       { path: '', name: 'Home', component: () => import('../views/Home.vue') },
+      { path: 'chat', name: 'Chat', component: () => import('../views/Chat.vue') },
       { path: 'users', name: 'UserManage', component: () => import('../views/UserManage.vue'), meta: { role: 'ADMIN' } }
     ]
   },

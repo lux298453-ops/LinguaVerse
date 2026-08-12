@@ -18,3 +18,17 @@ CREATE TABLE sys_user (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';
 
 -- 默认管理员账号 admin / admin123 由应用启动时自动创建（见 DataInitializer），无需手动插入
+
+DROP TABLE IF EXISTS chat_message;
+
+CREATE TABLE chat_message (
+    id          BIGINT      NOT NULL AUTO_INCREMENT COMMENT '主键',
+    sender_id   BIGINT      NOT NULL COMMENT '发送人ID',
+    receiver_id BIGINT      NOT NULL COMMENT '接收人ID',
+    content     TEXT        NOT NULL COMMENT '消息内容',
+    is_read     TINYINT     NOT NULL DEFAULT 0 COMMENT '是否已读: 0-未读 1-已读',
+    create_time DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发送时间',
+    PRIMARY KEY (id),
+    KEY idx_sender (sender_id, create_time),
+    KEY idx_receiver (receiver_id, is_read, create_time)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '聊天消息表';

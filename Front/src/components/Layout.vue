@@ -8,6 +8,10 @@
           <el-icon><HomeFilled /></el-icon>
           <span>个人中心</span>
         </el-menu-item>
+        <el-menu-item index="/chat">
+          <el-icon><ChatDotRound /></el-icon>
+          <span>聊天</span>
+        </el-menu-item>
         <el-menu-item v-if="userStore.isAdmin" index="/users">
           <el-icon><UserFilled /></el-icon>
           <span>用户管理</span>
@@ -31,7 +35,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
-import { HomeFilled, UserFilled } from '@element-plus/icons-vue'
+import { HomeFilled, UserFilled, ChatDotRound } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userStore = useUserStore()

@@ -17,6 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 用户服务实现
  */
@@ -96,5 +100,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         return userMapper.selectById(id);
+    }
+
+    @Override
+    public List<User> listByIds(Collection<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return userMapper.selectBatchIds(ids);
+    }
+
+    @Override
+    public List<User> listAll() {
+        return userMapper.selectList(new LambdaQueryWrapper<User>()
+                .eq(User::getStatus, 1)
+                .orderByAsc(User::getId));
     }
 }

@@ -54,6 +54,38 @@ src/main/java/com/example/framework/
 | GET | /api/user/list | ADMIN | 分页查询用户列表 |
 | PUT | /api/user/{id}/role | ADMIN | 修改用户角色 |
 | PUT | /api/user/{id}/status | ADMIN | 启用/禁用用户 |
+| GET | /api/chat/users | 登录用户 | 可聊天用户列表（含在线状态） |
+| GET | /api/chat/history | 登录用户 | 与指定用户的历史消息（分页） |
+| GET | /api/chat/conversations | 登录用户 | 会话列表（最近消息+未读+在线） |
+| GET | /api/chat/unread | 登录用户 | 总未读数 |
+| PUT | /api/chat/read | 登录用户 | 将对方消息标记为已读 |
+
+## WebSocket 实时聊天
+
+连接地址：`ws://{host}/ws/chat?token={JWT}`（握手时校验 token，需先登录获取）
+
+### 客户端 -> 服务端
+
+```json
+{ "type": "chat", "to": 2, "content": "你好" }
+```
+
+### 服务端 -> 客户端
+
+| type | 说明 |
+| --- | --- |
+| `chat` | 实时转发消息，`message` 含发送人信息 |
+| `offline` | 上线时推送离线未读消息（推送后自动标记已读） |
+| `user_status` | 用户上下线广播（`userId` + `online`） |
+| `error` | 错误提示 |
+
+### 前端示例
+
+```js
+const ws = new WebSocket(`ws://${location.host}/ws/chat?token=${token}`)
+ws.onmessage = (e) => { /* 处理消息帧 */ }
+ws.send(JSON.stringify({ type: 'chat', to: 2, content: '你好' }))
+```
 
 ### 调用示例
 

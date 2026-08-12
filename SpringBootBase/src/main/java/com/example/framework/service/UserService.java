@@ -5,6 +5,9 @@ import com.example.framework.dto.LoginResultVO;
 import com.example.framework.dto.RegisterDTO;
 import com.example.framework.entity.User;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 用户服务
  */
@@ -36,4 +39,11 @@ public interface UserService {
     void updateStatus(Long userId, Integer status);
 
     User getById(Long id);
+
+    List<User> listByIds(Collection<Long> ids);
+
+    /**
+     * 全部启用用户
+     */
+    List<User> listAll();
 }

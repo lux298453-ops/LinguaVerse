@@ -1,0 +1,273 @@
+<template>
+  <div class="chat-page">
+    <div class="user-panel">
+      <div class="panel-title">
+        <span>联系人</span>
+        <el-badge :value="chatStore.unreadTotal" :hidden="chatStore.unreadTotal === 0" class="unread-badge">
+          <el-icon :size="18"><Bell /></el-icon>
+        </el-badge>
+      </div>
+      <div class="search">
+        <el-input v-model="keyword" placeholder="搜索用户名/昵称" size="small" clearable />
+      </div>
+      <div v-if="!chatStore.users.length" class="empty">暂无其他用户</div>
+      <div v-for="user in filteredUsers" :key="user.id"
+        class="user-item" :class="{ active: user.id === chatStore.activeUserId }"
+        @click="handleSelect(user)">
+        <el-badge :value="chatStore.unreadOf(user.id)" :hidden="chatStore.unreadOf(user.id) === 0" :offset="[-6, 6]">
+          <el-avatar :size="36" class="avatar">{{ (user.nickname || user.username)[0] }}</el-avatar>
+        </el-badge>
+        <div class="user-info">
+          <div class="user-name">{{ user.nickname || user.username }}</div>
+          <div class="user-detail">
+            <span class="dot" :class="user.online ? 'online' : 'offline'"></span>
+            {{ user.online ? '在线' : '离线' }} · {{ user.username }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-panel">
+      <template v-if="activeUser">
+        <div class="chat-header">
+          <span class="chat-name">{{ activeUser.nickname || activeUser.username }}</span>
+          <span class="dot" :class="activeUser.online ? 'online' : 'offline'"></span>
+          <span class="chat-status">{{ activeUser.online ? '在线' : '离线' }}</span>
+        </div>
+        <div ref="messageBox" class="message-box">
+          <div v-for="msg in chatStore.activeMessages" :key="msg.id"
+            class="message-row" :class="msg.senderId === myId ? 'mine' : 'theirs'">
+            <el-avatar :size="32" class="avatar">{{ msg.senderId === myId ? myName[0] : (activeUser.nickname || activeUser.username)[0] }}</el-avatar>
+            <div class="message-bubble">
+              <div class="message-content">{{ msg.content }}</div>
+              <div class="message-time">{{ formatTime(msg.createTime) }}</div>
+            </div>
+          </div>
+          <div v-if="!chatStore.activeMessages.length" class="empty-tip">开始聊天吧~</div>
+        </div>
+        <div class="input-area">
+          <el-input v-model="draft" type="textarea" :rows="3" resize="none" placeholder="输入消息，Enter 发送"
+            @keydown.enter.exact.prevent="handleSend" />
+          <div class="input-actions">
+            <el-button type="primary" :disabled="!draft.trim()" @click="handleSend">发送</el-button>
+          </div>
+        </div>
+      </template>
+      <div v-else class="chat-placeholder">选择一个联系人开始聊天</div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { Bell } from '@element-plus/icons-vue'
+import { useUserStore } from '../stores/user'
+import { useChatStore } from '../stores/chat'
+
+const userStore = useUserStore()
+const chatStore = useChatStore()
+
+const myId = userStore.user?.id
+const myName = userStore.user?.nickname || userStore.user?.username || '我'
+const keyword = ref('')
+const draft = ref('')
+const messageBox = ref(null)
+
+const filteredUsers = computed(() => {
+  const kw = keyword.value.trim().toLowerCase()
+  let list = chatStore.users
+  if (kw) {
+    list = list.filter((u) =>
+      (u.username || '').toLowerCase().includes(kw) || (u.nickname || '').toLowerCase().includes(kw))
+  }
+  return [...list].sort((a, b) => (b.online ? 1 : 0) - (a.online ? 1 : 0))
+})
+
+const activeUser = computed(() =>
+  chatStore.users.find((u) => u.id === chatStore.activeUserId) || null
+)
+
+const formatTime = (t) => {
+  const d = new Date(t)
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${d.getMonth() + 1}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+const handleSelect = (user) => {
+  chatStore.selectUser(user.id)
+}
+
+const handleSend = () => {
+  const content = draft.value.trim()
+  if (!content || !chatStore.activeUserId) return
+  chatStore.sendMessage(chatStore.activeUserId, content)
+  draft.value = ''
+}
+
+watch(
+  () => chatStore.activeMessages.length,
+  async () => {
+    await nextTick()
+    if (messageBox.value) {
+      messageBox.value.scrollTop = messageBox.value.scrollHeight
+    }
+  }
+)
+
+onMounted(() => {
+  chatStore.connect()
+  window.addEventListener('beforeunload', () => chatStore.disconnect())
+})
+
+onUnmounted(() => {
+  window.removeEventListener('beforeunload', () => chatStore.disconnect())
+})
+</script>
+
+<style scoped>
+.chat-page {
+  display: flex;
+  height: calc(100vh - 60px - 40px);
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.user-panel {
+  width: 260px;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+}
+.panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+.search {
+  padding: 10px;
+}
+.empty {
+  padding: 32px;
+  text-align: center;
+  color: #999;
+}
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f2f2f2;
+}
+.user-item:hover {
+  background: #f0f7ff;
+}
+.user-item.active {
+  background: #e6f4ff;
+}
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+.user-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-detail {
+  font-size: 12px;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot.online {
+  background: #67c23a;
+}
+.dot.offline {
+  background: #c0c4cc;
+}
+.chat-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.chat-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chat-status {
+  font-size: 12px;
+  color: #999;
+  font-weight: normal;
+}
+.message-box {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+.message-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.message-row.mine {
+  flex-direction: row-reverse;
+}
+.message-row.mine .message-bubble {
+  background: #95ec69;
+}
+.message-bubble {
+  max-width: 60%;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 8px 12px;
+  word-break: break-word;
+}
+.message-content {
+  white-space: pre-wrap;
+}
+.message-time {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+  text-align: right;
+}
+.empty-tip,
+.chat-placeholder {
+  color: #999;
+  text-align: center;
+  margin-top: 40px;
+}
+.input-area {
+  border-top: 1px solid #eee;
+  padding: 10px 14px;
+}
+.input-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.avatar {
+  background: #409eff;
+  color: #fff;
+  flex-shrink: 0;
+}
+</style>
