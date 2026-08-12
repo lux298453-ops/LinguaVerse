@@ -34,13 +34,19 @@
           <span class="dot" :class="activeUser.online ? 'online' : 'offline'"></span>
           <span class="chat-status">{{ activeUser.online ? '在线' : '离线' }}</span>
         </div>
-        <div ref="messageBox" class="message-box">
-          <div v-for="msg in chatStore.activeMessages" :key="msg.id"
+          <div ref="messageBox" class="message-box">
+          <div v-for="msg in chatStore.activeMessages" :key="msg.id" :data-mid="msg.id"
             class="message-row" :class="msg.senderId === myId ? 'mine' : 'theirs'">
             <el-avatar :size="32" class="avatar">{{ msg.senderId === myId ? myName[0] : (activeUser.nickname || activeUser.username)[0] }}</el-avatar>
             <div class="message-bubble">
               <div class="message-content">{{ msg.content }}</div>
-              <div class="message-time">{{ formatTime(msg.createTime) }}</div>
+              <div class="message-meta">
+                <span class="message-time">{{ formatTime(msg.createTime) }}</span>
+                <svg v-if="msg.senderId === myId" class="tick" :class="Number(msg.isRead) === 1 ? 'read' : 'sent'" viewBox="0 0 18 12">
+                  <path d="M1.5 6.2 L5.2 9.8 L14 2" />
+                  <path v-if="Number(msg.isRead) === 1" d="M7.8 6.2 L11.5 9.8 L16.5 5.2" />
+                </svg>
+              </div>
             </div>
           </div>
           <div v-if="!chatStore.activeMessages.length" class="empty-tip">开始聊天吧~</div>
@@ -104,8 +110,34 @@ const handleSend = () => {
   draft.value = ''
 }
 
+/** 向上滚动加载更早历史，加载完保持原滚动位置 */
+const loadEarlier = async () => {
+  const userId = chatStore.activeUserId
+  if (!userId || chatStore.loadingEarlier || !chatStore.hasMoreHistory[userId]) return
+  const box = messageBox.value
+  const firstId = chatStore.activeMessages[0]?.id
+  await chatStore.loadEarlier(userId)
+  await nextTick()
+  if (firstId != null && box) {
+    const el = box.querySelector(`[data-mid="${firstId}"]`)
+    if (el) {
+      box.scrollTop = el.offsetTop - 80
+    }
+  }
+}
+
+const onScroll = () => {
+  const box = messageBox.value
+  if (!box || box.scrollTop > 30) return
+  const userId = chatStore.activeUserId
+  if (userId && chatStore.hasMoreHistory[userId] && !chatStore.loadingEarlier) {
+    loadEarlier()
+  }
+}
+
+// 只监听最后一条消息的变化：新消息/发送时滚到底，加载更早历史时不触发
 watch(
-  () => chatStore.activeMessages.length,
+  () => chatStore.activeMessages[chatStore.activeMessages.length - 1]?.id,
   async () => {
     await nextTick()
     if (messageBox.value) {
@@ -115,11 +147,16 @@ watch(
 )
 
 onMounted(() => {
+  chatStore.loadUsers()
+  chatStore.loadConversations()
+  chatStore.refreshUnread()
   chatStore.connect()
+  messageBox.value?.addEventListener('scroll', onScroll)
   window.addEventListener('beforeunload', () => chatStore.disconnect())
 })
 
 onUnmounted(() => {
+  messageBox.value?.removeEventListener('scroll', onScroll)
   window.removeEventListener('beforeunload', () => chatStore.disconnect())
 })
 </script>
@@ -244,11 +281,31 @@ onUnmounted(() => {
 .message-content {
   white-space: pre-wrap;
 }
+.message-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 4px;
+}
 .message-time {
   font-size: 11px;
   color: #999;
-  margin-top: 4px;
-  text-align: right;
+}
+.tick {
+  width: 16px;
+  height: 11px;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.tick.sent path {
+  stroke: #c0c4cc;
+}
+.tick.read path {
+  stroke: #1677ff;
 }
 .empty-tip,
 .chat-placeholder {

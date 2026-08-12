@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 import { getChatUsers, getConversations, getHistory, markRead, getUnread } from '../api/chat'
+import { useUserStore } from './user'
 
 export const useChatStore = defineStore('chat', {
   state: () => ({
@@ -8,10 +9,16 @@ export const useChatStore = defineStore('chat', {
     connected: false,
     users: [],
     conversations: [],
+    convSeq: 0,
     /** 消息列表: { [userId]: [...] } 按时间升序 */
     messages: {},
     activeUserId: null,
-    unreadTotal: 0
+    unreadTotal: 0,
+    /** 每个会话已加载的历史页数 */
+    historyPage: {},
+    /** 每个会话是否还有更早的历史 */
+    hasMoreHistory: {},
+    loadingEarlier: false
   }),
   getters: {
     activeMessages: (state) => (state.activeUserId ? state.messages[state.activeUserId] || [] : []),
@@ -66,28 +73,32 @@ export const useChatStore = defineStore('chat', {
         this.loadConversations()
       } else if (frame.type === 'user_status') {
         this.markUserOnline(frame.userId, frame.online)
+      } else if (frame.type === 'read') {
+        this.applyReadReceipt(frame.from, frame.messageIds || [])
       } else if (frame.type === 'error') {
         ElMessage.error(frame.message || '消息发送失败')
       }
     },
     pushMessage(message, isIncoming = true) {
-      const senderId = message.senderId
-      const isFromActive = senderId === this.activeUserId
-      if (!this.messages[senderId]) {
-        this.messages[senderId] = []
+      const myId = useUserStore().user?.id
+      // 按会话对象分组：自己发的消息归到 receiver，对方发的归到 sender
+      const peerId = message.senderId === myId ? message.receiverId : message.senderId
+      const isFromActive = peerId === this.activeUserId
+      if (!this.messages[peerId]) {
+        this.messages[peerId] = []
       }
-      const exists = this.messages[senderId].some((m) => m.id === message.id)
+      const exists = this.messages[peerId].some((m) => m.id === message.id)
       if (exists) return
-      this.messages[senderId].push(message)
+      this.messages[peerId].push(message)
       if (isIncoming && !isFromActive) {
-        const conv = this.conversations.find((c) => c.userId === senderId)
+        const conv = this.conversations.find((c) => c.userId === peerId)
         if (conv) {
           conv.unread = Number(conv.unread || 0) + 1
         }
         this.refreshUnread()
       }
       if (isFromActive) {
-        this.markRead(senderId)
+        this.markRead(peerId)
       }
     },
     sendMessage(to, content) {
@@ -106,8 +117,13 @@ export const useChatStore = defineStore('chat', {
       }
     },
     async loadConversations() {
+      const seq = ++this.convSeq
       try {
-        this.conversations = await getConversations()
+        const list = await getConversations()
+        // 只应用最新一次请求的结果，避免陈旧响应覆盖本地已清零的未读数
+        if (seq === this.convSeq) {
+          this.conversations = list
+        }
       } catch {
         /* 拦截器已提示 */
       }
@@ -121,21 +137,27 @@ export const useChatStore = defineStore('chat', {
     },
     async selectUser(userId) {
       this.activeUserId = userId
-      if (!this.messages[userId]) {
-        this.messages[userId] = []
-        try {
-          const list = await getHistory({ withUserId: userId, pageNum: 1, pageSize: 50 })
-          this.messages[userId] = list.slice().reverse()
-        } catch {
-          /* 拦截器已提示 */
+      try {
+        const list = await getHistory({ withUserId: userId, pageNum: 1, pageSize: 50 })
+        // 历史与已收到的实时消息按 id 去重合并，按时间升序
+        const byId = new Map()
+        for (const m of this.messages[userId] || []) byId.set(m.id, m)
+        for (const m of list) byId.set(m.id, m)
+        this.messages[userId] = [...byId.values()].sort((a, b) =>
+          (a.createTime || '').localeCompare(b.createTime || ''))
+        this.historyPage[userId] = 1
+        this.hasMoreHistory[userId] = list.length >= 50
+      } catch {
+        if (!this.messages[userId]) {
+          this.messages[userId] = []
         }
       }
       const conv = this.conversations.find((c) => c.userId === userId)
       if (conv) {
         conv.unread = 0
-        this.refreshUnread()
       }
-      this.markRead(userId)
+      // 先等已读接口完成再刷新总数，避免拉到旧的未读数
+      await this.markRead(userId)
     },
     async markRead(userId) {
       try {
@@ -143,11 +165,53 @@ export const useChatStore = defineStore('chat', {
       } catch {
         /* 拦截器已提示 */
       }
+      // 接口成功后兜底清零该会话未读，防止期间到达的旧快照残留
+      const conv = this.conversations.find((c) => c.userId === userId)
+      if (conv) {
+        conv.unread = 0
+      }
+      this.refreshUnread()
+    },
+    /** 向上滚动加载更早一页历史，合并到会话消息列表 */
+    async loadEarlier(userId) {
+      if (this.loadingEarlier || !this.hasMoreHistory[userId]) {
+        return
+      }
+      const nextPage = (this.historyPage[userId] || 1) + 1
+      this.loadingEarlier = true
+      try {
+        const list = await getHistory({ withUserId: userId, pageNum: nextPage, pageSize: 50 })
+        if (list.length > 0) {
+          const byId = new Map((this.messages[userId] || []).map((m) => [m.id, m]))
+          for (const m of list) byId.set(m.id, m)
+          this.messages[userId] = [...byId.values()].sort((a, b) =>
+            (a.createTime || '').localeCompare(b.createTime || ''))
+          this.historyPage[userId] = nextPage
+        }
+        if (list.length < 50) {
+          this.hasMoreHistory[userId] = false
+        }
+      } catch {
+        /* 拦截器已提示 */
+      } finally {
+        this.loadingEarlier = false
+      }
     },
     markUserOnline(userId, online) {
       const user = this.users.find((u) => u.id === userId)
       if (user) {
         user.online = online
+      }
+    },
+    /** 对方已读回执: 把自己发给 fromUserId 的对应消息标记为已读 */
+    applyReadReceipt(fromUserId, messageIds) {
+      const myId = useUserStore().user?.id
+      const list = this.messages[fromUserId] || []
+      const ids = new Set(messageIds)
+      for (const m of list) {
+        if (m.senderId === myId && ids.has(m.id)) {
+          m.isRead = 1
+        }
       }
     }
   }

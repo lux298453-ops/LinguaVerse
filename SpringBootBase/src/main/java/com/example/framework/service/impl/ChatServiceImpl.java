@@ -12,10 +12,16 @@ import com.example.framework.mapper.ChatMessageMapper;
 import com.example.framework.service.ChatService;
 import com.example.framework.service.UserService;
 import com.example.framework.util.WebSocketSessionManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +31,14 @@ import java.util.stream.Collectors;
 /**
  * 聊天服务实现
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
     private final ChatMessageMapper chatMessageMapper;
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public ChatMessageVO send(Long senderId, Long receiverId, String content) {
@@ -48,7 +56,7 @@ public class ChatServiceImpl implements ChatService {
         msg.setSenderId(senderId);
         msg.setReceiverId(receiverId);
         msg.setContent(content);
-        msg.setIsRead(WebSocketSessionManager.isOnline(receiverId) ? 1 : 0);
+        msg.setIsRead(0);
         chatMessageMapper.insert(msg);
         return ChatMessageVO.of(msg, userService.getById(senderId));
     }
@@ -68,11 +76,18 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void markRead(Long userId, Long fromUserId) {
-        chatMessageMapper.update(null, new LambdaUpdateWrapper<ChatMessage>()
+        List<ChatMessage> unread = chatMessageMapper.selectList(new LambdaQueryWrapper<ChatMessage>()
                 .eq(ChatMessage::getSenderId, fromUserId)
                 .eq(ChatMessage::getReceiverId, userId)
-                .eq(ChatMessage::getIsRead, 0)
+                .eq(ChatMessage::getIsRead, 0));
+        if (unread.isEmpty()) {
+            return;
+        }
+        List<Long> messageIds = unread.stream().map(ChatMessage::getId).toList();
+        chatMessageMapper.update(null, new LambdaUpdateWrapper<ChatMessage>()
+                .in(ChatMessage::getId, messageIds)
                 .set(ChatMessage::getIsRead, 1));
+        notifyRead(fromUserId, userId, messageIds);
     }
 
     @Override
@@ -105,7 +120,32 @@ public class ChatServiceImpl implements ChatService {
                 .eq(ChatMessage::getReceiverId, userId)
                 .eq(ChatMessage::getIsRead, 0)
                 .set(ChatMessage::getIsRead, 1));
+        list.stream().collect(Collectors.groupingBy(ChatMessage::getSenderId))
+                .forEach((senderId, msgs) -> notifyRead(senderId, userId,
+                        msgs.stream().map(ChatMessage::getId).toList()));
         return toVOs(list);
+    }
+
+    /**
+     * 向消息发送方推送"对方已读"回执
+     */
+    private void notifyRead(Long sendToUserId, Long readByUserId, List<Long> messageIds) {
+        if (messageIds == null || messageIds.isEmpty()) {
+            return;
+        }
+        WebSocketSession session = WebSocketSessionManager.get(sendToUserId);
+        if (session == null || !session.isOpen()) {
+            return;
+        }
+        try {
+            ObjectNode frame = objectMapper.createObjectNode()
+                    .put("type", "read")
+                    .put("from", readByUserId)
+                    .set("messageIds", objectMapper.valueToTree(messageIds));
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(frame)));
+        } catch (IOException e) {
+            log.error("推送已读回执失败 sendTo={} readBy={}", sendToUserId, readByUserId, e);
+        }
     }
 
     private List<ChatMessageVO> toVOs(List<ChatMessage> list) {
