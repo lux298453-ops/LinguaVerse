@@ -111,6 +111,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateProfile(Long userId, String nickname, String avatar) {
+        User user = getById(userId);
+        if (user == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND);
+        }
+        if (nickname != null) {
+            user.setNickname(nickname.trim());
+        }
+        if (avatar != null) {
+            user.setAvatar(avatar.trim());
+        }
+        userMapper.updateById(user);
+        return user;
+    }
+
+    @Override
     public List<User> listAll() {
         return userMapper.selectList(new LambdaQueryWrapper<User>()
                 .eq(User::getStatus, 1)

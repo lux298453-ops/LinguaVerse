@@ -64,6 +64,7 @@ public class ChatController {
             item.put("id", user.getId());
             item.put("username", user.getUsername());
             item.put("nickname", user.getNickname());
+            item.put("avatar", user.getAvatar());
             item.put("online", WebSocketSessionManager.isOnline(user.getId()));
             result.add(item);
         }

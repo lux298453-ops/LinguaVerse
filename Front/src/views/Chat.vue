@@ -15,7 +15,12 @@
         class="user-item" :class="{ active: user.id === chatStore.activeUserId }"
         @click="handleSelect(user)">
         <el-badge :value="chatStore.unreadOf(user.id)" :hidden="chatStore.unreadOf(user.id) === 0" :offset="[-6, 6]">
-          <el-avatar :size="36" class="avatar">{{ (user.nickname || user.username)[0] }}</el-avatar>
+          <UserAvatar
+            :avatar="user.avatar"
+            :name="user.nickname || user.username"
+            :size="38"
+            radius="12px"
+          />
         </el-badge>
         <div class="user-info">
           <div class="user-name">{{ user.nickname || user.username }}</div>
@@ -30,6 +35,12 @@
     <div class="chat-panel">
       <template v-if="activeUser">
         <div class="chat-header">
+          <UserAvatar
+            :avatar="activeUser.avatar"
+            :name="activeUser.nickname || activeUser.username"
+            :size="32"
+            radius="10px"
+          />
           <span class="chat-name">{{ activeUser.nickname || activeUser.username }}</span>
           <span class="dot" :class="activeUser.online ? 'online' : 'offline'"></span>
           <span class="chat-status">{{ activeUser.online ? '在线' : '离线' }}</span>
@@ -37,7 +48,13 @@
           <div ref="messageBox" class="message-box">
           <div v-for="msg in chatStore.activeMessages" :key="msg.id" :data-mid="msg.id"
             class="message-row" :class="msg.senderId === myId ? 'mine' : 'theirs'">
-            <el-avatar :size="32" class="avatar">{{ msg.senderId === myId ? myName[0] : (activeUser.nickname || activeUser.username)[0] }}</el-avatar>
+            <UserAvatar
+              :avatar="msg.senderId === myId ? userStore.user?.avatar : activeUser.avatar"
+              :name="msg.senderId === myId ? myName : (activeUser.nickname || activeUser.username)"
+              :size="34"
+              radius="10px"
+              class="avatar"
+            />
             <div class="message-bubble">
               <div class="message-content">{{ msg.content }}</div>
               <div class="message-meta">
@@ -69,6 +86,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Bell } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/user'
 import { useChatStore } from '../stores/chat'
+import UserAvatar from '../components/UserAvatar.vue'
 
 const userStore = useUserStore()
 const chatStore = useChatStore()
@@ -152,12 +170,11 @@ onMounted(() => {
   chatStore.refreshUnread()
   chatStore.connect()
   messageBox.value?.addEventListener('scroll', onScroll)
-  window.addEventListener('beforeunload', () => chatStore.disconnect())
 })
 
 onUnmounted(() => {
   messageBox.value?.removeEventListener('scroll', onScroll)
-  window.removeEventListener('beforeunload', () => chatStore.disconnect())
+  chatStore.activeUserId = null
 })
 </script>
 

@@ -9,6 +9,7 @@ CREATE TABLE sys_user (
     username    VARCHAR(50)  NOT NULL COMMENT '用户名',
     password    VARCHAR(100) NOT NULL COMMENT '密码(BCrypt加密)',
     nickname    VARCHAR(50)  DEFAULT NULL COMMENT '昵称',
+    avatar      VARCHAR(500) DEFAULT NULL COMMENT '用户头像',
     role        VARCHAR(20)  NOT NULL DEFAULT 'USER' COMMENT '角色: ADMIN-管理员 USER-普通用户',
     status      TINYINT      NOT NULL DEFAULT 1 COMMENT '状态: 1-启用 0-禁用',
     create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

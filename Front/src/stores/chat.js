@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
 import { getChatUsers, getConversations, getHistory, markRead, getUnread } from '../api/chat'
 import { useUserStore } from './user'
 
@@ -94,8 +94,21 @@ export const useChatStore = defineStore('chat', {
         const conv = this.conversations.find((c) => c.userId === peerId)
         if (conv) {
           conv.unread = Number(conv.unread || 0) + 1
+        } else {
+          this.loadConversations()
         }
         this.refreshUnread()
+
+        // 全局消息浮窗通知（好友发来消息）
+        const senderUser = this.users.find((u) => u.id === peerId)
+        const senderName = senderUser?.nickname || senderUser?.username || '好友'
+        ElNotification({
+          title: `💬 来自 ${senderName} 的新消息`,
+          message: message.content || '收到一条新私聊消息',
+          type: 'info',
+          duration: 4000,
+          position: 'top-right'
+        })
       }
       if (isFromActive) {
         this.markRead(peerId)

@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   { path: '/login', name: 'Login', component: () => import('../views/Login.vue'), meta: { public: true } },
   { path: '/register', name: 'Register', component: () => import('../views/Register.vue'), meta: { public: true } },
+  // 游戏世界：全屏独立页面，不套 Layout
+  { path: '/world', name: 'World', component: () => import('../views/World.vue') },
   {
     path: '/',
     component: () => import('../components/Layout.vue'),
@@ -14,6 +16,7 @@ const routes = [
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
+
 
 const router = createRouter({
   history: createWebHistory(),

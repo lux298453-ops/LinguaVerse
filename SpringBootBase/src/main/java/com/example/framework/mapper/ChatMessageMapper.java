@@ -17,7 +17,7 @@ public interface ChatMessageMapper extends BaseMapper<ChatMessage> {
      * 会话列表：与每个用户最近的聊天记录及未读数
      */
     @Select("""
-            SELECT u.id AS userId, u.username, u.nickname,
+            SELECT u.id AS userId, u.username, u.nickname, u.avatar,
                    m.content AS lastMessage, m.create_time AS lastTime,
                    (SELECT COUNT(*) FROM chat_message cm2
                      WHERE cm2.sender_id = u.id AND cm2.receiver_id = #{userId} AND cm2.is_read = 0) AS unread

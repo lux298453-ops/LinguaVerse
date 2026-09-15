@@ -43,6 +43,11 @@ public interface UserService {
     List<User> listByIds(Collection<Long> ids);
 
     /**
+     * 更新当前用户资料（昵称、头像）
+     */
+    User updateProfile(Long userId, String nickname, String avatar);
+
+    /**
      * 全部启用用户
      */
     List<User> listAll();

@@ -27,3 +27,8 @@ Thumbs.db
 
 # 本地配置（含数据库密码，勿提交）
 application-local.yml
+
+# 运行时用户上传文件
+uploads/
+**/uploads/*
+!**/uploads/**/.gitkeep

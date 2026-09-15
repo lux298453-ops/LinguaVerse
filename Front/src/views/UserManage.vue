@@ -14,6 +14,16 @@
 
     <el-table :data="records" v-loading="loading" border stripe>
       <el-table-column prop="id" label="ID" width="70" />
+      <el-table-column label="头像" width="76" align="center">
+        <template #default="{ row }">
+          <UserAvatar
+            :avatar="row.avatar"
+            :name="row.nickname || row.username"
+            :size="32"
+            radius="8px"
+          />
+        </template>
+      </el-table-column>
       <el-table-column prop="username" label="用户名" />
       <el-table-column prop="nickname" label="昵称" />
       <el-table-column label="角色" width="120">
@@ -51,6 +61,7 @@
 import { onMounted, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getUserList, updateRole, updateStatus } from '../api/user'
+import UserAvatar from '../components/UserAvatar.vue'
 
 const loading = ref(false)
 const keyword = ref('')

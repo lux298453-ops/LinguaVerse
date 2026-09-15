@@ -26,6 +26,9 @@ public class User {
 
     private String nickname;
 
+    /** 用户头像URL或预设Key */
+    private String avatar;
+
     /** 角色: ADMIN-管理员 USER-普通用户 */
     private String role;
 

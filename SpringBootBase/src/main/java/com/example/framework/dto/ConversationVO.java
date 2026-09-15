@@ -13,6 +13,7 @@ public class ConversationVO {
     private Long userId;
     private String username;
     private String nickname;
+    private String avatar;
     /** 该用户当前是否在线 */
     private Boolean online;
     /** 最近一条消息内容 */

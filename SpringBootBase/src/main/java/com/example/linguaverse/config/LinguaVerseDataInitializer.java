@@ -1,0 +1,186 @@
+package com.example.linguaverse.config;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.linguaverse.entity.*;
+import com.example.linguaverse.mapper.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Slf4j
+@Component
+@Order(2)
+@RequiredArgsConstructor
+public class LinguaVerseDataInitializer implements ApplicationRunner {
+
+    private final LvNpcMapper npcMapper;
+    private final LvTaskMapper taskMapper;
+    private final LvDialogueNodeMapper nodeMapper;
+    private final LvSemanticRuleMapper ruleMapper;
+
+    @Override
+    public void run(ApplicationArguments args) {
+        initMaryNpc();
+        initLunaNpc();
+    }
+
+    private void initLunaNpc() {
+        if (npcMapper.selectCount(new LambdaQueryWrapper<LvNpc>().eq(LvNpc::getNpcKey, "luna_friend")) > 0) {
+            return;
+        }
+
+        // 1. NPC Luna
+        LvNpc luna = new LvNpc();
+        luna.setNpcKey("luna_friend");
+        luna.setName("Luna");
+        luna.setMapId("game_zone");
+        luna.setPosX(680);
+        luna.setPosY(320);
+        luna.setSpriteKey("npc_luna");
+        luna.setPersonality("Mary's fun-loving friend at the Game Zone who wears a purple hat! Enthusiastic gamer.");
+        npcMapper.insert(luna);
+
+        // 2. 任务：接收口信
+        LvTask task = new LvTask();
+        task.setTaskKey("luna_receive_message");
+        task.setNpcId(luna.getId());
+        task.setTitle("Luna's Message Delivery");
+        task.setGoalDesc("Deliver Mary's message to Luna at the Game Zone.");
+        task.setRewardCoins(20);
+        task.setIsActive(1);
+        taskMapper.insert(task);
+        Long taskId = task.getId();
+
+        // 3. 对话节点
+        List<LvDialogueNode> nodes = List.of(
+            node(taskId, "luna_greeting", "NPC_SPEAK",
+                "Hi there! 💜 I'm Luna! Welcome to the Game Zone! Did my friend Mary send you with a message for me?",
+                "player_deliver", 0, 0),
+            node(taskId, "player_deliver", "PLAYER_INPUT", null, "luna_thanks", 0, 1),
+            node(taskId, "luna_thanks", "NPC_SPEAK",
+                "Aww, thank you so much! 🙏 So Mary is on her way! I was wondering what took her so long. Here is your reward for delivering the message, my friend! 🌟 Enjoy the games!",
+                null, 1, 2)
+        );
+        nodes.forEach(n -> nodeMapper.insert(n));
+
+        Long deliverNodeId = getNodeId(taskId, "player_deliver");
+
+        // 4. 语义规则：必须传达 Mary 迟到或在途
+        insertRule(deliverNodeId,
+            "[{\"phrases\":[\"late\",\"delayed\",\"coming\",\"on her way\",\"on the way\",\"heading\",\"she will be\"],\"dimension\":\"MESSAGE\"}]",
+            "luna_thanks",
+            "Tell Luna that Mary will be late or is on her way! 💬");
+
+        log.info("✅ LinguaVerse 初始数据写入完成：Luna NPC + 送达任务剧本");
+    }
+
+    private void initMaryNpc() {
+        if (npcMapper.selectCount(new LambdaQueryWrapper<LvNpc>().eq(LvNpc::getNpcKey, "mary_guide")) > 0) {
+            log.info("LinguaVerse 初始数据已存在，跳过");
+            return;
+        }
+
+        // 1. NPC
+        LvNpc mary = new LvNpc();
+        mary.setNpcKey("mary_guide");
+        mary.setName("Mary");
+        mary.setMapId("hall");
+        mary.setPosX(400);
+        mary.setPosY(280);
+        mary.setSpriteKey("npc_mary");
+        mary.setPersonality("A friendly and enthusiastic guide who loves helping newcomers. Always speaks in English.");
+        npcMapper.insert(mary);
+
+        // 2. 任务
+        LvTask task = new LvTask();
+        task.setTaskKey("mary_message_delivery");
+        task.setNpcId(mary.getId());
+        task.setTitle("The Missing Message");
+        task.setGoalDesc("Help Mary deliver a message to her friend Luna at the Game Zone.");
+        task.setRewardCoins(10);
+        task.setIsActive(1);
+        taskMapper.insert(task);
+        Long taskId = task.getId();
+
+        // 3. 对话节点
+        List<LvDialogueNode> nodes = List.of(
+            node(taskId, "greeting", "NPC_SPEAK",
+                "Oh! A newcomer! ✨ Welcome to LinguaVerse, the most talkative place in the universe! I'm Mary, your guide here in Sunshine Hall. What's your name, friend?",
+                "player_intro", 0, 0),
+            node(taskId, "player_intro", "PLAYER_INPUT", null, "task_offer", 0, 1),
+            node(taskId, "task_offer", "NPC_SPEAK",
+                "What a wonderful name! 🌟 Listen, I'm in a bit of a pickle right now. My dear friend Luna is waiting for me at the Game Zone, but I simply cannot leave my post here. Could you do me a huge favor?",
+                "player_agree", 0, 2),
+            node(taskId, "player_agree", "PLAYER_INPUT", null, "task_detail", 0, 3),
+            node(taskId, "task_detail", "NPC_SPEAK",
+                "Oh, you're a lifesaver! 🙏 Please find Luna near the game tables — she's the one with the purple hat. Tell her this message: 'Mary will be a little late, but she's on her way.' Can you repeat that message back to me first? Just to make sure I can trust you with it! 😄",
+                "player_repeat", 0, 4),
+            node(taskId, "player_repeat", "PLAYER_INPUT", null, "task_complete", 0, 5),
+            node(taskId, "task_complete", "NPC_SPEAK",
+                "PERFECT! 🎉 That's exactly right! You're a natural communicator! Now go find Luna — she's near the colorful game tables on the right side of the hall. Just look for the purple hat! 💜 Thank you so much, friend. You've earned this! ⭐",
+                null, 1, 6)
+        );
+        nodes.forEach(n -> nodeMapper.insert(n));
+
+        // 获取 player_intro 节点 ID（用于绑定规则）
+        Long introNodeId = getNodeId(taskId, "player_intro");
+        Long agreeNodeId = getNodeId(taskId, "player_agree");
+        Long repeatNodeId = getNodeId(taskId, "player_repeat");
+
+        // 4. 语义规则
+        // Node: player_intro — 任意自我介绍短语
+        insertRule(introNodeId,
+            "[{\"phrases\":[\"i'm\",\"i am\",\"my name is\",\"call me\",\"i go by\",\"hi\",\"hello\",\"hey\"],\"dimension\":\"INTRO\"}]",
+            "task_offer",
+            "Try introducing yourself! For example: 'I'm Alex!' or 'My name is Leo.' 😊");
+
+        // Node: player_agree — 同意帮助
+        insertRule(agreeNodeId,
+            "[{\"phrases\":[\"yes\",\"sure\",\"okay\",\"ok\",\"of course\",\"no problem\",\"i can\",\"i will\",\"happy to\",\"love to\",\"glad to\",\"absolutely\"],\"dimension\":\"AGREE\"}]",
+            "task_detail",
+            "Mary needs a 'yes' or 'no'! Try: 'Sure, I can help!' or 'Of course!' 💪");
+
+        // Node: player_repeat — 双语义 AND 匹配（迟到 + 在途）
+        insertRule(repeatNodeId,
+            "[{\"phrases\":[\"late\",\"delayed\",\"a bit late\",\"running late\",\"behind\",\"not on time\"],\"dimension\":\"LATE\"}" +
+            ",{\"phrases\":[\"on her way\",\"coming\",\"heading there\",\"will be there\",\"she's coming\",\"on the way\",\"on my way\"],\"dimension\":\"COMING\"}]",
+            "task_complete",
+            "Make sure you include BOTH: that Mary is late AND that she's coming! 🔑");
+
+        log.info("✅ LinguaVerse 初始数据写入完成：Mary NPC + 任务剧本");
+    }
+
+    private LvDialogueNode node(Long taskId, String key, String type, String content, String nextKey, int terminal, int order) {
+        LvDialogueNode n = new LvDialogueNode();
+        n.setTaskId(taskId);
+        n.setNodeKey(key);
+        n.setNodeType(type);
+        n.setContent(content);
+        n.setNextNodeKey(nextKey);
+        n.setIsTerminal(terminal);
+        n.setSortOrder(order);
+        return n;
+    }
+
+    private void insertRule(Long nodeId, String phrases, String matchNext, String failHint) {
+        LvSemanticRule rule = new LvSemanticRule();
+        rule.setNodeId(nodeId);
+        rule.setMatchPhrases(phrases);
+        rule.setOnMatchNext(matchNext);
+        rule.setOnFailHint(failHint);
+        ruleMapper.insert(rule);
+    }
+
+    private Long getNodeId(Long taskId, String nodeKey) {
+        return nodeMapper.selectOne(
+            new LambdaQueryWrapper<LvDialogueNode>()
+                .eq(LvDialogueNode::getTaskId, taskId)
+                .eq(LvDialogueNode::getNodeKey, nodeKey)
+        ).getId();
+    }
+}

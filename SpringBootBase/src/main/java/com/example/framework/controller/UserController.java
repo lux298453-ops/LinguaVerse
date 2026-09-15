@@ -8,6 +8,8 @@ import com.example.framework.enums.RoleEnum;
 import com.example.framework.service.UserService;
 import com.example.framework.util.UserContext;
 import lombok.RequiredArgsConstructor;
+import com.example.framework.dto.UpdateProfileDTO;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,7 +40,24 @@ public class UserController {
         data.put("id", user.getId());
         data.put("username", user.getUsername());
         data.put("nickname", user.getNickname());
+        data.put("avatar", user.getAvatar());
         data.put("role", user.getRole());
+        return Result.success(data);
+    }
+
+    /**
+     * 更新当前登录用户资料（昵称、头像）
+     */
+    @PutMapping("/profile")
+    public Result<Map<String, Object>> updateProfile(@RequestBody UpdateProfileDTO dto) {
+        Long me = UserContext.getUserId();
+        User updated = userService.updateProfile(me, dto.getNickname(), dto.getAvatar());
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", updated.getId());
+        data.put("username", updated.getUsername());
+        data.put("nickname", updated.getNickname());
+        data.put("avatar", updated.getAvatar());
+        data.put("role", updated.getRole());
         return Result.success(data);
     }
 

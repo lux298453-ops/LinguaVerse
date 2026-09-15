@@ -17,6 +17,8 @@ public class LoginResultVO {
 
     private String nickname;
 
+    private String avatar;
+
     private String role;
 
     public static LoginResultVO of(User user, String token) {
@@ -25,6 +27,7 @@ public class LoginResultVO {
         vo.setId(user.getId());
         vo.setUsername(user.getUsername());
         vo.setNickname(user.getNickname());
+        vo.setAvatar(user.getAvatar());
         vo.setRole(user.getRole());
         return vo;
     }
