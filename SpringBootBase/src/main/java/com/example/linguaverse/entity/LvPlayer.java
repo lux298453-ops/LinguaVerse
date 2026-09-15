@@ -14,6 +14,7 @@ public class LvPlayer {
     private Integer posX;
     private Integer posY;
     private String skin;
+    private Integer coins;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)

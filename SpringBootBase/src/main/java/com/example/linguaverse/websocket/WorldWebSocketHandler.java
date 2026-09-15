@@ -171,6 +171,11 @@ public class WorldWebSocketHandler extends TextWebSocketHandler {
 
         if (result.passed() && result.taskComplete()) {
             taskResult.setNextNode("COMPLETE");
+            taskResult.setTaskComplete(true);
+            taskResult.setRewardCoins(result.rewardCoins());
+            taskResult.setTaskTitle(result.taskTitle());
+            taskResult.setTotalCoins(result.totalCoins());
+            taskResult.setTaskId(msg.getTaskId());
             sendTo(session, taskResult);
             if (result.nextNode() != null && "NPC_SPEAK".equals(result.nextNode().getNodeType())) {
                 streamNpcSpeak(session, result.nextNode().getContent(), "COMPLETE");

@@ -14,6 +14,8 @@ public class LvTask {
     private String title;
     private String goalDesc;
     private Integer rewardCoins;
+    private String category; // MAIN / ACADEMIC / CHALLENGE
+    private Long preTaskId;
     private Integer isActive;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

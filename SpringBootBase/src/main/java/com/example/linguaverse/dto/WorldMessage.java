@@ -29,4 +29,9 @@ public class WorldMessage {
     // 玩家间定向社交交互
     private Long targetUserId;
     private String action; // GREET / LIKE
+    // 任务完成奖励与状态
+    private Integer rewardCoins;
+    private String taskTitle;
+    private Boolean taskComplete;
+    private Integer totalCoins;
 }

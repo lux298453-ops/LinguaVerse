@@ -20,6 +20,7 @@ public class TaskService {
     private final LvDialogueNodeMapper nodeMapper;
     private final LvTaskProgressMapper progressMapper;
     private final LvSemanticRuleMapper ruleMapper;
+    private final LvPlayerMapper playerMapper;
     private final SemanticJudgeService judgeService;
 
     private static final int MAX_RETRY = 3;
@@ -28,6 +29,26 @@ public class TaskService {
      * 玩家点击 NPC，初始化或恢复任务，返回第一个对话节点内容
      */
     public LvDialogueNode startTask(Long userId, Long taskId) {
+        LvTask task = taskMapper.selectById(taskId);
+        if (task != null && task.getPreTaskId() != null) {
+            LvTaskProgress preProgress = progressMapper.selectOne(
+                    new LambdaQueryWrapper<LvTaskProgress>()
+                            .eq(LvTaskProgress::getUserId, userId)
+                            .eq(LvTaskProgress::getTaskId, task.getPreTaskId())
+            );
+            if (preProgress == null || !"COMPLETED".equals(preProgress.getStatus())) {
+                LvTask preTask = taskMapper.selectById(task.getPreTaskId());
+                String preTitle = preTask != null ? preTask.getTitle() : "the previous quest";
+                LvDialogueNode lockedNode = new LvDialogueNode();
+                lockedNode.setTaskId(taskId);
+                lockedNode.setNodeKey("QUEST_LOCKED");
+                lockedNode.setNodeType("NPC_SPEAK");
+                lockedNode.setIsTerminal(1);
+                lockedNode.setContent("Hi there! 💜 I'm waiting for news from Mary at Sunshine Hall. Please complete the quest '" + preTitle + "' first before delivering the message!");
+                return lockedNode;
+            }
+        }
+
         LvTaskProgress progress = getOrCreateProgress(userId, taskId);
         if ("COMPLETED".equals(progress.getStatus())) {
             // 已完成任务，优先返回该任务的终止节点以供重复查看或感谢
@@ -117,14 +138,26 @@ public class TaskService {
                 progress.setCurrentNode(nextNode != null ? nextNode.getNodeKey() : node.getNodeKey());
                 progress.setCompleteTime(LocalDateTime.now());
                 progressMapper.updateById(progress);
-                return HandleResult.success(nextNode, true, null);
+
+                LvTask task = taskMapper.selectById(taskId);
+                int rewardCoins = (task != null && task.getRewardCoins() != null) ? task.getRewardCoins() : 10;
+                String taskTitle = (task != null && task.getTitle() != null) ? task.getTitle() : "Quest";
+                int totalCoins = 100;
+                LvPlayer player = playerMapper.selectOne(new LambdaQueryWrapper<LvPlayer>().eq(LvPlayer::getUserId, userId));
+                if (player != null) {
+                    int currentCoins = player.getCoins() != null ? player.getCoins() : 100;
+                    totalCoins = currentCoins + rewardCoins;
+                    player.setCoins(totalCoins);
+                    playerMapper.updateById(player);
+                }
+                return HandleResult.success(nextNode, true, null, rewardCoins, taskTitle, totalCoins);
             } else {
                 // 如果 nextNode 是 NPC_SPEAK，找出其随后的 PLAYER_INPUT 节点作为后续输入节点
                 String nextInputNodeKey = nextNode.getNextNodeKey();
                 progress.setCurrentNode(nextInputNodeKey != null ? nextInputNodeKey : nextNode.getNodeKey());
                 progress.setRetryCount(0);
                 progressMapper.updateById(progress);
-                return HandleResult.success(nextNode, false, nextInputNodeKey);
+                return HandleResult.success(nextNode, false, nextInputNodeKey, 0, null, null);
             }
         } else {
             // 判定失败
@@ -173,15 +206,24 @@ public class TaskService {
                         .eq(LvDialogueNode::getNodeKey, nodeKey));
     }
 
-    public record HandleResult(boolean passed, LvDialogueNode nextNode, boolean taskComplete, String nextInputNodeKey, String hint) {
-        static HandleResult success(LvDialogueNode next, boolean complete, String nextInputNodeKey) {
-            return new HandleResult(true, next, complete, nextInputNodeKey, null);
+    public record HandleResult(
+            boolean passed,
+            LvDialogueNode nextNode,
+            boolean taskComplete,
+            String nextInputNodeKey,
+            String hint,
+            Integer rewardCoins,
+            String taskTitle,
+            Integer totalCoins
+    ) {
+        static HandleResult success(LvDialogueNode next, boolean complete, String nextInputNodeKey, Integer rewardCoins, String taskTitle, Integer totalCoins) {
+            return new HandleResult(true, next, complete, nextInputNodeKey, null, rewardCoins, taskTitle, totalCoins);
         }
         static HandleResult failed(String hint) {
-            return new HandleResult(false, null, false, null, hint);
+            return new HandleResult(false, null, false, null, hint, 0, null, null);
         }
         static HandleResult error(String msg) {
-            return new HandleResult(false, null, false, null, msg);
+            return new HandleResult(false, null, false, null, msg, 0, null, null);
         }
     }
 }

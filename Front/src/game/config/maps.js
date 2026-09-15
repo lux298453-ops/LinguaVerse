@@ -32,7 +32,18 @@ export const MAP_CONFIGS = {
         posY: 320,
         taskId: 1,
         color: 0xe74c3c,
-        badge: '⭐'
+        badge: '⭐',
+        title: '阳光向导'
+      },
+      {
+        npcKey: 'tom_alchemist',
+        name: 'Tom',
+        posX: 180,
+        posY: 320,
+        taskId: 3,
+        color: 0x3498db,
+        badge: '⚗️',
+        title: '词根学者'
       }
     ]
   },

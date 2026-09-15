@@ -102,8 +102,55 @@
       <div class="scene-subtitle">{{ currentMapSubtitle }}</div>
     </div>
 
+    <!-- 📜 HUD 微型任务追踪栏 (左上角) -->
+    <div
+      v-if="currentTrackedQuest"
+      class="quest-hud-tracker"
+      :class="{ collapsed: hudCollapsed }"
+    >
+      <div class="hud-tracker-header" @click="questModalVisible = true">
+        <span class="hud-tag-badge" :class="currentTrackedQuest.category ? currentTrackedQuest.category.toLowerCase() : 'main'">
+          {{ currentTrackedQuest.category === 'MAIN' ? '主线' : '学者' }}
+        </span>
+        <span class="hud-title-text">{{ currentTrackedQuest.title }}</span>
+        <button
+          class="hud-toggle-btn"
+          @click.stop="hudCollapsed = !hudCollapsed"
+          :title="hudCollapsed ? '展开任务追踪' : '收起任务追踪'"
+        >
+          {{ hudCollapsed ? '▾' : '▴' }}
+        </button>
+      </div>
+
+      <div v-show="!hudCollapsed" class="hud-tracker-body" @click="questModalVisible = true">
+        <div class="hud-step-row">
+          <span class="hud-step-icon" :class="{ done: currentTrackedQuest.status === 'COMPLETED' }">
+            {{ currentTrackedQuest.status === 'COMPLETED' ? '✓' : '▶' }}
+          </span>
+          <span class="hud-step-desc">{{ currentTrackedQuest.currentStepDesc }}</span>
+        </div>
+        <div class="hud-footer-row">
+          <span class="hud-reward-pill">+{{ currentTrackedQuest.rewardCoins }} 🪙</span>
+          <span class="hud-journal-key">按 J 委托书</span>
+        </div>
+      </div>
+    </div>
+
     <!-- 顶部右侧状态与快捷功能栏 (Game Action Dock) -->
     <div class="top-right-bar">
+      <!-- 🪙 玩家持有金币数 -->
+      <div class="top-action-btn player-coins-badge" title="当前持有星语金币">
+        <span class="coins-icon">🪙</span>
+        <span class="coins-count">{{ playerCoins }}</span>
+      </div>
+
+      <!-- 📜 冒险委托书入口 -->
+      <button class="top-action-btn quest-log-btn" @click="questModalVisible = true" title="冒险委托书 (快捷键 J)">
+        <span class="action-icon">📜</span>
+        <span class="action-text">任务</span>
+        <span v-if="activeQuestCount > 0" class="quest-count-badge">{{ activeQuestCount }}</span>
+      </button>
+
       <!-- 📚 当前修习词书选择徽章 -->
       <button class="top-action-btn vocab-book-btn" @click="vocabBookModalVisible = true" :title="'当前词书: ' + currentActiveBook.name + ' (点击切换)'">
         <span class="vocab-btn-icon">{{ currentActiveBook.icon }}</span>
@@ -143,6 +190,15 @@
       </button>
     </div>
 
+    <!-- 📜 冒险委托书与任务日志弹窗 -->
+    <QuestLogModal
+      :visible="questModalVisible"
+      :quests="userQuests"
+      :tracked-task-id="trackedTaskId"
+      @close="questModalVisible = false"
+      @set-track="handleSetTrack"
+    />
+
     <!-- 📚 灵语藏书阁 · 词书目标管理弹窗 -->
     <VocabBookModal
       :visible="vocabBookModalVisible"
@@ -167,7 +223,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore }  from '../stores/user.js'
 import { useChatStore }  from '../stores/chat.js'
@@ -181,6 +237,8 @@ import ActionWheel from '../components/ActionWheel.vue'
 import VocabBookModal from '../components/games/VocabBookModal.vue'
 import SlangLoungeModal from '../components/games/SlangLoungeModal.vue'
 import WorldLoadingScreen from '../components/WorldLoadingScreen.vue'
+import QuestLogModal from '../components/world/QuestLogModal.vue'
+import { getUserQuests, getPlayerInfo } from '../api/task.js'
 import { getCurrentBook, getCurrentBookId } from '../components/games/dictService.js'
 import { ElNotification } from 'element-plus'
 
@@ -213,6 +271,67 @@ function handleSlangReward(coins) {
     type: 'success',
     position: 'top-right',
     duration: 4000
+  })
+}
+
+// 任务体系与追踪状态
+const questModalVisible = ref(false)
+const userQuests = ref([])
+const trackedTaskId = ref(null)
+const playerCoins = ref(100)
+const hudCollapsed = ref(false)
+
+const currentTrackedQuest = computed(() => {
+  if (!userQuests.value || userQuests.value.length === 0) return null
+  if (trackedTaskId.value) {
+    const found = userQuests.value.find(q => Number(q.taskId) === Number(trackedTaskId.value))
+    if (found) return found
+  }
+  // 默认找第一个进行中的主线任务，或第一个非已完成的任务
+  return userQuests.value.find(q => q.status !== 'COMPLETED' && !q.isLocked) || userQuests.value[0]
+})
+
+const activeQuestCount = computed(() => {
+  return userQuests.value.filter(q => q.status !== 'COMPLETED' && !q.isLocked).length
+})
+
+async function fetchQuests() {
+  try {
+    const res = await getUserQuests()
+    if (res) {
+      userQuests.value = res
+      // 如果当前没有追踪任务或当前追踪的任务已完成，寻找下一个有效任务
+      if (!trackedTaskId.value || userQuests.value.find(q => Number(q.taskId) === Number(trackedTaskId.value))?.status === 'COMPLETED') {
+        const nextActive = userQuests.value.find(q => q.status !== 'COMPLETED' && !q.isLocked)
+        if (nextActive) {
+          trackedTaskId.value = nextActive.taskId
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[World.vue] 加载任务列表失败:', err)
+  }
+}
+
+async function fetchPlayerInfo() {
+  try {
+    const res = await getPlayerInfo()
+    if (res?.coins !== undefined) {
+      playerCoins.value = res.coins
+    }
+  } catch (err) {
+    console.error('[World.vue] 加载玩家金币失败:', err)
+  }
+}
+
+function handleSetTrack(quest) {
+  trackedTaskId.value = quest.taskId
+  ElNotification({
+    title: '📍 目标已锁定',
+    message: `当前追踪委托已切换为：【${quest.title}】`,
+    type: 'success',
+    position: 'top-right',
+    duration: 3000
   })
 }
 
@@ -307,6 +426,60 @@ const npcDialogBus = {
       npcDialogRef.value?.setNodeKey(msg.nextNode)
     }
     npcDialogRef.value?.onTaskResult(msg)
+
+    // 任务达成处理与金币增加、主线链式推进
+    if (msg.taskComplete) {
+      if (msg.totalCoins !== undefined && msg.totalCoins !== null) {
+        playerCoins.value = msg.totalCoins
+      } else if (msg.rewardCoins) {
+        playerCoins.value += msg.rewardCoins
+      }
+
+      ElNotification({
+        title: '🎉 委托圆满达成！',
+        message: `恭喜达成【${msg.taskTitle || '委托'}】，获得 +${msg.rewardCoins || 10} 🪙 金币奖励！`,
+        type: 'success',
+        position: 'top-right',
+        duration: 5000
+      })
+
+      fetchQuests()
+
+      // 主线闭环导流逻辑
+      const completedTaskId = msg.taskId || currentTaskId.value
+      if (completedTaskId === 1) {
+        setTimeout(() => {
+          ElNotification({
+            title: '📜 主线新篇章开启',
+            message: '请穿过阳光大厅右侧传送门进入奇幻游戏区，将口信传达给戴紫帽子的 Luna！',
+            type: 'info',
+            position: 'top-right',
+            duration: 6000
+          })
+          trackedTaskId.value = 2
+        }, 1200)
+      } else if (completedTaskId === 2) {
+        setTimeout(() => {
+          ElNotification({
+            title: '🏆 奇幻星语探险大捷',
+            message: '你已圆满完成主线第一章【星语传信人】！所有委托报酬已入账，可前往探索更多学者研习。',
+            type: 'success',
+            position: 'top-right',
+            duration: 7000
+          })
+        }, 1200)
+      } else if (completedTaskId === 3) {
+        setTimeout(() => {
+          ElNotification({
+            title: '⚗️ 词根工坊研习认证',
+            message: '炼金学者 Tom 授予你【词根炼金学徒】称号！词根奥秘已刻印进你的知识库。',
+            type: 'success',
+            position: 'top-right',
+            duration: 7000
+          })
+        }, 1200)
+      }
+    }
   },
   onPlayerInteract(msg) {
     console.log('[World.vue] 收到玩家定向互动通知:', msg)
@@ -539,6 +712,14 @@ onMounted(async () => {
       return
     }
 
+    // 2. 按 J 开启/关闭冒险委托书
+    if ((e.key === 'j' || e.key === 'J') && !isTyping && !npcDialogVisible.value && !minigameVisible.value && !playerCardVisible.value) {
+      e.preventDefault()
+      questModalVisible.value = !questModalVisible.value
+      return
+    }
+
+    // 3. 按 Enter 快速聚焦到底部聊天栏
     if (e.key === 'Enter' && !npcDialogVisible.value && !minigameVisible.value && !chatFocused.value && !actionWheelVisible.value && !playerCardVisible.value) {
       if (!isTyping) {
         e.preventDefault()
@@ -548,6 +729,10 @@ onMounted(async () => {
   }
   window.addEventListener('keydown', onGlobalKeyDown)
   unsubs.push(() => window.removeEventListener('keydown', onGlobalKeyDown))
+
+  // 首次拉取用户任务列表与玩家世界属性（金币等）
+  fetchQuests()
+  fetchPlayerInfo()
 })
 
 
@@ -918,5 +1103,159 @@ onUnmounted(() => {
   font-size: 10px;
   color: #94a3b8;
   margin-top: 2px;
+}
+
+/* 🪙 玩家持有金币数徽章 */
+.player-coins-badge {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(30, 41, 59, 0.8));
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fde68a;
+  cursor: default;
+}
+.player-coins-badge .coins-icon { font-size: 13px; }
+.player-coins-badge .coins-count { font-size: 12px; font-weight: 700; color: #fbbf24; }
+
+/* 📜 冒险委托书按钮 */
+.quest-log-btn {
+  position: relative;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(30, 41, 59, 0.8));
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #fde68a;
+}
+.quest-log-btn:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(217, 119, 6, 0.8));
+  border-color: #fbbf24;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+}
+.quest-count-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+}
+
+/* 📜 HUD 微型任务追踪栏 (左上角) */
+.quest-hud-tracker {
+  position: absolute;
+  top: 82px;
+  left: 22px;
+  width: 270px;
+  background: rgba(13, 17, 28, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+.quest-hud-tracker:hover {
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), 0 0 16px rgba(245, 158, 11, 0.2);
+}
+
+.hud-tracker-header {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+.quest-hud-tracker.collapsed .hud-tracker-header {
+  border-bottom: none;
+}
+.hud-tag-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.hud-tag-badge.main {
+  background: rgba(245, 158, 11, 0.22);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.hud-tag-badge.academic {
+  background: rgba(56, 189, 248, 0.22);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+.hud-title-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hud-toggle-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.hud-toggle-btn:hover {
+  color: #f1f5f9;
+}
+
+.hud-tracker-body {
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hud-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.hud-step-icon {
+  font-size: 10px;
+  font-weight: 900;
+  color: #f59e0b;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.hud-step-icon.done {
+  color: #22c55e;
+}
+.hud-step-desc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+.hud-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+.hud-reward-pill {
+  color: #fbbf24;
+  font-weight: 700;
+}
+.hud-journal-key {
+  color: #64748b;
 }
 </style>

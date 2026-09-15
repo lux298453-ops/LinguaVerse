@@ -27,6 +27,7 @@ public class LinguaVerseDataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         initMaryNpc();
         initLunaNpc();
+        initTomNpc();
     }
 
     private void initLunaNpc() {
@@ -77,6 +78,67 @@ public class LinguaVerseDataInitializer implements ApplicationRunner {
             "Tell Luna that Mary will be late or is on her way! 💬");
 
         log.info("✅ LinguaVerse 初始数据写入完成：Luna NPC + 送达任务剧本");
+    }
+
+    private void initTomNpc() {
+        if (npcMapper.selectCount(new LambdaQueryWrapper<LvNpc>().eq(LvNpc::getNpcKey, "tom_alchemist")) > 0) {
+            return;
+        }
+
+        // 1. NPC Tom
+        LvNpc tom = new LvNpc();
+        tom.setNpcKey("tom_alchemist");
+        tom.setName("Tom");
+        tom.setMapId("hall");
+        tom.setPosX(180);
+        tom.setPosY(320);
+        tom.setSpriteKey("npc_tom");
+        tom.setPersonality("A curious lexical alchemist obsessed with word roots and prefixes. Loves teaching Latin & Greek roots.");
+        npcMapper.insert(tom);
+
+        // 2. 任务：词根炼金
+        LvTask task = new LvTask();
+        task.setTaskKey("tom_word_alchemy");
+        task.setNpcId(tom.getId());
+        task.setTitle("The Lexical Crucible");
+        task.setGoalDesc("Help Alchemist Tom calibrate his cauldron with a 'tele-' root word and an explanatory sentence.");
+        task.setRewardCoins(15);
+        task.setCategory("ACADEMIC");
+        task.setIsActive(1);
+        taskMapper.insert(task);
+        Long taskId = task.getId();
+
+        // 3. 对话节点
+        List<LvDialogueNode> nodes = List.of(
+            node(taskId, "tom_greeting", "NPC_SPEAK",
+                "Greetings, traveler! ⚗️ I am Tom, the lexical alchemist of Sunshine Hall! My crucible extracts energy from classical roots. Today, I am researching the Greek root 'tele-', which means 'far' or 'distant'. Can you give me an English word that begins with or contains 'tele'?",
+                "player_tele_word", 0, 0),
+            node(taskId, "player_tele_word", "PLAYER_INPUT", null, "tom_ask_sentence", 0, 1),
+            node(taskId, "tom_ask_sentence", "NPC_SPEAK",
+                "Astounding! The magical resonance is surging! ✨ Now, can you write a short English sentence telling me how we use this invention or power?",
+                "player_sentence", 0, 2),
+            node(taskId, "player_sentence", "PLAYER_INPUT", null, "tom_success", 0, 3),
+            node(taskId, "tom_success", "NPC_SPEAK",
+                "By Merlin's quill, it worked! 🌟 The cauldron is glowing with pure lexical ether! Take these 15 gold coins as your research stipend, my esteemed apprentice! Keep exploring the power of words!",
+                null, 1, 4)
+        );
+        nodes.forEach(n -> nodeMapper.insert(n));
+
+        Long wordNodeId = getNodeId(taskId, "player_tele_word");
+        Long sentenceNodeId = getNodeId(taskId, "player_sentence");
+
+        // 4. 语义规则
+        insertRule(wordNodeId,
+            "[{\"phrases\":[\"telescope\",\"telephone\",\"television\",\"teleport\",\"telegram\",\"telepathy\",\"telephoto\",\"telecom\"],\"dimension\":\"TELE_ROOT\"}]",
+            "tom_ask_sentence",
+            "Tom needs a valid word with the root 'tele-' (meaning distant)! Try: 'telescope', 'telephone', 'television', or 'teleport'. ⚗️");
+
+        insertRule(sentenceNodeId,
+            "[{\"phrases\":[\"tele\",\"phone\",\"scope\",\"port\",\"vision\",\"use\",\"can\",\"see\",\"talk\",\"call\",\"watch\",\"look\",\"travel\",\"send\",\"far\",\"distance\",\"world\",\"star\"],\"dimension\":\"TELE_USAGE\"}]",
+            "tom_success",
+            "Write a meaningful sentence about what this word does! For example: 'A telescope helps us see far away stars.' or 'We use a telephone to call someone.' 💬");
+
+        log.info("✅ LinguaVerse 初始数据写入完成：Tom NPC + 词根炼金任务剧本");
     }
 
     private void initMaryNpc() {

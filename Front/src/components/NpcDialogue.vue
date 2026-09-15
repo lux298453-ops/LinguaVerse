@@ -55,7 +55,7 @@
           <div class="task-complete-icon">🎉</div>
           <div class="task-complete-text">
             <div class="complete-title">MISSION COMPLETE!</div>
-            <div class="complete-reward">+{{ rewardCoins }} Gold Coins · Quest Recorded</div>
+            <div class="complete-reward">+{{ currentRewardCoins }} Gold Coins · Quest Recorded</div>
           </div>
         </div>
 
@@ -129,6 +129,7 @@ const submitting      = ref(false)
 const failHint        = ref('')
 const taskComplete    = ref(false)
 const currentNodeKey  = ref('')
+const currentRewardCoins = ref(props.rewardCoins)
 const chatListRef     = ref(null)
 
 const inputPlaceholder = computed(() =>
@@ -198,6 +199,9 @@ function onChunk(msg) {
 function onTaskResult(msg) {
   console.log('[NpcDialogue] 任务结果:', msg)
   submitting.value = false
+  if (msg.rewardCoins) {
+    currentRewardCoins.value = msg.rewardCoins
+  }
   if (msg.success) {
     failHint.value     = ''
     playerInput.value  = ''
@@ -225,6 +229,7 @@ function reset() {
   failHint.value       = ''
   taskComplete.value   = false
   currentNodeKey.value = ''
+  currentRewardCoins.value = props.rewardCoins
 }
 
 // 发送玩家回复
