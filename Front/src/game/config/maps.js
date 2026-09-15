@@ -38,7 +38,7 @@ export const MAP_CONFIGS = {
       {
         npcKey: 'tom_alchemist',
         name: 'Tom',
-        posX: 180,
+        posX: 640,
         posY: 320,
         taskId: 3,
         color: 0x3498db,

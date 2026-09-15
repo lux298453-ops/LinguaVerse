@@ -306,7 +306,7 @@ export class HallScene extends Phaser.Scene {
   }
 
   _createHallNpcs(W, H) {
-    // Mary 站在大厅中央迎宾接待柜台正后方（W * 0.36, H * 0.56）
+    // 1. Mary 站在大厅中央迎宾接待柜台正后方（W * 0.36, H * 0.56）
     const mx = Math.round(W * 0.36)
     const my = Math.round(H * 0.56)
     const maryData = {
@@ -318,10 +318,34 @@ export class HallScene extends Phaser.Scene {
       color: 0xe74c3c,
       badge: '⭐'
     }
-    const npc = new NpcSprite(this, maryData, (targetNpc) => {
+    const maryNpc = new NpcSprite(this, maryData, (targetNpc) => {
       this._onNpcClick(targetNpc)
     })
-    this._npcs.push(npc)
+    this._npcs.push(maryNpc)
+
+    // 2. Tom 词根炼金学者站在大厅右侧学术角（W * 0.64, H * 0.56），与 Mary 左右呼应
+    const tx = Math.round(W * 0.64)
+    const ty = Math.round(H * 0.56)
+    const tomData = {
+      npcKey: 'tom_alchemist',
+      name: 'Tom',
+      posX: tx,
+      posY: ty,
+      taskId: 3,
+      color: 0x3498db,
+      badge: '⚗️'
+    }
+    const tomNpc = new NpcSprite(this, tomData, (targetNpc) => {
+      this._onNpcClick(targetNpc)
+    })
+    this._npcs.push(tomNpc)
+
+    // 在 Tom 面前放置词根魔法研习台 (prop_table_magic)
+    const tableX = Math.round(W * 0.64)
+    const tableY = Math.round(H * 0.65)
+    const table = this.add.image(tableX, tableY, 'prop_table_magic').setOrigin(0.5, 0.88).setScale(0.85)
+    table.depthY = tableY
+    this._ySortedProps.push(table)
   }
 
   // ─── 地图绘制：奇幻游戏区（2.5D 切图机台与霓虹街机系统）────────────────────
