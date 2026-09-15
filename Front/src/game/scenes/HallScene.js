@@ -340,12 +340,33 @@ export class HallScene extends Phaser.Scene {
     })
     this._npcs.push(tomNpc)
 
-    // 在 Tom 面前放置词根魔法研习台 (prop_table_magic)
+    // 在 Tom 面前放置高精 2.5D 词根魔法研习台 (prop_table_magic)
     const tableX = Math.round(W * 0.64)
     const tableY = Math.round(H * 0.65)
-    const table = this.add.image(tableX, tableY, 'prop_table_magic').setOrigin(0.5, 0.88).setScale(0.85)
+    const table = this.add.image(tableX, tableY, 'prop_table_magic').setOrigin(0.5, 0.90).setScale(0.95)
     table.depthY = tableY
     this._ySortedProps.push(table)
+
+    // 在研习台左侧炼金坩埚上方升起袅袅星灵紫雾魔力微粒
+    for (let i = 0; i < 6; i++) {
+      const spX = tableX - 52 + Phaser.Math.Between(-8, 8)
+      const spY = tableY - 88 + Phaser.Math.Between(-4, 4)
+      const etherSpark = this.add.circle(spX, spY, Phaser.Math.Between(1.5, 3), 0xc084fc, 0.75)
+        .setDepth(Math.round(tableY + 5))
+      this._mapObjects.push(etherSpark)
+      this.tweens.add({
+        targets: etherSpark,
+        y: spY - Phaser.Math.Between(26, 46),
+        x: spX + Phaser.Math.Between(-10, 10),
+        alpha: 0.05,
+        scale: 1.4,
+        duration: Phaser.Math.Between(1600, 2400),
+        yoyo: false,
+        repeat: -1,
+        ease: 'Sine.easeOut',
+        delay: i * 360
+      })
+    }
   }
 
   // ─── 地图绘制：奇幻游戏区（2.5D 切图机台与霓虹街机系统）────────────────────
