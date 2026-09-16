@@ -3,6 +3,7 @@ package com.example.framework.exception;
 import com.example.framework.common.BusinessException;
 import com.example.framework.common.Result;
 import com.example.framework.common.ResultCode;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
-    public Result<Void> handleBusinessException(BusinessException e) {
+    public Result<Void> handleBusinessException(BusinessException e, HttpServletResponse response) {
+        if (e.getCode() == ResultCode.UNAUTHORIZED.getCode() || e.getCode() == ResultCode.TOKEN_INVALID.getCode()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
         return Result.error(e.getCode(), e.getMessage());
     }
 

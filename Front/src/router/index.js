@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { isTokenExpired } from '../utils/auth'
 
 const routes = [
   { path: '/login', name: 'Login', component: () => import('../views/Login.vue'), meta: { public: true } },
@@ -17,15 +18,22 @@ const routes = [
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
 
-
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
 
 router.beforeEach((to) => {
-  const token = localStorage.getItem('token')
+  let token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user') || 'null')
+
+  // 若 Token 已经过期，则自动将其从本地清理，防止带过期 Token 访问页面或误拦截登录页
+  if (token && isTokenExpired(token)) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    token = null
+  }
+
   if (to.meta.public) {
     return token ? { path: '/' } : true
   }

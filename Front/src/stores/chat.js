@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ElMessage, ElNotification } from 'element-plus'
 import { getChatUsers, getConversations, getHistory, markRead, getUnread } from '../api/chat'
 import { useUserStore } from './user'
+import { isTokenExpired, handleAuthExpired } from '../utils/auth'
 
 export const useChatStore = defineStore('chat', {
   state: () => ({
@@ -35,6 +36,10 @@ export const useChatStore = defineStore('chat', {
     connect() {
       const token = localStorage.getItem('token')
       if (!token || this.connected) return
+      if (isTokenExpired(token)) {
+        handleAuthExpired('聊天连接凭证已过期，请重新登录')
+        return
+      }
       const protocol = location.protocol === 'https:' ? 'wss' : 'ws'
       const ws = new WebSocket(`${protocol}://${location.host}/ws/chat?token=${encodeURIComponent(token)}`)
       this.ws = ws
@@ -51,9 +56,18 @@ export const useChatStore = defineStore('chat', {
       ws.onclose = () => {
         this.connected = false
         this.ws = null
+        const currentToken = localStorage.getItem('token')
+        if (!currentToken || isTokenExpired(currentToken)) {
+          handleAuthExpired('聊天连接凭证已过期，请重新登录')
+        }
       }
       ws.onerror = () => {
-        ElMessage.error('聊天连接失败，请刷新页面重试')
+        const currentToken = localStorage.getItem('token')
+        if (currentToken && isTokenExpired(currentToken)) {
+          handleAuthExpired('聊天连接凭证已过期，请重新登录')
+        } else {
+          ElMessage.error('聊天连接失败，请刷新页面重试')
+        }
       }
     },
     disconnect() {

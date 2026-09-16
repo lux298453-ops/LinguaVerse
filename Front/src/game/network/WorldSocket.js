@@ -1,3 +1,5 @@
+import { isTokenExpired, handleAuthExpired } from '../../utils/auth'
+
 /**
  * WorldSocket.js
  * 游戏层 WebSocket 封装，负责与后端 /ws/world 通信
@@ -11,6 +13,11 @@ export class WorldSocket {
   }
 
   connect(token) {
+    if (isTokenExpired(token)) {
+      handleAuthExpired('游戏世界连接凭证已过期，请重新登录')
+      return
+    }
+
     this._token = token
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws'
     const url = `${protocol}://${location.hostname}:8080/ws/world?token=${token}`
@@ -32,8 +39,12 @@ export class WorldSocket {
     }
 
     this.ws.onclose = () => {
-      console.warn('[WorldSocket] 连接断开，5s 后重连...')
       this._emit('close')
+      if (isTokenExpired(this._token)) {
+        handleAuthExpired('游戏世界连接凭证已过期，请重新登录')
+        return
+      }
+      console.warn('[WorldSocket] 连接断开，5s 后重连...')
       this.reconnectTimer = setTimeout(() => this.connect(this._token), 5000)
     }
 
