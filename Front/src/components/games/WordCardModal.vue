@@ -7,7 +7,7 @@
           <div class="header-left">
             <span class="gem-dot purple" />
             <span class="gem-dot gold" />
-            <span class="card-title-text">🔮 灵语词典 · 单词卡片</span>
+            <span class="card-title-text"><GameIcon name="crystal" :size="15" /> 灵语词典 · 单词卡片</span>
           </div>
           <div class="header-actions">
             <button
@@ -16,7 +16,8 @@
               @click="handleToggleFavorite"
               :title="isFav ? '已收藏到生词本' : '收藏到生词本'"
             >
-              {{ isFav ? '⭐ 已收藏' : '☆ 收藏' }}
+              <GameIcon :name="isFav ? 'star' : 'star-outline'" :size="13" />
+              <span>{{ isFav ? '已收藏' : '收藏' }}</span>
             </button>
             <button class="btn-close" @click="handleClose" title="关闭">✕</button>
           </div>
@@ -59,7 +60,7 @@
                 @click="playAudio('us')"
                 title="播放美式真人发音"
               >
-                <span class="play-icon">{{ isPlayingUs ? '🔊' : '🔈' }}</span>
+                <span class="play-icon"><GameIcon :name="isPlayingUs ? 'speaker' : 'speaker-soft'" :size="14" /></span>
                 <span>{{ isPlayingUs ? '播放中...' : '美音发音' }}</span>
                 <span v-if="isPlayingUs" class="sound-wave">
                   <i /><i /><i />
@@ -81,7 +82,7 @@
                 @click="playAudio('uk')"
                 title="播放英式真人发音"
               >
-                <span class="play-icon">{{ isPlayingUk ? '🔊' : '🔈' }}</span>
+                <span class="play-icon"><GameIcon :name="isPlayingUk ? 'speaker' : 'speaker-soft'" :size="14" /></span>
                 <span>{{ isPlayingUk ? '播放中...' : '英音发音' }}</span>
                 <span v-if="isPlayingUk" class="sound-wave">
                   <i /><i /><i />
@@ -104,7 +105,7 @@
           <!-- 经典例句与双语语境 -->
           <div v-if="detail.example" class="example-card">
             <div class="example-header">
-              <span class="ex-icon">💬</span>
+              <span class="ex-icon"><GameIcon name="quote" :size="14" /></span>
               <span class="ex-title">经典语境例句</span>
             </div>
             <div class="example-en">
@@ -119,7 +120,7 @@
         <!-- 底部信息与确认按钮 -->
         <div class="card-footer">
           <div class="foot-tip">
-            🎙️ 采用权威真人原声 (Youdao Audio CDN) · 支持离线智能回退
+            <GameIcon name="mic" :size="13" /> 采用权威真人原声 (Youdao Audio CDN) · 支持离线智能回退
           </div>
           <button class="btn-confirm" @click="handleClose">
             确定 (GOT IT)
@@ -133,6 +134,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { getWordDetail, fetchWordDetailOnline, playWordAudio, isFavorite, toggleFavorite } from './dictService.js'
+import GameIcon from '../GameIcon.vue'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -281,6 +283,9 @@ function getTagClass(tag) {
   font-weight: 800;
   color: #e9d5ff;
   letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .header-actions {
@@ -298,6 +303,9 @@ function getTagClass(tag) {
   padding: 4px 10px;
   border-radius: 6px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   transition: all 0.2s;
 }
 .btn-fav:hover, .btn-fav.active {

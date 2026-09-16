@@ -262,7 +262,7 @@ export class HallScene extends Phaser.Scene {
     // 5. 顶部典雅场景招牌（半透明金边微透）
     const signBox = this.add.rectangle(W / 2, 38, 380, 36, 0x1f1610, 0.75).setDepth(2210)
     signBox.setStrokeStyle(1.5, 0xf59e0b, 0.7)
-    const sign = this.add.text(W / 2, 38, '☀️ SUNSHINE HALL · 阳光大厅', {
+    const sign = this.add.text(W / 2, 38, 'SUNSHINE HALL · 阳光大厅', {
       fontSize: '16px',
       fontStyle: 'bold',
       color: '#fef08a',
@@ -299,7 +299,7 @@ export class HallScene extends Phaser.Scene {
       y: Math.round(H * 0.39),
       targetMapId: 'game_zone',
       targetSpawn: { x: Math.round(W * 0.50), y: Math.round(H * 0.78) },
-      label: '🎮 奇幻游戏区 ➜',
+      label: '奇幻游戏区 ➜',
       color: 0x8b5cf6
     }
     const portal = new Portal(this, portalData, (p) => {
@@ -314,7 +314,7 @@ export class HallScene extends Phaser.Scene {
       y: Math.round(H * 0.56),
       targetMapId: 'library',
       targetSpawn: { x: Math.round(W * 0.50), y: Math.round(H * 0.74) },
-      label: '📚 奥术图书馆 ➜',
+      label: '奥术图书馆 ➜',
       color: 0x38bdf8
     }
     const libraryPortal = new Portal(this, libraryPortalData, (p) => {
@@ -334,7 +334,7 @@ export class HallScene extends Phaser.Scene {
       posY: my,
       taskId: 1,
       color: 0xe74c3c,
-      badge: '⭐'
+      badge: '✦'
     }
     const maryNpc = new NpcSprite(this, maryData, (targetNpc) => {
       this._onNpcClick(targetNpc)
@@ -351,7 +351,7 @@ export class HallScene extends Phaser.Scene {
       posY: ty,
       taskId: 3,
       color: 0x3498db,
-      badge: '⚗️'
+      badge: '⬡'
     }
     const tomNpc = new NpcSprite(this, tomData, (targetNpc) => {
       this._onNpcClick(targetNpc)
@@ -396,7 +396,7 @@ export class HallScene extends Phaser.Scene {
     // 2. 顶部霓虹全息广告招牌（悬浮微透）
     const signBox = this.add.rectangle(W / 2, 38, 420, 36, 0x110926, 0.8).setDepth(2210)
     signBox.setStrokeStyle(1.5, 0xc084fc, 0.8)
-    const sign = this.add.text(W / 2, 38, '🎮 FANTASY ARCADE · 奇幻游戏区', {
+    const sign = this.add.text(W / 2, 38, 'FANTASY ARCADE · 奇幻游戏区', {
       fontSize: '16px',
       fontStyle: 'bold',
       color: '#f0abfc',
@@ -418,15 +418,15 @@ export class HallScene extends Phaser.Scene {
     // 3. 场景原画原生交互点位系统（Spot 模式：全息光圈 + 悬浮徽章，与背景原画桌椅机台完美贴合，无重影）
     const stations = [
       // 左侧魔法卡牌桌（背景原画中左侧圆桌）
-      { id: 'station_table_left', type: 'spot', x: Math.round(W * 0.17), y: Math.round(H * 0.61), color: 0x8b5cf6, icon: '🔮', title: 'Word Chain · 灵语牌桌', gameType: 'WORD_CHAIN' },
+      { id: 'station_table_left', type: 'spot', x: Math.round(W * 0.17), y: Math.round(H * 0.61), color: 0x8b5cf6, icon: '✦', title: 'Word Chain · 灵语牌桌', gameType: 'WORD_CHAIN' },
       // 右侧魔法棋盘桌（背景原画中右侧圆桌）
-      { id: 'station_table_right', type: 'spot', x: Math.round(W * 0.85), y: Math.round(H * 0.62), color: 0xa855f7, icon: '⛓️', title: 'Word Chain · 连环棋盘', gameType: 'WORD_CHAIN' },
+      { id: 'station_table_right', type: 'spot', x: Math.round(W * 0.85), y: Math.round(H * 0.62), color: 0xa855f7, icon: '◆', title: 'Word Chain · 连环棋盘', gameType: 'WORD_CHAIN' },
       // 左侧水晶街机（背景原画中左侧 Astra 街机）
-      { id: 'station_arcade_left', type: 'spot', x: Math.round(W * 0.31), y: Math.round(H * 0.40), color: 0x38bdf8, icon: '🕹️', title: 'Type Rush · 幻星街机', gameType: 'TYPE_RUSH' },
+      { id: 'station_arcade_left', type: 'spot', x: Math.round(W * 0.31), y: Math.round(H * 0.40), color: 0x38bdf8, icon: '▲', title: 'Type Rush · 幻星街机', gameType: 'TYPE_RUSH' },
       // 右侧星际街机（背景原画中右侧 Cosmic 街机）
-      { id: 'station_arcade_right', type: 'spot', x: Math.round(W * 0.68), y: Math.round(H * 0.40), color: 0xf43f5e, icon: '🕹️', title: 'Type Rush · 宇宙街机', gameType: 'TYPE_RUSH' },
+      { id: 'station_arcade_right', type: 'spot', x: Math.round(W * 0.68), y: Math.round(H * 0.40), color: 0xf43f5e, icon: '▲', title: 'Type Rush · 宇宙街机', gameType: 'TYPE_RUSH' },
       // 中央巨大符文法阵核心挑战台
-      { id: 'station_rune_center', type: 'spot', x: Math.round(W * 0.50), y: Math.round(H * 0.68), color: 0xec4899, icon: '🎯', title: 'Type Rush · 符文挑战', gameType: 'TYPE_RUSH' }
+      { id: 'station_rune_center', type: 'spot', x: Math.round(W * 0.50), y: Math.round(H * 0.68), color: 0xec4899, icon: '●', title: 'Type Rush · 符文挑战', gameType: 'TYPE_RUSH' }
     ]
 
     for (const s of stations) {
@@ -464,7 +464,7 @@ export class HallScene extends Phaser.Scene {
       y: Math.round(H * 0.93),
       targetMapId: 'hall',
       targetSpawn: { x: Math.round(W * 0.50), y: Math.round(H * 0.56) },
-      label: '➜ ☀️ 阳光大厅',
+      label: '➜ 阳光大厅',
       color: 0xf59e0b
     }
     const portal = new Portal(this, portalData, (p) => {
@@ -484,7 +484,7 @@ export class HallScene extends Phaser.Scene {
       posY: ly,
       taskId: 2,
       color: 0x8e44ad,
-      badge: '💜'
+      badge: '◈'
     }
     const npc = new NpcSprite(this, lunaData, (targetNpc) => {
       this._onNpcClick(targetNpc)
@@ -501,7 +501,7 @@ export class HallScene extends Phaser.Scene {
     // 2. 顶部奥术场景招牌（微透星海蓝金边）
     const signBox = this.add.rectangle(W / 2, 38, 420, 36, 0x080e24, 0.85).setDepth(2210)
     signBox.setStrokeStyle(1.5, 0x38bdf8, 0.8)
-    const sign = this.add.text(W / 2, 38, '📚 ARCANE LIBRARY · 奥术图书馆', {
+    const sign = this.add.text(W / 2, 38, 'ARCANE LIBRARY · 奥术图书馆', {
       fontSize: '16px',
       fontStyle: 'bold',
       color: '#7dd3fc',
@@ -522,9 +522,9 @@ export class HallScene extends Phaser.Scene {
 
     // 3. 悬浮的星界魔法书与知识符文微粒动画
     const bookPositions = [
-      { x: Math.round(W * 0.28), y: Math.round(H * 0.42), icon: '📖', delay: 0 },
-      { x: Math.round(W * 0.72), y: Math.round(H * 0.42), icon: '📜', delay: 400 },
-      { x: Math.round(W * 0.50), y: Math.round(H * 0.26), icon: '✨', delay: 800 }
+      { x: Math.round(W * 0.28), y: Math.round(H * 0.42), icon: '✦', delay: 0 },
+      { x: Math.round(W * 0.72), y: Math.round(H * 0.42), icon: '✧', delay: 400 },
+      { x: Math.round(W * 0.50), y: Math.round(H * 0.26), icon: '✵', delay: 800 }
     ]
     for (const b of bookPositions) {
       const floatBook = this.add.text(b.x, b.y, b.icon, { fontSize: '24px' })
@@ -571,7 +571,7 @@ export class HallScene extends Phaser.Scene {
       y: Math.round(H * 0.92),
       targetMapId: 'hall',
       targetSpawn: { x: Math.round(W * 0.18), y: Math.round(H * 0.56) },
-      label: '➜ ☀️ 阳光大厅',
+      label: '➜ 阳光大厅',
       color: 0xf59e0b
     }
     const portal = new Portal(this, portalData, (p) => {
@@ -591,7 +591,7 @@ export class HallScene extends Phaser.Scene {
       posY: ey,
       taskId: 4,
       color: 0x38bdf8,
-      badge: '📖'
+      badge: '✧'
     }
     const npc = new NpcSprite(this, evelynData, (targetNpc) => {
       this._onNpcClick(targetNpc)

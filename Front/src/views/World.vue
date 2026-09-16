@@ -10,7 +10,7 @@
         title="打开动作与表情轮盘 (快捷键 E)"
         @click="actionWheelVisible = !actionWheelVisible"
       >
-        🎭
+        <GameIcon name="mask" :size="18" />
       </button>
       <el-input
         ref="chatInputRef"
@@ -30,7 +30,7 @@
         @click="sendChat"
         title="发送 (Enter)"
       >
-        <span class="send-icon">🚀</span>
+        <span class="send-icon"><GameIcon name="send" :size="15" /></span>
         <span class="send-text">发送</span>
       </button>
     </div>
@@ -130,7 +130,7 @@
           <span class="hud-step-desc">{{ currentTrackedQuest.currentStepDesc }}</span>
         </div>
         <div class="hud-footer-row">
-          <span class="hud-reward-pill">+{{ currentTrackedQuest.rewardCoins }} 🪙</span>
+          <span class="hud-reward-pill">+{{ currentTrackedQuest.rewardCoins }} <GameIcon name="coin" :size="13" /></span>
           <span class="hud-journal-key">按 J 委托书</span>
         </div>
       </div>
@@ -140,27 +140,27 @@
     <div class="top-right-bar">
       <!-- 🪙 玩家持有金币数 -->
       <div class="top-action-btn player-coins-badge" title="当前持有星语金币">
-        <span class="coins-icon">🪙</span>
+        <span class="coins-icon"><GameIcon name="coin" :size="16" /></span>
         <span class="coins-count">{{ playerCoins }}</span>
       </div>
 
       <!-- 📜 冒险委托书入口 -->
       <button class="top-action-btn quest-log-btn" @click="questModalVisible = true" title="冒险委托书 (快捷键 J)">
-        <span class="action-icon">📜</span>
+        <span class="action-icon"><GameIcon name="quest" :size="16" /></span>
         <span class="action-text">任务</span>
         <span v-if="activeQuestCount > 0" class="quest-count-badge">{{ activeQuestCount }}</span>
       </button>
 
       <!-- 📚 当前修习词书选择徽章 -->
       <button class="top-action-btn vocab-book-btn" @click="vocabBookModalVisible = true" :title="'当前词书: ' + currentActiveBook.name + ' (点击切换)'">
-        <span class="vocab-btn-icon">{{ currentActiveBook.icon }}</span>
+        <span class="vocab-btn-icon"><GameIcon name="book" :size="16" /></span>
         <span class="vocab-btn-text">{{ currentActiveBook.name.split(' ')[0] }}</span>
         <span class="vocab-btn-arrow">▾</span>
       </button>
 
       <!-- 🎭 地道俚语演练台入口 -->
       <button class="top-action-btn slang-lounge-btn" @click="slangModalVisible = true" title="灵语茶歇馆 · 俚语实战">
-        <span class="slang-btn-icon">☕</span>
+        <span class="slang-btn-icon"><GameIcon name="tea" :size="16" /></span>
         <span class="slang-btn-text">俚语</span>
       </button>
 
@@ -178,14 +178,14 @@
         class="chat-btn-badge"
       >
         <button class="top-action-btn chat-nav-btn" @click="goToChat" title="前往好友私聊">
-          <span class="action-icon">💬</span>
+          <span class="action-icon"><GameIcon name="chat" :size="16" /></span>
           <span class="action-text">消息</span>
         </button>
       </el-badge>
 
       <!-- 返回主界面按钮 -->
       <button class="top-action-btn exit-world-btn" @click="exitWorld" title="返回主界面 (ESC)">
-        <span class="action-icon">🚪</span>
+        <span class="action-icon"><GameIcon name="exit" :size="16" /></span>
         <span class="action-text">返回</span>
       </button>
     </div>
@@ -238,6 +238,7 @@ import VocabBookModal from '../components/games/VocabBookModal.vue'
 import SlangLoungeModal from '../components/games/SlangLoungeModal.vue'
 import WorldLoadingScreen from '../components/WorldLoadingScreen.vue'
 import QuestLogModal from '../components/world/QuestLogModal.vue'
+import GameIcon from '../components/GameIcon.vue'
 import { getUserQuests, getPlayerInfo } from '../api/task.js'
 import { getCurrentBook, getCurrentBookId } from '../components/games/dictService.js'
 import { ElNotification } from 'element-plus'

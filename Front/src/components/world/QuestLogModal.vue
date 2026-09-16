@@ -5,7 +5,7 @@
         <!-- 模态框顶部 -->
         <div class="quest-modal-header">
           <div class="header-left">
-            <span class="header-icon">📜</span>
+            <span class="header-icon"><GameIcon name="quest" :size="22" /></span>
             <div class="header-titles">
               <h2 class="modal-title">冒险委托书 · Quest Journal</h2>
               <span class="modal-subtitle">探索星语世界的主线剧情与学者委托</span>
@@ -23,7 +23,7 @@
             :class="{ active: currentTab === tab.id }"
             @click="currentTab = tab.id"
           >
-            <span class="tab-icon">{{ tab.icon }}</span>
+            <span class="tab-icon"><GameIcon :name="tab.icon" :size="15" /></span>
             <span class="tab-label">{{ tab.label }}</span>
             <span class="tab-count">({{ getTabCount(tab.id) }})</span>
           </button>
@@ -34,7 +34,7 @@
           <!-- 左侧：任务列表 -->
           <div class="quest-list-panel">
             <div v-if="filteredQuests.length === 0" class="empty-quest-list">
-              <span class="empty-icon">📂</span>
+              <span class="empty-icon"><GameIcon name="quest" :size="28" /></span>
               <p>暂无符合条件的委托记录</p>
             </div>
 
@@ -61,13 +61,13 @@
 
               <div class="card-title-row">
                 <span class="quest-title">{{ q.title }}</span>
-                <span v-if="isTracked(q.taskId)" class="tracking-pin" title="正在追踪">📍 追踪中</span>
+                <span v-if="isTracked(q.taskId)" class="tracking-pin" title="正在追踪"><GameIcon name="pin" :size="12" /> 追踪中</span>
               </div>
 
               <div class="card-bottom-row">
-                <span class="npc-giver-tag">👤 {{ q.npcName }}</span>
-                <span class="location-tag">📍 {{ getMapLabel(q.npcMapId) }}</span>
-                <span class="reward-pill">+{{ q.rewardCoins }} 🪙</span>
+                <span class="npc-giver-tag"><GameIcon name="user" :size="12" /> {{ q.npcName }}</span>
+                <span class="location-tag"><GameIcon name="pin" :size="12" /> {{ getMapLabel(q.npcMapId) }}</span>
+                <span class="reward-pill">+{{ q.rewardCoins }} <GameIcon name="coin" :size="13" /></span>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@
                   <div class="giver-info">
                     <div class="giver-name-row">
                       <span class="giver-name">{{ selectedQuest.npcName }}</span>
-                      <span class="giver-location">📍 {{ getMapLabel(selectedQuest.npcMapId) }}</span>
+                      <span class="giver-location"><GameIcon name="pin" :size="12" /> {{ getMapLabel(selectedQuest.npcMapId) }}</span>
                     </div>
                     <p class="giver-desc">{{ selectedQuest.goalDesc }}</p>
                   </div>
@@ -116,7 +116,7 @@
                 <div class="objective-card" :class="{ completed: selectedQuest.status === 'COMPLETED' }">
                   <div class="objective-icon">
                     <span v-if="selectedQuest.status === 'COMPLETED'">✓</span>
-                    <span v-else-if="selectedQuest.isLocked">🔒</span>
+                    <GameIcon v-else-if="selectedQuest.isLocked" name="lock" :size="14" />
                     <span v-else>▶</span>
                   </div>
                   <div class="objective-body">
@@ -135,14 +135,14 @@
                 <div class="section-heading">达成报酬</div>
                 <div class="reward-grid">
                   <div class="reward-card">
-                    <span class="reward-icon">🪙</span>
+                    <span class="reward-icon"><GameIcon name="coin" :size="22" /></span>
                     <div class="reward-meta">
                       <span class="reward-val">+{{ selectedQuest.rewardCoins }} 金币</span>
                       <span class="reward-desc">星语世界通用货币</span>
                     </div>
                   </div>
                   <div class="reward-card">
-                    <span class="reward-icon">⭐</span>
+                    <span class="reward-icon"><GameIcon name="star" :size="22" /></span>
                     <div class="reward-meta">
                       <span class="reward-val">+50 探险经验</span>
                       <span class="reward-desc">提升探险学者等级</span>
@@ -159,21 +159,21 @@
                   :disabled="isTracked(selectedQuest.taskId)"
                   @click="handleSetTrack(selectedQuest)"
                 >
-                  <span v-if="isTracked(selectedQuest.taskId)">✓ 正在主界面追踪</span>
-                  <span v-else>📍 设为当前追踪目标</span>
+                  <span v-if="isTracked(selectedQuest.taskId)"><GameIcon name="check" :size="14" /> 正在主界面追踪</span>
+                  <span v-else><GameIcon name="pin" :size="14" /> 设为当前追踪目标</span>
                 </button>
                 <div v-else-if="selectedQuest.status === 'COMPLETED'" class="completed-hint">
-                  ✨ 该委托已功德圆满，随时可在场景中与 NPC 重新交谈！
+                  <GameIcon name="check" :size="14" /> 该委托已功德圆满，随时可在场景中与 NPC 重新交谈！
                 </div>
                 <div v-else-if="selectedQuest.isLocked" class="locked-hint">
-                  🔒 前置委托尚未达成，请按主线顺序依次探索！
+                  <GameIcon name="lock" :size="14" /> 前置委托尚未达成，请按主线顺序依次探索！
                 </div>
               </div>
             </div>
 
             <!-- 未选中任何任务 -->
             <div v-else class="no-selection">
-              <span class="no-selection-icon">📜</span>
+              <span class="no-selection-icon"><GameIcon name="quest" :size="32" /></span>
               <p>请在左侧列表中选择一项委托查看详情</p>
             </div>
           </div>
@@ -185,6 +185,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
+import GameIcon from '../GameIcon.vue'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -198,10 +199,10 @@ const currentTab = ref('ALL')
 const selectedQuest = ref(null)
 
 const tabs = [
-  { id: 'ALL', label: '全部委托', icon: '📋' },
-  { id: 'MAIN', label: '主线剧情', icon: '⚔️' },
-  { id: 'ACADEMIC', label: '学者研习', icon: '🧪' },
-  { id: 'COMPLETED', label: '已达成', icon: '🏆' }
+  { id: 'ALL', label: '全部委托', icon: 'quest' },
+  { id: 'MAIN', label: '主线剧情', icon: 'swords' },
+  { id: 'ACADEMIC', label: '学者研习', icon: 'potion' },
+  { id: 'COMPLETED', label: '已达成', icon: 'trophy' }
 ]
 
 function getTabCount(tabId) {
@@ -505,6 +506,9 @@ function handleSetTrack(quest) {
   color: #f59e0b;
   font-weight: 600;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .card-bottom-row {
@@ -518,11 +522,17 @@ function handleSetTrack(quest) {
   background: rgba(255, 255, 255, 0.04);
   padding: 2px 6px;
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 .reward-pill {
   margin-left: auto;
   font-weight: 700;
   color: #fbbf24;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
 }
 
 /* Right Detail Panel */

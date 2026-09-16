@@ -6,7 +6,7 @@
 export const MAP_CONFIGS = {
   hall: {
     mapId: 'hall',
-    name: 'Sunshine Hall ☀️ 阳光大厅',
+    name: 'Sunshine Hall · 阳光大厅',
     subtitle: 'Welcome to LinguaVerse!',
     width: 1000,
     height: 600,
@@ -20,7 +20,7 @@ export const MAP_CONFIGS = {
         y: 350,
         targetMapId: 'game_zone',
         targetSpawn: { x: 140, y: 350 },
-        label: '🎮 奇幻游戏区 ➜',
+        label: '奇幻游戏区 ➜',
         color: 0x27ae60
       },
       {
@@ -29,7 +29,7 @@ export const MAP_CONFIGS = {
         y: 350,
         targetMapId: 'library',
         targetSpawn: { x: 500, y: 460 },
-        label: '📚 奥术图书馆 ➜',
+        label: '奥术图书馆 ➜',
         color: 0x38bdf8
       }
     ],
@@ -41,7 +41,7 @@ export const MAP_CONFIGS = {
         posY: 320,
         taskId: 1,
         color: 0xe74c3c,
-        badge: '⭐',
+        badge: '✦',
         title: '阳光向导'
       },
       {
@@ -51,7 +51,7 @@ export const MAP_CONFIGS = {
         posY: 320,
         taskId: 3,
         color: 0x3498db,
-        badge: '⚗️',
+        badge: '⬡',
         title: '词根学者'
       }
     ]
@@ -59,7 +59,7 @@ export const MAP_CONFIGS = {
 
   game_zone: {
     mapId: 'game_zone',
-    name: 'Game Zone 🎮 奇幻游戏区',
+    name: 'Game Zone · 奇幻游戏区',
     subtitle: 'Tabletop Games & Arcade Center',
     width: 1000,
     height: 600,
@@ -73,7 +73,7 @@ export const MAP_CONFIGS = {
         y: 350,
         targetMapId: 'hall',
         targetSpawn: { x: 860, y: 350 },
-        label: '➜ ☀️ 阳光大厅',
+        label: '➜ 阳光大厅',
         color: 0xf39c12
       }
     ],
@@ -85,14 +85,14 @@ export const MAP_CONFIGS = {
         posY: 320,
         taskId: 2,
         color: 0x8e44ad,
-        badge: '💜'
+        badge: '◈'
       }
     ]
   },
 
   library: {
     mapId: 'library',
-    name: 'Arcane Library 📚 奥术图书馆',
+    name: 'Arcane Library · 奥术图书馆',
     subtitle: 'Sanctuary of Starry Tomes & Ancient Grimoires',
     width: 1000,
     height: 600,
@@ -106,7 +106,7 @@ export const MAP_CONFIGS = {
         y: 550,
         targetMapId: 'hall',
         targetSpawn: { x: 180, y: 350 },
-        label: '➜ ☀️ 阳光大厅',
+        label: '➜ 阳光大厅',
         color: 0xf59e0b
       }
     ],
@@ -118,7 +118,7 @@ export const MAP_CONFIGS = {
         posY: 330,
         taskId: 4,
         color: 0x38bdf8,
-        badge: '📖',
+        badge: '✧',
         title: '奥术馆长'
       }
     ]

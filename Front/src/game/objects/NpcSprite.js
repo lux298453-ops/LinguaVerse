@@ -13,7 +13,7 @@ export class NpcSprite extends Phaser.GameObjects.Container {
     this.npcName  = npcData.name
     this.taskId   = npcData.taskId
     this.npcColor = npcData.color || 0xe74c3c
-    this.npcBadge = npcData.badge || '⭐'
+    this.npcBadge = npcData.badge || '✦'
     this._onClick = onClickCallback
     this._scene   = scene
 
@@ -85,11 +85,11 @@ export class NpcSprite extends Phaser.GameObjects.Container {
 
     // 4. 徽章造型
     this.badge = scene.add.text(0, 0, this.npcBadge, {
-      fontSize: '20px'
+      fontSize: '18px'
     }).setOrigin(0.5, 0.5)
 
     // 5. NPC 身份标识牌
-    this.label = scene.add.text(0, 34, `👑 ${this.npcName}`, {
+    this.label = scene.add.text(0, 34, this.npcName, {
       fontSize: '11px',
       fontStyle: 'bold',
       color: '#ffffff',
@@ -108,6 +108,6 @@ export class NpcSprite extends Phaser.GameObjects.Container {
 
     // 靠近时圆形微放大、badge 显示气泡对话提示
     this.circle.setScale(near ? 1.15 : 1)
-    this.badge.setText(near ? '💬' : this.npcBadge)
+    this.badge.setText(near ? '···' : this.npcBadge)
   }
 }

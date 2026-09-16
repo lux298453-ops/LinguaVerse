@@ -1,9 +1,9 @@
-﻿<template>
+<template>
   <Transition name="wheel-pop">
     <div v-if="visible" class="wheel-overlay" @click.self="emit('close')">
       <div class="wheel-panel">
         <div class="wheel-title">
-          <span>🎭 快捷动作 / 表情</span>
+          <span class="title-with-icon"><GameIcon name="mask" :size="18" /> 快捷动作 / 表情</span>
           <span class="hotkey-tip">按 [1-8] 快速触发 · ESC 关闭</span>
         </div>
 
@@ -27,6 +27,7 @@
 
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
+import GameIcon from './GameIcon.vue'
 
 const props = defineProps({
   visible: {
@@ -102,11 +103,17 @@ onUnmounted(() => {
 .wheel-title {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 16px;
   color: #f0abfc;
   font-size: 15px;
   font-weight: 700;
+}
+
+.title-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .hotkey-tip {

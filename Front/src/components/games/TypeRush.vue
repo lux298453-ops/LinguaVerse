@@ -212,7 +212,7 @@
 
           <!-- 奖励发放 -->
           <div class="gold-reward-card">
-            <span class="gold-icon">🪙</span>
+            <span class="gold-icon"><GameIcon name="coin" :size="18" /></span>
             <div class="gold-text">
               获得奖励：<strong>+{{ rewardCoins }} Gold Coins</strong>
             </div>
@@ -230,20 +230,20 @@
                 title="点击查看音标、中文释义与真人发音"
               >
                 {{ w.word.toUpperCase() }}
-                <span class="rush-lookup-icon">🔊</span>
+                <span class="rush-lookup-icon"><GameIcon name="speaker" :size="12" /></span>
               </span>
             </div>
           </div>
 
           <div class="result-actions">
             <button class="neon-btn-secondary" @click="startCountdown">
-              🔄 再来一局 (PLAY AGAIN)
+              <span>再来一局 (PLAY AGAIN)</span>
             </button>
             <button class="neon-btn-secondary" @click="openLeaderboard">
-              🏆 荣誉榜单 (LEADERBOARD)
+              <GameIcon name="trophy" :size="14" /> <span>荣誉榜单 (LEADERBOARD)</span>
             </button>
             <button class="neon-btn-primary" @click="closeGame">
-              🚪 返回游戏 (EXIT)
+              <GameIcon name="exit" :size="14" /> <span>返回游戏 (EXIT)</span>
             </button>
           </div>
         </div>
@@ -254,7 +254,7 @@
             <div class="leaderboard-box">
               <div class="lb-header">
                 <div class="lb-title-wrap">
-                  <span class="lb-trophy">🏆</span>
+                  <span class="lb-trophy"><GameIcon name="trophy" :size="16" /></span>
                   <span class="lb-title">TYPE RUSH · 奇幻荣誉榜</span>
                 </div>
                 <button class="lb-close" @click="showLeaderboard = false">✕</button>
@@ -316,6 +316,7 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useUserStore } from '../../stores/user.js'
 import WordCardModal from './WordCardModal.vue'
+import GameIcon from '../GameIcon.vue'
 import { VOCAB_BOOKS, getCurrentBookId, getWordsByBook } from './dictService.js'
 
 const props = defineProps({

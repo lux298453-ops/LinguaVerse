@@ -323,7 +323,7 @@
               </div>
               <div class="matrix-cell">
                 <span class="m-label">金币报酬</span>
-                <span class="m-val coins">+{{ earnedCoins }} 🪙</span>
+                <span class="m-val coins">+{{ earnedCoins }} <GameIcon name="coin" :size="13" /></span>
               </div>
             </div>
           </div>
@@ -347,7 +347,7 @@
                   title="点击查看音标、中文释义与真人发音"
                 >
                   {{ w.word.toUpperCase() }}
-                  <span class="recap-lookup-icon">🔊</span>
+                  <span class="recap-lookup-icon"><GameIcon name="speaker" :size="12" /></span>
                   <span v-if="w.boostBonus > 0" class="boost-badge">⚡3x</span>
                 </span>
                 <div v-if="w.sentence" class="recap-sentence">
@@ -360,13 +360,13 @@
           <!-- 操作按钮组 -->
           <div class="gameover-actions">
             <button class="btn-glow-primary" @click="startGame">
-              🔄 再次发起对决 (PLAY AGAIN)
+              <span>再次发起对决 (PLAY AGAIN)</span>
             </button>
             <button class="btn-glow-secondary" @click="showLeaderboard = true">
-              🏆 查看荣誉天梯 (LEADERBOARD)
+              <GameIcon name="trophy" :size="14" /> <span>查看荣誉天梯 (LEADERBOARD)</span>
             </button>
             <button class="btn-glow-ghost" @click="closeGame">
-              🚪 返回奇幻大厅 (EXIT)
+              <GameIcon name="exit" :size="14" /> <span>返回奇幻大厅 (EXIT)</span>
             </button>
           </div>
         </div>
@@ -376,7 +376,7 @@
           <div v-if="showLeaderboard" class="modal-backdrop" @click.self="showLeaderboard = false">
             <div class="leaderboard-modal">
               <div class="modal-head">
-                <div class="modal-title">🏆 灵语连环 · 全服荣誉殿堂</div>
+                <div class="modal-title"><GameIcon name="trophy" :size="16" /> <span>灵语连环 · 全服荣誉殿堂</span></div>
                 <button class="modal-close" @click="showLeaderboard = false">✕</button>
               </div>
 
@@ -448,6 +448,7 @@ import { useUserStore } from '../../stores/user.js'
 import { COMMON_WORDS_SET, WORD_DICT_BY_LETTER, STARTING_SEEDS, isValidWord } from './wordChainDictionary.js'
 import { judgeSentence } from './sentenceJudge.js'
 import WordCardModal from './WordCardModal.vue'
+import GameIcon from '../GameIcon.vue'
 import { VOCAB_BOOKS, getCurrentBookId, getWordsByBook } from './dictService.js'
 
 const props = defineProps({

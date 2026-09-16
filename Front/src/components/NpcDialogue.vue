@@ -25,7 +25,8 @@
           :class="['chat-row', msg.sender === 'player' ? 'chat-row-player' : 'chat-row-npc']"
         >
           <div class="chat-sender-avatar">
-            {{ msg.sender === 'player' ? '🧙‍♂️' : npcName[0] }}
+            <GameIcon v-if="msg.sender === 'player'" name="wizard" :size="20" />
+            <span v-else>{{ npcName[0] }}</span>
           </div>
           <div class="chat-bubble-wrap">
             <div class="chat-sender-name-row">
@@ -38,7 +39,7 @@
                   title="朗读英语语音 (Web Speech)"
                   type="button"
                 >
-                  🔊
+                  <GameIcon name="speaker" :size="14" />
                 </button>
                 <button
                   v-if="msg.translation"
@@ -48,7 +49,8 @@
                   title="展开/收起中文翻译"
                   type="button"
                 >
-                  🌐 译
+                  <GameIcon name="translate" :size="13" />
+                  <span class="trans-sub">译</span>
                 </button>
               </div>
             </div>
@@ -73,7 +75,7 @@
               <Transition name="trans-slide">
                 <div v-if="msg.showTranslate && msg.translation" class="translation-card">
                   <div class="trans-header">
-                    <span class="trans-icon">🌐</span>
+                    <span class="trans-icon"><GameIcon name="translate" :size="12" /></span>
                     <span class="trans-tag">中文参考</span>
                   </div>
                   <div class="trans-text">{{ msg.translation }}</div>
@@ -90,7 +92,7 @@
             <div class="chat-sender-name">{{ npcName }}</div>
             <div class="speech-bubble npc-bubble">
               <span v-if="currentNpcText">{{ currentNpcText }}</span>
-              <span v-else class="loading-dots">{{ npcName }} is thinking... 💭</span>
+              <span v-else class="loading-dots">{{ npcName }} is thinking...</span>
               <span v-if="!isTypingDone && currentNpcText" class="typing-cursor">▋</span>
             </div>
           </div>
@@ -98,7 +100,7 @@
 
         <!-- 任务完成提示 -->
         <div v-if="taskComplete" class="task-complete">
-          <div class="task-complete-icon">🎉</div>
+          <div class="task-complete-icon"><GameIcon name="trophy" :size="28" /></div>
           <div class="task-complete-text">
             <div class="complete-title">MISSION COMPLETE!</div>
             <div class="complete-reward">+{{ currentRewardCoins }} Gold Coins · Quest Recorded</div>
@@ -107,14 +109,15 @@
 
         <!-- 判定失败提示 -->
         <div v-if="failHint" class="fail-hint">
-          <span class="fail-icon">💡</span>
+          <span class="fail-icon"><GameIcon name="hint" :size="15" /></span>
           <span>{{ failHint }}</span>
         </div>
 
         <!-- 任务完成后关闭按钮 -->
         <div v-if="taskComplete" class="complete-actions">
           <button class="game-btn game-btn-complete" @click="$emit('close')">
-            Awesome! 🌟
+            <span>Awesome!</span>
+            <GameIcon name="star" :size="14" />
           </button>
         </div>
       </div>
@@ -144,8 +147,8 @@
           :disabled="!playerInput.trim() || submitting"
           @click="submitReply"
         >
-          <span v-if="submitting">⏳</span>
-          <span v-else>Send 🚀</span>
+          <span v-if="submitting">···</span>
+          <span v-else class="btn-send-inner"><span>Send</span> <GameIcon name="send" :size="13" /></span>
         </button>
       </div>
     </div>
@@ -163,6 +166,7 @@
 <script setup>
 import { ref, computed, nextTick } from 'vue'
 import WordCardModal from './games/WordCardModal.vue'
+import GameIcon from './GameIcon.vue'
 
 const props = defineProps({
   visible:     { type: Boolean, default: false },
@@ -893,6 +897,17 @@ defineExpose({ onChunk, onTaskResult, reset, setNodeKey: (k) => { currentNodeKey
   box-shadow: none;
   background: #334155;
   border-color: #475569;
+}
+
+.btn-send-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.trans-sub {
+  margin-left: 3px;
+  font-size: 11px;
 }
 
 /* 过渡动画 */
