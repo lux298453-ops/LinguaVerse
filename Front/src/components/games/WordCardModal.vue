@@ -131,8 +131,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { getWordDetail, playWordAudio, isFavorite, toggleFavorite } from './dictService.js'
+import { ref, watch } from 'vue'
+import { getWordDetail, fetchWordDetailOnline, playWordAudio, isFavorite, toggleFavorite } from './dictService.js'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -144,25 +144,38 @@ const emit = defineEmits(['close'])
 const isPlayingUs = ref(false)
 const isPlayingUk = ref(false)
 const isFav = ref(false)
+const detail = ref(null)
 
-const detail = computed(() => {
-  if (!props.word) return null
-  return getWordDetail(props.word)
-})
+async function loadWordDetail(w) {
+  if (!w) {
+    detail.value = null
+    return
+  }
+  const local = getWordDetail(w)
+  detail.value = local
+  isFav.value = isFavorite(w)
+  // 如果当前是通用占位释义，自动联网拉取权威释义
+  if (local && (!local.trans || local.trans.includes('灵语词汇'))) {
+    const online = await fetchWordDetailOnline(w)
+    if (online && detail.value && (detail.value.word === w.toLowerCase().trim() || detail.value.word === online.word)) {
+      detail.value = { ...detail.value, ...online }
+    }
+  }
+}
 
 watch(() => props.word, (newWord) => {
   if (newWord) {
-    isFav.value = isFavorite(newWord)
+    loadWordDetail(newWord)
     // 自动播放美音（初学体验丝滑）
     if (props.visible) {
       setTimeout(() => playAudio('us'), 200)
     }
   }
-})
+}, { immediate: true })
 
 watch(() => props.visible, (val) => {
   if (val && props.word) {
-    isFav.value = isFavorite(props.word)
+    loadWordDetail(props.word)
     setTimeout(() => playAudio('us'), 200)
   }
 })
@@ -205,32 +218,32 @@ function getTagClass(tag) {
 .wordcard-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(8, 6, 20, 0.78);
-  backdrop-filter: blur(8px);
+  background: rgba(8, 6, 20, 0.45);
+  backdrop-filter: blur(3px);
   z-index: 2000;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 16px;
+  padding: 38px 16px 16px;
 }
 
 .wordcard-container {
-  width: 520px;
-  max-width: 94vw;
-  background: linear-gradient(165deg, #241646 0%, #150d2c 100%);
-  border: 2px solid #a855f7;
-  border-radius: 18px;
-  box-shadow: 0 0 45px rgba(168, 85, 247, 0.35), 0 25px 50px rgba(0, 0, 0, 0.75);
+  width: 420px;
+  max-width: 92vw;
+  background: linear-gradient(165deg, rgba(36, 22, 70, 0.98) 0%, rgba(21, 13, 44, 0.99) 100%);
+  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  border-radius: 16px;
+  box-shadow: 0 0 35px rgba(168, 85, 247, 0.3), 0 20px 45px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: cardEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: cardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes cardEnter {
   from {
     opacity: 0;
-    transform: scale(0.92) translateY(12px);
+    transform: scale(0.94) translateY(-10px);
   }
   to {
     opacity: 1;
@@ -240,10 +253,10 @@ function getTagClass(tag) {
 
 /* 顶部栏 */
 .card-header {
-  height: 48px;
+  height: 42px;
   background: rgba(30, 18, 58, 0.95);
   border-bottom: 1px solid rgba(168, 85, 247, 0.25);
-  padding: 0 18px;
+  padding: 0 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -310,10 +323,10 @@ function getTagClass(tag) {
 
 /* 核心内容区 */
 .card-body {
-  padding: 22px 24px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   max-height: 75vh;
   overflow-y: auto;
 }
@@ -322,24 +335,24 @@ function getTagClass(tag) {
 .word-hero {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .hero-word-row {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
 }
 
 .hero-word {
   margin: 0;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 900;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 60%, #c084fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+  text-shadow: 0 0 16px rgba(192, 132, 252, 0.3);
 }
 
 .inflected-badge {
@@ -348,7 +361,7 @@ function getTagClass(tag) {
   color: #fbbf24;
   background: rgba(251, 191, 36, 0.15);
   border: 1px solid rgba(251, 191, 36, 0.3);
-  padding: 2px 8px;
+  padding: 1px 6px;
   border-radius: 4px;
 }
 
@@ -359,9 +372,9 @@ function getTagClass(tag) {
 }
 
 .tag-pill {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 1px 7px;
   border-radius: 4px;
 }
 .tag-gaokao  { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
@@ -376,8 +389,8 @@ function getTagClass(tag) {
   display: flex;
   background: rgba(15, 9, 30, 0.7);
   border: 1px solid rgba(168, 85, 247, 0.25);
-  border-radius: 12px;
-  padding: 10px 14px;
+  border-radius: 10px;
+  padding: 8px 12px;
   align-items: center;
 }
 
@@ -385,23 +398,23 @@ function getTagClass(tag) {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .accent-info {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
-.flag-icon { font-size: 14px; }
+.flag-icon { font-size: 13px; }
 .accent-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   color: #94a3b8;
 }
 .phonetic-text {
-  font-size: 12px;
+  font-size: 11.5px;
   color: #c084fc;
   font-family: 'Times New Roman', serif;
 }
@@ -410,13 +423,13 @@ function getTagClass(tag) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 5px;
+  padding: 5px 10px;
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(124, 58, 237, 0.35));
   border: 1px solid rgba(168, 85, 247, 0.4);
-  border-radius: 8px;
+  border-radius: 6px;
   color: #e9d5ff;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
@@ -458,24 +471,24 @@ function getTagClass(tag) {
 
 .pronounce-divider {
   width: 1px;
-  height: 48px;
+  height: 38px;
   background: rgba(168, 85, 247, 0.25);
-  margin: 0 14px;
+  margin: 0 10px;
 }
 
 /* 释义卡片 */
 .definition-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 12px 16px;
+  border-radius: 10px;
+  padding: 10px 14px;
 }
 
 .def-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .pos-badge {
@@ -489,57 +502,57 @@ function getTagClass(tag) {
 }
 
 .def-lead {
-  font-size: 12px;
+  font-size: 11.5px;
   color: #94a3b8;
   font-weight: 700;
 }
 
 .trans-text {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #f1f5f9;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* 例句卡片 */
 .example-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 12px 16px;
+  border-radius: 10px;
+  padding: 10px 14px;
 }
 
 .example-header {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-.ex-icon { font-size: 13px; }
+.ex-icon { font-size: 12px; }
 .ex-title {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #94a3b8;
 }
 
 .example-en {
-  font-size: 13px;
+  font-size: 12px;
   color: #e2e8f0;
-  line-height: 1.6;
+  line-height: 1.5;
   font-style: italic;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .example-cn {
-  font-size: 12px;
+  font-size: 11.5px;
   color: #94a3b8;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* 底部操作 */
 .card-footer {
-  padding: 12px 20px;
+  padding: 8px 14px;
   background: rgba(30, 18, 58, 0.95);
   border-top: 1px solid rgba(168, 85, 247, 0.25);
   display: flex;

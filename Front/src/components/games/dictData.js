@@ -2650,5 +2650,2280 @@ export const DICT_DATABASE = {
       "CET4",
       "考研"
     ]
+  },
+  "about": {
+    "word": "about",
+    "phonetic_us": "/about/",
+    "phonetic_uk": "/about/",
+    "pos": "adv.",
+    "trans": "大约；几乎；到处，各处；无所事事；周围，在……附近；无序地，凌乱地；朝相反方向; prep...",
+    "example": "The word \"about\" is prominent in LinguaVerse.",
+    "example_cn": "\"about\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "academic": {
+    "word": "academic",
+    "phonetic_us": "/academic/",
+    "phonetic_uk": "/academic/",
+    "pos": "adj.",
+    "trans": "学业的，学术的；学校的，学院的；学业（成绩）优秀的，善于学习的；不切实际的，空谈的; n....",
+    "example": "The word \"academic\" is prominent in LinguaVerse.",
+    "example_cn": "\"academic\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "activity": {
+    "word": "activity",
+    "phonetic_us": "/activity/",
+    "phonetic_uk": "/activity/",
+    "pos": "n.",
+    "trans": "活跃状况，热闹；活动；（Acitivity）热力活性，活度",
+    "example": "The word \"activity\" is prominent in LinguaVerse.",
+    "example_cn": "\"activity\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "agree": {
+    "word": "agree",
+    "phonetic_us": "/agree/",
+    "phonetic_uk": "/agree/",
+    "pos": "v.",
+    "trans": "同意，赞成；答应，接受；达成一致意见；商定，约定；相符，吻合；赞同；（语法）呼应；批准，认可（...",
+    "example": "The word \"agree\" is prominent in LinguaVerse.",
+    "example_cn": "\"agree\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "alchemist": {
+    "word": "alchemist",
+    "phonetic_us": "/alchemist/",
+    "phonetic_uk": "/alchemist/",
+    "pos": "n.",
+    "trans": "炼金术士",
+    "example": "The word \"alchemist\" is prominent in LinguaVerse.",
+    "example_cn": "\"alchemist\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "alchemy": {
+    "word": "alchemy",
+    "phonetic_us": "/alchemy/",
+    "phonetic_uk": "/alchemy/",
+    "pos": "n.",
+    "trans": "炼金术；魔力",
+    "example": "The word \"alchemy\" is prominent in LinguaVerse.",
+    "example_cn": "\"alchemy\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "anchor": {
+    "word": "anchor",
+    "phonetic_us": "/anchor/",
+    "phonetic_uk": "/anchor/",
+    "pos": "n.",
+    "trans": "锚；支柱，靠山；商场；<美>新闻节目主持人；<英，非正式>（汽车的）刹车; v. 抛锚，泊（船...",
+    "example": "The word \"anchor\" is prominent in LinguaVerse.",
+    "example_cn": "\"anchor\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "apprentice": {
+    "word": "apprentice",
+    "phonetic_us": "/apprentice/",
+    "phonetic_uk": "/apprentice/",
+    "pos": "n.",
+    "trans": "学徒，徒弟；生手，新手; v. 收……为学徒；当学徒",
+    "example": "The word \"apprentice\" is prominent in LinguaVerse.",
+    "example_cn": "\"apprentice\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "arcane": {
+    "word": "arcane",
+    "phonetic_us": "/arcane/",
+    "phonetic_uk": "/arcane/",
+    "pos": "adj.",
+    "trans": "神秘的，晦涩难懂的",
+    "example": "The word \"arcane\" is prominent in LinguaVerse.",
+    "example_cn": "\"arcane\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "archivist": {
+    "word": "archivist",
+    "phonetic_us": "/archivist/",
+    "phonetic_uk": "/archivist/",
+    "pos": "n.",
+    "trans": "案卷保管人；档案保管员",
+    "example": "The word \"archivist\" is prominent in LinguaVerse.",
+    "example_cn": "\"archivist\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "astounding": {
+    "word": "astounding",
+    "phonetic_us": "/astounding/",
+    "phonetic_uk": "/astounding/",
+    "pos": "adj.",
+    "trans": "令人震惊的；令人惊骇的",
+    "example": "The word \"astounding\" is prominent in LinguaVerse.",
+    "example_cn": "\"astounding\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "astral": {
+    "word": "astral",
+    "phonetic_us": "/astral/",
+    "phonetic_uk": "/astral/",
+    "pos": "adj.",
+    "trans": "星的；星际的；精神世界的",
+    "example": "The word \"astral\" is prominent in LinguaVerse.",
+    "example_cn": "\"astral\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "aww": {
+    "word": "aww",
+    "phonetic_us": "/aww/",
+    "phonetic_uk": "/aww/",
+    "pos": "int.",
+    "trans": "哇，噢（表示喜欢、感动等）; v. 发出哇，噢的声音",
+    "example": "The word \"aww\" is prominent in LinguaVerse.",
+    "example_cn": "\"aww\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "calibrate": {
+    "word": "calibrate",
+    "phonetic_us": "/calibrate/",
+    "phonetic_uk": "/calibrate/",
+    "pos": "v.",
+    "trans": "校准，标定（测量仪器等）；精确测量，准确估量；调整（实验结果），调节",
+    "example": "The word \"calibrate\" is prominent in LinguaVerse.",
+    "example_cn": "\"calibrate\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "cauldron": {
+    "word": "cauldron",
+    "phonetic_us": "/cauldron/",
+    "phonetic_uk": "/cauldron/",
+    "pos": "n.",
+    "trans": "大汽锅，大锅；煮皂锅；坩锅",
+    "example": "The word \"cauldron\" is prominent in LinguaVerse.",
+    "example_cn": "\"cauldron\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "celebrated": {
+    "word": "celebrated",
+    "phonetic_us": "/celebrated/",
+    "phonetic_uk": "/celebrated/",
+    "pos": "adj.",
+    "trans": "著名的，驰名的; v. 庆祝，庆贺；赞扬，赞美；主持（宗教仪式）（celebrate 的过...",
+    "example": "The word \"celebrated\" is prominent in LinguaVerse.",
+    "example_cn": "\"celebrated\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "classical": {
+    "word": "classical",
+    "phonetic_us": "/classical/",
+    "phonetic_uk": "/classical/",
+    "pos": "adj.",
+    "trans": "经典的，传统的；和古希腊与古罗马文化相关的；（音乐）古典的；文科的，人文科学的；典型的，有...",
+    "example": "The word \"classical\" is prominent in LinguaVerse.",
+    "example_cn": "\"classical\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "closely": {
+    "word": "closely",
+    "phonetic_us": "/closely/",
+    "phonetic_uk": "/closely/",
+    "pos": "adv.",
+    "trans": "仔细地，严密地；（联系）紧密地；秘密地，暗中地；（时间或位置上）接近地，不远地；相似地，不...",
+    "example": "The word \"closely\" is prominent in LinguaVerse.",
+    "example_cn": "\"closely\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "codex": {
+    "word": "codex",
+    "phonetic_us": "/codex/",
+    "phonetic_uk": "/codex/",
+    "pos": "n.",
+    "trans": "法典；古抄本；药典",
+    "example": "The word \"codex\" is prominent in LinguaVerse.",
+    "example_cn": "\"codex\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "coins": {
+    "word": "coins",
+    "phonetic_us": "/coins/",
+    "phonetic_uk": "/coins/",
+    "pos": "n.",
+    "trans": "硬币（coin 的复数）",
+    "example": "The word \"coins\" is prominent in LinguaVerse.",
+    "example_cn": "\"coins\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "colorful": {
+    "word": "colorful",
+    "phonetic_us": "/colorful/",
+    "phonetic_uk": "/colorful/",
+    "pos": "adj.",
+    "trans": "华美的；有趣的；富有色彩的",
+    "example": "The word \"colorful\" is prominent in LinguaVerse.",
+    "example_cn": "\"colorful\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "communicator": {
+    "word": "communicator",
+    "phonetic_us": "/communicator/",
+    "phonetic_uk": "/communicator/",
+    "pos": "n.",
+    "trans": "沟通的人，交流者；发报机；通信员",
+    "example": "The word \"communicator\" is prominent in LinguaVerse.",
+    "example_cn": "\"communicator\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "compared": {
+    "word": "compared",
+    "phonetic_us": "/compared/",
+    "phonetic_uk": "/compared/",
+    "pos": "adj.",
+    "trans": "比较的，对照的（compare 的过去式和过去分词）",
+    "example": "The word \"compared\" is prominent in LinguaVerse.",
+    "example_cn": "\"compared\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "complete": {
+    "word": "complete",
+    "phonetic_us": "/complete/",
+    "phonetic_uk": "/complete/",
+    "pos": "adj.",
+    "trans": "完全的，彻底的；全部的，完整的；完成的，结束的；技能全面的，技术娴熟的；向前传球成功的; ...",
+    "example": "The word \"complete\" is prominent in LinguaVerse.",
+    "example_cn": "\"complete\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "contains": {
+    "word": "contains",
+    "phonetic_us": "/contains/",
+    "phonetic_uk": "/contains/",
+    "pos": "v.",
+    "trans": "包含，容纳；遏制，防止……蔓延；抑制（感情）（contain 的第三人称单数）",
+    "example": "The word \"contains\" is prominent in LinguaVerse.",
+    "example_cn": "\"contains\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "cosmic": {
+    "word": "cosmic",
+    "phonetic_us": "/cosmic/",
+    "phonetic_uk": "/cosmic/",
+    "pos": "adj.",
+    "trans": "宇宙的，外层空间的；巨大的，极重要的；精神的，神灵的",
+    "example": "The word \"cosmic\" is prominent in LinguaVerse.",
+    "example_cn": "\"cosmic\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "cosmos": {
+    "word": "cosmos",
+    "phonetic_us": "/cosmos/",
+    "phonetic_uk": "/cosmos/",
+    "pos": "n.",
+    "trans": "宇宙；完整和谐的一统体系；秋英属植物; 【名】 （Cosmos）（法）科斯莫斯（人名）",
+    "example": "The word \"cosmos\" is prominent in LinguaVerse.",
+    "example_cn": "\"cosmos\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "crucible": {
+    "word": "crucible",
+    "phonetic_us": "/crucible/",
+    "phonetic_uk": "/crucible/",
+    "pos": "n.",
+    "trans": "坩埚；严酷的考验",
+    "example": "The word \"crucible\" is prominent in LinguaVerse.",
+    "example_cn": "\"crucible\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "damaged": {
+    "word": "damaged",
+    "phonetic_us": "/damaged/",
+    "phonetic_uk": "/damaged/",
+    "pos": "adj.",
+    "trans": "被损坏的; v. 损害；伤害；破坏（damage 的过去式和过去分词）",
+    "example": "The word \"damaged\" is prominent in LinguaVerse.",
+    "example_cn": "\"damaged\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "dear": {
+    "word": "dear",
+    "phonetic_us": "/dear/",
+    "phonetic_uk": "/dear/",
+    "pos": "adj.",
+    "trans": "珍视的；(用于信函抬头名字或头衔前)亲爱的；昂贵的; n. （称呼所爱的人）亲爱的; in...",
+    "example": "The word \"dear\" is prominent in LinguaVerse.",
+    "example_cn": "\"dear\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "decipher": {
+    "word": "decipher",
+    "phonetic_us": "/decipher/",
+    "phonetic_uk": "/decipher/",
+    "pos": "v.",
+    "trans": "破译，辨认（难认、难解的东西）；理解（神秘或难懂的事物）",
+    "example": "The word \"decipher\" is prominent in LinguaVerse.",
+    "example_cn": "\"decipher\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "delivering": {
+    "word": "delivering",
+    "phonetic_us": "/delivering/",
+    "phonetic_uk": "/delivering/",
+    "pos": "v.",
+    "trans": "投递，运送；履行，兑现；交付，移交；发表，宣布；接生，分娩（deliver 的现在分词）",
+    "example": "The word \"delivering\" is prominent in LinguaVerse.",
+    "example_cn": "\"delivering\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "delivery": {
+    "word": "delivery",
+    "phonetic_us": "/delivery/",
+    "phonetic_uk": "/delivery/",
+    "pos": "n.",
+    "trans": "递送，投递；递送物；演讲风格，演说方式；分娩，生产；投球方式",
+    "example": "The word \"delivery\" is prominent in LinguaVerse.",
+    "example_cn": "\"delivery\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "detail": {
+    "word": "detail",
+    "phonetic_us": "/detail/",
+    "phonetic_uk": "/detail/",
+    "pos": "n.",
+    "trans": "细节，细微之处；详情，资料；（军队中的）任务，特遣队; v. 详细说明，详述；彻底清洗（汽车）...",
+    "example": "The word \"detail\" is prominent in LinguaVerse.",
+    "example_cn": "\"detail\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "dim": {
+    "word": "dim",
+    "phonetic_us": "/dim/",
+    "phonetic_uk": "/dim/",
+    "pos": "adj.",
+    "trans": "暗淡的，昏暗的；模糊的，看不清的；<非正式>愚笨的，迟钝的；前景暗淡的，不乐观的; v. ...",
+    "example": "The word \"dim\" is prominent in LinguaVerse.",
+    "example_cn": "\"dim\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "distant": {
+    "word": "distant",
+    "phonetic_us": "/distant/",
+    "phonetic_uk": "/distant/",
+    "pos": "adj.",
+    "trans": "遥远的，久远的；冷淡的；心不在焉的；远亲的；不相似的，不同的",
+    "example": "The word \"distant\" is prominent in LinguaVerse.",
+    "example_cn": "\"distant\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "earned": {
+    "word": "earned",
+    "phonetic_us": "/earned/",
+    "phonetic_uk": "/earned/",
+    "pos": "adj.",
+    "trans": "挣得的; v. 挣得；引起（earn 的过去分词）",
+    "example": "The word \"earned\" is prominent in LinguaVerse.",
+    "example_cn": "\"earned\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "empowers": {
+    "word": "empowers",
+    "phonetic_us": "/empowers/",
+    "phonetic_uk": "/empowers/",
+    "pos": "n.",
+    "trans": "授权; 使能够（empower 的第三人称单数）",
+    "example": "The word \"empowers\" is prominent in LinguaVerse.",
+    "example_cn": "\"empowers\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "energy": {
+    "word": "energy",
+    "phonetic_us": "/energy/",
+    "phonetic_uk": "/energy/",
+    "pos": "n.",
+    "trans": "能力，力气；精力，活力；能源；能，能量",
+    "example": "The word \"energy\" is prominent in LinguaVerse.",
+    "example_cn": "\"energy\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "enjoy": {
+    "word": "enjoy",
+    "phonetic_us": "/enjoy/",
+    "phonetic_uk": "/enjoy/",
+    "pos": "v.",
+    "trans": "享受，欣赏，喜爱；过得愉快，玩得开心（enjoy oneself）；享有，拥有；<美，非正式>...",
+    "example": "The word \"enjoy\" is prominent in LinguaVerse.",
+    "example_cn": "\"enjoy\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "esteemed": {
+    "word": "esteemed",
+    "phonetic_us": "/esteemed/",
+    "phonetic_uk": "/esteemed/",
+    "pos": "adj.",
+    "trans": "受人尊敬的; v. 尊敬；认为（esteem 的过去分词）",
+    "example": "The word \"esteemed\" is prominent in LinguaVerse.",
+    "example_cn": "\"esteemed\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "eternal": {
+    "word": "eternal",
+    "phonetic_us": "/eternal/",
+    "phonetic_uk": "/eternal/",
+    "pos": "adj.",
+    "trans": "永恒的，永存的；似乎无休无止的，没完没了的",
+    "example": "The word \"eternal\" is prominent in LinguaVerse.",
+    "example_cn": "\"eternal\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "ether": {
+    "word": "ether",
+    "phonetic_us": "/ether/",
+    "phonetic_uk": "/ether/",
+    "pos": "n.",
+    "trans": "乙醚；[有化] 以太；苍天；天空醚",
+    "example": "The word \"ether\" is prominent in LinguaVerse.",
+    "example_cn": "\"ether\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "evelyn": {
+    "word": "evelyn",
+    "phonetic_us": "/evelyn/",
+    "phonetic_uk": "/evelyn/",
+    "pos": "n.",
+    "trans": "伊夫林（女子名）",
+    "example": "The word \"evelyn\" is prominent in LinguaVerse.",
+    "example_cn": "\"evelyn\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "exactly": {
+    "word": "exactly",
+    "phonetic_us": "/exactly/",
+    "phonetic_uk": "/exactly/",
+    "pos": "adv.",
+    "trans": "精确地，确切地；（用于强调）恰好，完全；（要求得到更多信息）究竟，到底；<非正式>正是如此...",
+    "example": "The word \"exactly\" is prominent in LinguaVerse.",
+    "example_cn": "\"exactly\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "exercise": {
+    "word": "exercise",
+    "phonetic_us": "/exercise/",
+    "phonetic_uk": "/exercise/",
+    "pos": "n.",
+    "trans": "运动，锻炼；（一套）动作，体操；练习，演练；运用；活动，任务；典礼；宗教仪式，礼拜; v. 运...",
+    "example": "The word \"exercise\" is prominent in LinguaVerse.",
+    "example_cn": "\"exercise\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "explanatory": {
+    "word": "explanatory",
+    "phonetic_us": "/explanatory/",
+    "phonetic_uk": "/explanatory/",
+    "pos": "adj.",
+    "trans": "解释的，说明的",
+    "example": "The word \"explanatory\" is prominent in LinguaVerse.",
+    "example_cn": "\"explanatory\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "exploring": {
+    "word": "exploring",
+    "phonetic_us": "/exploring/",
+    "phonetic_uk": "/exploring/",
+    "pos": "v.",
+    "trans": "探索；探测；探险；（用手或身体某部）探察（explore 的现在分词）",
+    "example": "The word \"exploring\" is prominent in LinguaVerse.",
+    "example_cn": "\"exploring\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "exquisite": {
+    "word": "exquisite",
+    "phonetic_us": "/exquisite/",
+    "phonetic_uk": "/exquisite/",
+    "pos": "adj.",
+    "trans": "精致的，精美的；剧烈的；细致的，有鉴赏力的; n. 花花公子",
+    "example": "The word \"exquisite\" is prominent in LinguaVerse.",
+    "example_cn": "\"exquisite\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "extracts": {
+    "word": "extracts",
+    "phonetic_us": "/extracts/",
+    "phonetic_uk": "/extracts/",
+    "pos": "v.",
+    "trans": "[图情]摘录（extract 的第三人称单数）; n. 提取物，[化学]萃取物（extract...",
+    "example": "The word \"extracts\" is prominent in LinguaVerse.",
+    "example_cn": "\"extracts\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "favor": {
+    "word": "favor",
+    "phonetic_us": "/favor/",
+    "phonetic_uk": "/favor/",
+    "pos": "v.",
+    "trans": "较喜欢；偏袒；有利于；（非正式）长得像；悉心照料; n. 帮助；提拔；徽章；赞同；偏袒；同意性...",
+    "example": "The word \"favor\" is prominent in LinguaVerse.",
+    "example_cn": "\"favor\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "forever": {
+    "word": "forever",
+    "phonetic_us": "/forever/",
+    "phonetic_uk": "/forever/",
+    "pos": "adv.",
+    "trans": "永远；完全地，永恒地；<非正式>长久地；<非正式>老是，没完没了地；万岁（用在物或人名后，...",
+    "example": "The word \"forever\" is prominent in LinguaVerse.",
+    "example_cn": "\"forever\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "friend": {
+    "word": "friend",
+    "phonetic_us": "/friend/",
+    "phonetic_uk": "/friend/",
+    "pos": "n.",
+    "trans": "朋友，友人；（社交网站上的）好友；（与……是） 朋友，朋友关系（friends）；（组织或政治...",
+    "example": "The word \"friend\" is prominent in LinguaVerse.",
+    "example_cn": "\"friend\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "fully": {
+    "word": "fully",
+    "phonetic_us": "/fully/",
+    "phonetic_uk": "/fully/",
+    "pos": "adv.",
+    "trans": "充分地，完全地，彻底地；（强调数量）整整，至少; 【名】 （Fully）（法）菲利（人名）",
+    "example": "The word \"fully\" is prominent in LinguaVerse.",
+    "example_cn": "\"fully\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "game": {
+    "word": "game",
+    "phonetic_us": "/game/",
+    "phonetic_uk": "/game/",
+    "pos": "n.",
+    "trans": "游戏，比赛；一局，一场；运动会；体育课，体育活动；儿戏；诡计，花招；猎物，野味；行当，行业；玩...",
+    "example": "The word \"game\" is prominent in LinguaVerse.",
+    "example_cn": "\"game\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "games": {
+    "word": "games",
+    "phonetic_us": "/games/",
+    "phonetic_uk": "/games/",
+    "pos": "n.",
+    "trans": "游戏，比赛；一局，一场；运动会（game 的复数）; v. 操纵；玩视频（或电视、电脑）游戏；...",
+    "example": "The word \"games\" is prominent in LinguaVerse.",
+    "example_cn": "\"games\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "glowing": {
+    "word": "glowing",
+    "phonetic_us": "/glowing/",
+    "phonetic_uk": "/glowing/",
+    "pos": "adj.",
+    "trans": "热情洋溢的，赞不绝口的；（皮肤）容光焕发的，血色很好的；发红光的；发出柔和光亮的；（颜色）...",
+    "example": "The word \"glowing\" is prominent in LinguaVerse.",
+    "example_cn": "\"glowing\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "golden": {
+    "word": "golden",
+    "phonetic_us": "/golden/",
+    "phonetic_uk": "/golden/",
+    "pos": "adj.",
+    "trans": "金制的；金色的；极好的，成功的；美好的，幸福的；很有才干的，很受欢迎的；声音圆润的；处于有...",
+    "example": "The word \"golden\" is prominent in LinguaVerse.",
+    "example_cn": "\"golden\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "grand": {
+    "word": "grand",
+    "phonetic_us": "/grand/",
+    "phonetic_uk": "/grand/",
+    "pos": "adj.",
+    "trans": "壮丽的，堂皇的；宏伟的，宏大的；傲慢的，高高在上的；令人愉快的；<非正式>出色的，极好的；...",
+    "example": "The word \"grand\" is prominent in LinguaVerse.",
+    "example_cn": "\"grand\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "greek": {
+    "word": "greek",
+    "phonetic_us": "/greek/",
+    "phonetic_uk": "/greek/",
+    "pos": "n.",
+    "trans": "(Greek) 希腊人；希腊语；（有希腊字母名称的）大学生联谊会会员; adj. (Greek...",
+    "example": "The word \"greek\" is prominent in LinguaVerse.",
+    "example_cn": "\"greek\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "greeting": {
+    "word": "greeting",
+    "phonetic_us": "/greeting/",
+    "phonetic_uk": "/greeting/",
+    "pos": "n.",
+    "trans": "问候，招呼；贺词，祝福; v. 欢迎，迎接；对……作出反应；映入眼帘，扑鼻而来（greet 的...",
+    "example": "The word \"greeting\" is prominent in LinguaVerse.",
+    "example_cn": "\"greeting\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "greetings": {
+    "word": "greetings",
+    "phonetic_us": "/greetings/",
+    "phonetic_uk": "/greetings/",
+    "pos": "n.",
+    "trans": "问候；打招呼；问候语（greeting 的复数）",
+    "example": "The word \"greetings\" is prominent in LinguaVerse.",
+    "example_cn": "\"greetings\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "grimoires": {
+    "word": "grimoires",
+    "phonetic_us": "/grimoires/",
+    "phonetic_uk": "/grimoires/",
+    "pos": "n.",
+    "trans": "魔法书：一种收集有关魔法、咒语、符咒、恶魔召唤等神秘知识的书籍。",
+    "example": "The word \"grimoires\" is prominent in LinguaVerse.",
+    "example_cn": "\"grimoires\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "guide": {
+    "word": "guide",
+    "phonetic_us": "/guide/",
+    "phonetic_uk": "/guide/",
+    "pos": "v.",
+    "trans": "带领，引导（某人至某地）；任向导；指导，影响；解释，阐明; n. 指南，手册；导游，向导；准则...",
+    "example": "The word \"guide\" is prominent in LinguaVerse.",
+    "example_cn": "\"guide\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "hall": {
+    "word": "hall",
+    "phonetic_us": "/hall/",
+    "phonetic_uk": "/hall/",
+    "pos": "n.",
+    "trans": "礼堂，大厅；门厅；走廊，过道；（大学的）学生宿舍；府邸，庄园; 【名】 （Hall）（英）霍尔...",
+    "example": "The word \"hall\" is prominent in LinguaVerse.",
+    "example_cn": "\"hall\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "hat": {
+    "word": "hat",
+    "phonetic_us": "/hat/",
+    "phonetic_uk": "/hat/",
+    "pos": "n.",
+    "trans": "（常指带檐的）帽子；（双重的）职位，角色; v. 给……戴上帽子；供应帽子，制造帽子",
+    "example": "The word \"hat\" is prominent in LinguaVerse.",
+    "example_cn": "\"hat\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "help": {
+    "word": "help",
+    "phonetic_us": "/help/",
+    "phonetic_uk": "/help/",
+    "pos": "v.",
+    "trans": "帮助，援助；改善状况，对……有益；给（自己或某人）食物或饮料；擅自拿走，窃取；搀扶，带领; n...",
+    "example": "The word \"help\" is prominent in LinguaVerse.",
+    "example_cn": "\"help\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "honor": {
+    "word": "honor",
+    "phonetic_us": "/honor/",
+    "phonetic_uk": "/honor/",
+    "pos": "n.",
+    "trans": "荣誉；信用；头衔; vt. 尊敬（等于 honour）；给……以荣誉",
+    "example": "The word \"honor\" is prominent in LinguaVerse.",
+    "example_cn": "\"honor\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "huge": {
+    "word": "huge",
+    "phonetic_us": "/huge/",
+    "phonetic_uk": "/huge/",
+    "pos": "adj.",
+    "trans": "庞大的，极大的；<非正式>很受欢迎的，著名的; 【名】 （Huge）（英）休奇（人名）",
+    "example": "The word \"huge\" is prominent in LinguaVerse.",
+    "example_cn": "\"huge\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "illuminating": {
+    "word": "illuminating",
+    "phonetic_us": "/illuminating/",
+    "phonetic_uk": "/illuminating/",
+    "pos": "adj.",
+    "trans": "照亮的，照明的；启蒙的，有启发性的; v. 照明，阐释（illuminate 的现在分词形...",
+    "example": "The word \"illuminating\" is prominent in LinguaVerse.",
+    "example_cn": "\"illuminating\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "inscription": {
+    "word": "inscription",
+    "phonetic_us": "/inscription/",
+    "phonetic_uk": "/inscription/",
+    "pos": "n.",
+    "trans": "题词；铭文；刻印",
+    "example": "The word \"inscription\" is prominent in LinguaVerse.",
+    "example_cn": "\"inscription\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "invention": {
+    "word": "invention",
+    "phonetic_us": "/invention/",
+    "phonetic_uk": "/invention/",
+    "pos": "n.",
+    "trans": "发明物；发明，创造；虚构，编造；发明才能，创造力；创意曲（短乐曲的题目）",
+    "example": "The word \"invention\" is prominent in LinguaVerse.",
+    "example_cn": "\"invention\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "keeper": {
+    "word": "keeper",
+    "phonetic_us": "/keeper/",
+    "phonetic_uk": "/keeper/",
+    "pos": "n.",
+    "trans": "监护人；饲养员；看守人；管理人",
+    "example": "The word \"keeper\" is prominent in LinguaVerse.",
+    "example_cn": "\"keeper\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "keyword": {
+    "word": "keyword",
+    "phonetic_us": "/keyword/",
+    "phonetic_uk": "/keyword/",
+    "pos": "n.",
+    "trans": "密码；关键字",
+    "example": "The word \"keyword\" is prominent in LinguaVerse.",
+    "example_cn": "\"keyword\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "knowledge": {
+    "word": "knowledge",
+    "phonetic_us": "/knowledge/",
+    "phonetic_uk": "/knowledge/",
+    "pos": "n.",
+    "trans": "知识，学问；知道，了解；计算机系统存储的信息；（与见解相对的）认知; 【名】 （Knowled...",
+    "example": "The word \"knowledge\" is prominent in LinguaVerse.",
+    "example_cn": "\"knowledge\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "late": {
+    "word": "late",
+    "phonetic_us": "/late/",
+    "phonetic_uk": "/late/",
+    "pos": "adj.",
+    "trans": "晚期的，末期的；晚的，迟的；近日暮的，近深夜的；已故的；不久前的，最近的; adv. 晚，...",
+    "example": "The word \"late\" is prominent in LinguaVerse.",
+    "example_cn": "\"late\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "leave": {
+    "word": "leave",
+    "phonetic_us": "/leave/",
+    "phonetic_uk": "/leave/",
+    "pos": "v.",
+    "trans": "离开（某人或某处）；离开居住地点（或群体、工作单位等）；与……脱离关系， 离开（某人）；不立刻...",
+    "example": "The word \"leave\" is prominent in LinguaVerse.",
+    "example_cn": "\"leave\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "lexical": {
+    "word": "lexical",
+    "phonetic_us": "/lexical/",
+    "phonetic_uk": "/lexical/",
+    "pos": "adj.",
+    "trans": "词汇的；（与）词典（有关）的；词典编纂的",
+    "example": "The word \"lexical\" is prominent in LinguaVerse.",
+    "example_cn": "\"lexical\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "library": {
+    "word": "library",
+    "phonetic_us": "/library/",
+    "phonetic_uk": "/library/",
+    "pos": "n.",
+    "trans": "图书馆，藏书楼；（书、激光唱片等的）私人收藏；书房，书斋；文库，系列丛书（激光唱片集，成套录像...",
+    "example": "The word \"library\" is prominent in LinguaVerse.",
+    "example_cn": "\"library\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "lifesaver": {
+    "word": "lifesaver",
+    "phonetic_us": "/lifesaver/",
+    "phonetic_uk": "/lifesaver/",
+    "pos": "n.",
+    "trans": "济急的人；水难救生员；救命者",
+    "example": "The word \"lifesaver\" is prominent in LinguaVerse.",
+    "example_cn": "\"lifesaver\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "linguaverse": {
+    "word": "linguaverse",
+    "phonetic_us": "/linguaverse/",
+    "phonetic_uk": "/linguaverse/",
+    "pos": "n.",
+    "trans": "灵语常用词汇",
+    "example": "The word \"linguaverse\" is prominent in LinguaVerse.",
+    "example_cn": "\"linguaverse\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "little": {
+    "word": "little",
+    "phonetic_us": "/little/",
+    "phonetic_uk": "/little/",
+    "pos": "adj.",
+    "trans": "小的，比较小的；用于强调对某人或某物的意见；年幼的；短暂的，近的；微不足道的；可爱的，可怜...",
+    "example": "The word \"little\" is prominent in LinguaVerse.",
+    "example_cn": "\"little\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "look": {
+    "word": "look",
+    "phonetic_us": "/look/",
+    "phonetic_uk": "/look/",
+    "pos": "v.",
+    "trans": "看；寻找；与……外表相似；看似，显得；注意；面向；检查，查看；打算（look to）；预料，期...",
+    "example": "The word \"look\" is prominent in LinguaVerse.",
+    "example_cn": "\"look\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "lost": {
+    "word": "lost",
+    "phonetic_us": "/lost/",
+    "phonetic_uk": "/lost/",
+    "pos": "adj.",
+    "trans": "迷路的，迷失的；失去的，丢失的；不复存在的，不再拥有的；不知所措，一筹莫展；糊涂的，困惑的...",
+    "example": "The word \"lost\" is prominent in LinguaVerse.",
+    "example_cn": "\"lost\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "luna": {
+    "word": "luna",
+    "phonetic_us": "/luna/",
+    "phonetic_uk": "/luna/",
+    "pos": "n.",
+    "trans": "月亮；月神",
+    "example": "The word \"luna\" is prominent in LinguaVerse.",
+    "example_cn": "\"luna\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "magical": {
+    "word": "magical",
+    "phonetic_us": "/magical/",
+    "phonetic_uk": "/magical/",
+    "pos": "adj.",
+    "trans": "魔法的，魔术的；神奇的，迷人的",
+    "example": "The word \"magical\" is prominent in LinguaVerse.",
+    "example_cn": "\"magical\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "magnificent": {
+    "word": "magnificent",
+    "phonetic_us": "/magnificent/",
+    "phonetic_uk": "/magnificent/",
+    "pos": "adj.",
+    "trans": "宏伟的，壮丽的；令人印象深刻的，出色的；高尚的，高贵的",
+    "example": "The word \"magnificent\" is prominent in LinguaVerse.",
+    "example_cn": "\"magnificent\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "mary": {
+    "word": "mary",
+    "phonetic_us": "/mary/",
+    "phonetic_uk": "/mary/",
+    "pos": "n.",
+    "trans": "玛丽（女子名）",
+    "example": "The word \"mary\" is prominent in LinguaVerse.",
+    "example_cn": "\"mary\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "means": {
+    "word": "means",
+    "phonetic_us": "/means/",
+    "phonetic_uk": "/means/",
+    "pos": "n.",
+    "trans": "手段，方法；金钱; v. 意味着；表示……的意思，作……的解释；打算，意欲（mean 的第三人...",
+    "example": "The word \"means\" is prominent in LinguaVerse.",
+    "example_cn": "\"means\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "merlin": {
+    "word": "merlin",
+    "phonetic_us": "/merlin/",
+    "phonetic_uk": "/merlin/",
+    "pos": "n.",
+    "trans": "灰背隼; n. （Merlin）人名；（意）梅林；（英、德）默林；（法）梅兰",
+    "example": "The word \"merlin\" is prominent in LinguaVerse.",
+    "example_cn": "\"merlin\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "message": {
+    "word": "message",
+    "phonetic_us": "/message/",
+    "phonetic_uk": "/message/",
+    "pos": "n.",
+    "trans": "口信，消息；（书籍、演讲等的）要旨，主题思想；（从大脑发给身体某部位或身体某部位向大脑发送的）...",
+    "example": "The word \"message\" is prominent in LinguaVerse.",
+    "example_cn": "\"message\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "millions": {
+    "word": "millions",
+    "phonetic_us": "/millions/",
+    "phonetic_uk": "/millions/",
+    "pos": "n.",
+    "trans": "数百万",
+    "example": "The word \"millions\" is prominent in LinguaVerse.",
+    "example_cn": "\"millions\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "mind": {
+    "word": "mind",
+    "phonetic_us": "/mind/",
+    "phonetic_uk": "/mind/",
+    "pos": "n.",
+    "trans": "头脑，大脑；智慧，思维方式；聪明人，富有才智的人；注意力，心思；记忆力；意愿，意向; v. 苦...",
+    "example": "The word \"mind\" is prominent in LinguaVerse.",
+    "example_cn": "\"mind\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "missing": {
+    "word": "missing",
+    "phonetic_us": "/missing/",
+    "phonetic_uk": "/missing/",
+    "pos": "adj.",
+    "trans": "找不到的，丢失的；缺少的，缺损的；（人）失踪的，下落不明的；遗漏的，未被包括在内的; v....",
+    "example": "The word \"missing\" is prominent in LinguaVerse.",
+    "example_cn": "\"missing\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "name": {
+    "word": "name",
+    "phonetic_us": "/name/",
+    "phonetic_uk": "/name/",
+    "pos": "n.",
+    "trans": "名字，名称；名声，名誉；<非正式>名人，有名的事物；（侮辱人的）绰号，别称；（英国）属劳埃德保...",
+    "example": "The word \"name\" is prominent in LinguaVerse.",
+    "example_cn": "\"name\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "natural": {
+    "word": "natural",
+    "phonetic_us": "/natural/",
+    "phonetic_uk": "/natural/",
+    "pos": "adj.",
+    "trans": "天然的，非人为的；合理的，意料之中的；天生的，本能的；不做作的，真实的；亲生的；<旧>私生...",
+    "example": "The word \"natural\" is prominent in LinguaVerse.",
+    "example_cn": "\"natural\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "near": {
+    "word": "near",
+    "phonetic_us": "/near/",
+    "phonetic_uk": "/near/",
+    "pos": "adv.",
+    "trans": "距离不远，在附近；不久，很快；差不多，几乎; prep. 在......附近，靠近；接近（...",
+    "example": "The word \"near\" is prominent in LinguaVerse.",
+    "example_cn": "\"near\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "newcomer": {
+    "word": "newcomer",
+    "phonetic_us": "/newcomer/",
+    "phonetic_uk": "/newcomer/",
+    "pos": "n.",
+    "trans": "新来者，新手；新鲜事物; n. （Newcomer）（美）纽科默（人名）",
+    "example": "The word \"newcomer\" is prominent in LinguaVerse.",
+    "example_cn": "\"newcomer\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "offer": {
+    "word": "offer",
+    "phonetic_us": "/offer/",
+    "phonetic_uk": "/offer/",
+    "pos": "v.",
+    "trans": "提供，给予；提议，表示愿意（做某事）；出（价），开（价）；提出，作出；表示（爱、友谊等）；（向...",
+    "example": "The word \"offer\" is prominent in LinguaVerse.",
+    "example_cn": "\"offer\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "page": {
+    "word": "page",
+    "phonetic_us": "/page/",
+    "phonetic_uk": "/page/",
+    "pos": "n.",
+    "trans": "（书、报纸、文件等的）页，面；网页；历史重要事件（或时期），历史篇章；<英>伴童，（新娘的）小...",
+    "example": "The word \"page\" is prominent in LinguaVerse.",
+    "example_cn": "\"page\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "perfect": {
+    "word": "perfect",
+    "phonetic_us": "/perfect/",
+    "phonetic_uk": "/perfect/",
+    "pos": "adj.",
+    "trans": "无瑕的，完好的；完全正确的，极其准确的；完美的，理想的；最佳的，绝配的；十足的，完全的；通...",
+    "example": "The word \"perfect\" is prominent in LinguaVerse.",
+    "example_cn": "\"perfect\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "philosophical": {
+    "word": "philosophical",
+    "phonetic_us": "/philosophical/",
+    "phonetic_uk": "/philosophical/",
+    "pos": "adj.",
+    "trans": "哲学的；达观的，处乱不惊的",
+    "example": "The word \"philosophical\" is prominent in LinguaVerse.",
+    "example_cn": "\"philosophical\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "physical": {
+    "word": "physical",
+    "phonetic_us": "/physical/",
+    "phonetic_uk": "/physical/",
+    "pos": "adj.",
+    "trans": "身体的，肉体的；物质的，有形的；外形的，外在的；物理的，物理学的；根据自然规律的，符合自然...",
+    "example": "The word \"physical\" is prominent in LinguaVerse.",
+    "example_cn": "\"physical\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "pickle": {
+    "word": "pickle",
+    "phonetic_us": "/pickle/",
+    "phonetic_uk": "/pickle/",
+    "pos": "n.",
+    "trans": "泡菜，腌菜；菜酱，泡菜汁；<美>腌黄瓜；<非正式>困境；<英，非正式，旧>捣蛋鬼，讨厌鬼；（用...",
+    "example": "The word \"pickle\" is prominent in LinguaVerse.",
+    "example_cn": "\"pickle\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "place": {
+    "word": "place",
+    "phonetic_us": "/place/",
+    "phonetic_uk": "/place/",
+    "pos": "n.",
+    "trans": "地点，场所；城镇（或建筑物等）；有某用途的建筑（或土地）；表面的某处；家，住所；（书本或讲话中...",
+    "example": "The word \"place\" is prominent in LinguaVerse.",
+    "example_cn": "\"place\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "player": {
+    "word": "player",
+    "phonetic_us": "/player/",
+    "phonetic_uk": "/player/",
+    "pos": "n.",
+    "trans": "运动员，选手；（乐器的）演奏者；<旧>演员，表演者；参与者，角色；（录音或录像的）播放器；<非...",
+    "example": "The word \"player\" is prominent in LinguaVerse.",
+    "example_cn": "\"player\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "post": {
+    "word": "post",
+    "phonetic_us": "/post/",
+    "phonetic_uk": "/post/",
+    "pos": "n.",
+    "trans": "<英>邮政，邮递；<英>邮件，包裹；<英>收集（或投递）邮件，邮班；职位，要职；岗位，哨所；柱...",
+    "example": "The word \"post\" is prominent in LinguaVerse.",
+    "example_cn": "\"post\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "power": {
+    "word": "power",
+    "phonetic_us": "/power/",
+    "phonetic_uk": "/power/",
+    "pos": "n.",
+    "trans": "控制力，操控力；政权，统治；权力，职权；强国，大国；有影响力的人（或组织）；能力，本领；支配力...",
+    "example": "The word \"power\" is prominent in LinguaVerse.",
+    "example_cn": "\"power\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "promised": {
+    "word": "promised",
+    "phonetic_us": "/promised/",
+    "phonetic_uk": "/promised/",
+    "pos": "vt.",
+    "trans": "允诺，许诺；预示；给人以……的指望或希望；<古>许配（promise 的过去式和过去分词）;...",
+    "example": "The word \"promised\" is prominent in LinguaVerse.",
+    "example_cn": "\"promised\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "proverb": {
+    "word": "proverb",
+    "phonetic_us": "/proverb/",
+    "phonetic_uk": "/proverb/",
+    "pos": "n.",
+    "trans": "谚语，格言；典型，模范",
+    "example": "The word \"proverb\" is prominent in LinguaVerse.",
+    "example_cn": "\"proverb\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "pure": {
+    "word": "pure",
+    "phonetic_us": "/pure/",
+    "phonetic_uk": "/pure/",
+    "pos": "adj.",
+    "trans": "纯的，不掺杂质的；血统纯的，纯种的；纯真的，贞洁的；干净的，不含有害物质的；无杂色的，清晰...",
+    "example": "The word \"pure\" is prominent in LinguaVerse.",
+    "example_cn": "\"pure\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "purple": {
+    "word": "purple",
+    "phonetic_us": "/purple/",
+    "phonetic_uk": "/purple/",
+    "pos": "adj.",
+    "trans": "紫色的，紫红色的；（作品）词藻华丽的，华而不实的；帝王的; n. 紫色，紫红色；紫色衣服（...",
+    "example": "The word \"purple\" is prominent in LinguaVerse.",
+    "example_cn": "\"purple\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "pursuit": {
+    "word": "pursuit",
+    "phonetic_us": "/pursuit/",
+    "phonetic_uk": "/pursuit/",
+    "pos": "n.",
+    "trans": "追求，寻找；继续；追逐，追捕；实行，贯彻；消遣，业余爱好；（自行车赛和滑冰竞赛中的）追逐赛；（...",
+    "example": "The word \"pursuit\" is prominent in LinguaVerse.",
+    "example_cn": "\"pursuit\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "quill": {
+    "word": "quill",
+    "phonetic_us": "/quill/",
+    "phonetic_uk": "/quill/",
+    "pos": "n.",
+    "trans": "大翎毛；羽茎；（豪猪、刺猬的）刚毛；羽毛笔; vt. 刺穿; n. （Quill）（英）奎尔（...",
+    "example": "The word \"quill\" is prominent in LinguaVerse.",
+    "example_cn": "\"quill\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "reading": {
+    "word": "reading",
+    "phonetic_us": "/reading/",
+    "phonetic_uk": "/reading/",
+    "pos": "n.",
+    "trans": "阅读，宣读；读物，阅读材料；文学知识；理解，解读；朗诵会，朗诵的作品；（宗教仪式上诵读的）《圣...",
+    "example": "The word \"reading\" is prominent in LinguaVerse.",
+    "example_cn": "\"reading\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "ready": {
+    "word": "ready",
+    "phonetic_us": "/ready/",
+    "phonetic_uk": "/ready/",
+    "pos": "adj.",
+    "trans": "（某人）准备好（做某事）的；预先备好的，可供使用的；乐意的；方便使用的，现成的；迅速的，敏...",
+    "example": "The word \"ready\" is prominent in LinguaVerse.",
+    "example_cn": "\"ready\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "receive": {
+    "word": "receive",
+    "phonetic_us": "/receive/",
+    "phonetic_uk": "/receive/",
+    "pos": "v.",
+    "trans": "得到，收到；遭受，经受（特定待遇）；对……作出反应；接待，招待；接收（某人为成员）；接收，收听...",
+    "example": "The word \"receive\" is prominent in LinguaVerse.",
+    "example_cn": "\"receive\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "record": {
+    "word": "record",
+    "phonetic_us": "/record/",
+    "phonetic_uk": "/record/",
+    "pos": "n.",
+    "trans": "记录，记载；（某人或某物过去的）记录，经历；（尤指体育运动中的）最佳纪录，最好成绩；唱片；前科...",
+    "example": "The word \"record\" is prominent in LinguaVerse.",
+    "example_cn": "\"record\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "repeat": {
+    "word": "repeat",
+    "phonetic_us": "/repeat/",
+    "phonetic_uk": "/repeat/",
+    "pos": "v.",
+    "trans": "重复，重说；复述，跟读（尤指为学习）；转述，转告；（强调说过的话）再说一遍；重新做，使再次发生...",
+    "example": "The word \"repeat\" is prominent in LinguaVerse.",
+    "example_cn": "\"repeat\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "research": {
+    "word": "research",
+    "phonetic_us": "/research/",
+    "phonetic_uk": "/research/",
+    "pos": "n.",
+    "trans": "（尤指大学或科研机构进行的）研究，探讨；研究工作，调查工作; v. 研究，探索；为……收集资料...",
+    "example": "The word \"research\" is prominent in LinguaVerse.",
+    "example_cn": "\"research\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "researching": {
+    "word": "researching",
+    "phonetic_us": "/researching/",
+    "phonetic_uk": "/researching/",
+    "pos": "n.",
+    "trans": "研究; 研究员",
+    "example": "The word \"researching\" is prominent in LinguaVerse.",
+    "example_cn": "\"researching\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "resonance": {
+    "word": "resonance",
+    "phonetic_us": "/resonance/",
+    "phonetic_uk": "/resonance/",
+    "pos": "n.",
+    "trans": "（声音的）深沉，洪亮；（情感的）共鸣，反响；（物理）共鸣，共振；（电路或设备）谐振；（天文）共...",
+    "example": "The word \"resonance\" is prominent in LinguaVerse.",
+    "example_cn": "\"resonance\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "restore": {
+    "word": "restore",
+    "phonetic_us": "/restore/",
+    "phonetic_uk": "/restore/",
+    "pos": "v.",
+    "trans": "恢复（某种情况或感受）；使复原，使复位；修复，整修；重新采用，恢复使用；归还",
+    "example": "The word \"restore\" is prominent in LinguaVerse.",
+    "example_cn": "\"restore\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "restored": {
+    "word": "restored",
+    "phonetic_us": "/restored/",
+    "phonetic_uk": "/restored/",
+    "pos": "adj.",
+    "trans": "精力充沛的；精力恢复的; v. 修复；恢复健康（restore 的过去式与过去分词）",
+    "example": "The word \"restored\" is prominent in LinguaVerse.",
+    "example_cn": "\"restored\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "restoring": {
+    "word": "restoring",
+    "phonetic_us": "/restoring/",
+    "phonetic_uk": "/restoring/",
+    "pos": "adj.",
+    "trans": "恢复的; v. 恢复，重建；正在恢复（restore 的现在分词）",
+    "example": "The word \"restoring\" is prominent in LinguaVerse.",
+    "example_cn": "\"restoring\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "reward": {
+    "word": "reward",
+    "phonetic_us": "/reward/",
+    "phonetic_uk": "/reward/",
+    "pos": "n.",
+    "trans": "奖励，回报；赏格，悬赏金；报偿，报应; v. 酬谢，奖赏；奖励（行动，品质）；（理所当然地）获...",
+    "example": "The word \"reward\" is prominent in LinguaVerse.",
+    "example_cn": "\"reward\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "riddle": {
+    "word": "riddle",
+    "phonetic_us": "/riddle/",
+    "phonetic_uk": "/riddle/",
+    "pos": "n.",
+    "trans": "谜语；谜一般的人（或事）；（筛分土石的）粗筛; v. 猜（某人）出的（谜），为（某人）解（谜）...",
+    "example": "The word \"riddle\" is prominent in LinguaVerse.",
+    "example_cn": "\"riddle\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "right": {
+    "word": "right",
+    "phonetic_us": "/right/",
+    "phonetic_uk": "/right/",
+    "pos": "adj.",
+    "trans": "符合道德的，正当的；正确的，真实的；（人、物）合适的，般配的；（意见，判断）对的；右边的，...",
+    "example": "The word \"right\" is prominent in LinguaVerse.",
+    "example_cn": "\"right\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "root": {
+    "word": "root",
+    "phonetic_us": "/root/",
+    "phonetic_uk": "/root/",
+    "pos": "n.",
+    "trans": "根，根茎；（牙齿、头发等的）根部；底部，基部；根源，起因；起源，背景；根脉，祖籍（roots）...",
+    "example": "The word \"root\" is prominent in LinguaVerse.",
+    "example_cn": "\"root\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "roots": {
+    "word": "roots",
+    "phonetic_us": "/roots/",
+    "phonetic_uk": "/roots/",
+    "pos": "n.",
+    "trans": "[数][植]根；根源（root 的复数形式）; v. 生根；扎根；连根拔起（root 的三单形...",
+    "example": "The word \"roots\" is prominent in LinguaVerse.",
+    "example_cn": "\"roots\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "runes": {
+    "word": "runes",
+    "phonetic_us": "/runes/",
+    "phonetic_uk": "/runes/",
+    "pos": "n.",
+    "trans": "如尼文；具有神秘意义的符号；符咒，咒语；如尼文石块，如尼文骨块；芬兰民族史诗（rune的复数）...",
+    "example": "The word \"runes\" is prominent in LinguaVerse.",
+    "example_cn": "\"runes\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "scholarly": {
+    "word": "scholarly",
+    "phonetic_us": "/scholarly/",
+    "phonetic_uk": "/scholarly/",
+    "pos": "adj.",
+    "trans": "学术的，学术性的；博学的，勤奋好学的",
+    "example": "The word \"scholarly\" is prominent in LinguaVerse.",
+    "example_cn": "\"scholarly\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "seeker": {
+    "word": "seeker",
+    "phonetic_us": "/seeker/",
+    "phonetic_uk": "/seeker/",
+    "pos": "n.",
+    "trans": "寻找者，探求者；搜查人",
+    "example": "The word \"seeker\" is prominent in LinguaVerse.",
+    "example_cn": "\"seeker\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "send": {
+    "word": "send",
+    "phonetic_us": "/send/",
+    "phonetic_uk": "/send/",
+    "pos": "v.",
+    "trans": "邮寄，发送；传达，告知；派遣，打发，安排去；使快速（或猛然）移动；使作出（某种反应），使表现出...",
+    "example": "The word \"send\" is prominent in LinguaVerse.",
+    "example_cn": "\"send\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "sentence": {
+    "word": "sentence",
+    "phonetic_us": "/sentence/",
+    "phonetic_uk": "/sentence/",
+    "pos": "n.",
+    "trans": "句子，句；判决，判刑；命题; v. 判决，宣判，判刑",
+    "example": "The word \"sentence\" is prominent in LinguaVerse.",
+    "example_cn": "\"sentence\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "short": {
+    "word": "short",
+    "phonetic_us": "/short/",
+    "phonetic_uk": "/short/",
+    "pos": "adj.",
+    "trans": "短暂的，短期的；（长度或距离）短的；个子矮的；简短的，短篇的；短缺的，稀少的；不够（长、高...",
+    "example": "The word \"short\" is prominent in LinguaVerse.",
+    "example_cn": "\"short\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "side": {
+    "word": "side",
+    "phonetic_us": "/side/",
+    "phonetic_uk": "/side/",
+    "pos": "n.",
+    "trans": "一旁，侧边；（相对中间而言的）边，侧；侧面；方面，情况；立场，意见；一方，一派；边缘；体侧，肋...",
+    "example": "The word \"side\" is prominent in LinguaVerse.",
+    "example_cn": "\"side\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "simply": {
+    "word": "simply",
+    "phonetic_us": "/simply/",
+    "phonetic_uk": "/simply/",
+    "pos": "adv.",
+    "trans": "仅仅，只，不过；简直，的确； 简单地，简明地；朴素地，简朴地",
+    "example": "The word \"simply\" is prominent in LinguaVerse.",
+    "example_cn": "\"simply\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "starlight": {
+    "word": "starlight",
+    "phonetic_us": "/starlight/",
+    "phonetic_uk": "/starlight/",
+    "pos": "n.",
+    "trans": "星光; adj. 有星光的；星光照耀的",
+    "example": "The word \"starlight\" is prominent in LinguaVerse.",
+    "example_cn": "\"starlight\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "starry": {
+    "word": "starry",
+    "phonetic_us": "/starry/",
+    "phonetic_uk": "/starry/",
+    "pos": "adj.",
+    "trans": "布满星星的；闪闪发光的，明亮的；像星星的，星状的；明星的，有关于明星的，明星特点的; 【名...",
+    "example": "The word \"starry\" is prominent in LinguaVerse.",
+    "example_cn": "\"starry\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "stipend": {
+    "word": "stipend",
+    "phonetic_us": "/stipend/",
+    "phonetic_uk": "/stipend/",
+    "pos": "n.",
+    "trans": "（尤指神职人员的）薪金；生活津贴，薪俸；助学津贴",
+    "example": "The word \"stipend\" is prominent in LinguaVerse.",
+    "example_cn": "\"stipend\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "success": {
+    "word": "success",
+    "phonetic_us": "/success/",
+    "phonetic_uk": "/success/",
+    "pos": "n.",
+    "trans": "成功，胜利；发财，成名；成功的人（或事物）",
+    "example": "The word \"success\" is prominent in LinguaVerse.",
+    "example_cn": "\"success\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "sunshine": {
+    "word": "sunshine",
+    "phonetic_us": "/sunshine/",
+    "phonetic_uk": "/sunshine/",
+    "pos": "n.",
+    "trans": "阳光，日照；幸福，快乐；<非正式>哥们，老兄（和让你生气的人说话时所用的称呼）; 【名】 （S...",
+    "example": "The word \"sunshine\" is prominent in LinguaVerse.",
+    "example_cn": "\"sunshine\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "sure": {
+    "word": "sure",
+    "phonetic_us": "/sure/",
+    "phonetic_uk": "/sure/",
+    "pos": "adj.",
+    "trans": "确信的，有把握的；肯定的，一定的；可靠的，准确的；一定会（发生或出现某种结果）的；紧紧的，...",
+    "example": "The word \"sure\" is prominent in LinguaVerse.",
+    "example_cn": "\"sure\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "surging": {
+    "word": "surging",
+    "phonetic_us": "/surging/",
+    "phonetic_uk": "/surging/",
+    "pos": "v.",
+    "trans": "涌，涌动，汹涌；使强烈感到；（物价等）激增；（电流）浪涌（surge 的现在分词）",
+    "example": "The word \"surging\" is prominent in LinguaVerse.",
+    "example_cn": "\"surging\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "tables": {
+    "word": "tables",
+    "phonetic_us": "/tables/",
+    "phonetic_uk": "/tables/",
+    "pos": "n.",
+    "trans": "桌子；表格（table 的复数）；附录; v. 制表（table 的三单形式）；搁置",
+    "example": "The word \"tables\" is prominent in LinguaVerse.",
+    "example_cn": "\"tables\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "talkative": {
+    "word": "talkative",
+    "phonetic_us": "/talkative/",
+    "phonetic_uk": "/talkative/",
+    "pos": "adj.",
+    "trans": "爱说话的，健谈的",
+    "example": "The word \"talkative\" is prominent in LinguaVerse.",
+    "example_cn": "\"talkative\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "task": {
+    "word": "task",
+    "phonetic_us": "/task/",
+    "phonetic_uk": "/task/",
+    "pos": "n.",
+    "trans": "（尤指困难的或必须定期做的）工作，任务；（尤指语言教学中旨在帮助达到某一学习目的的）活动; v...",
+    "example": "The word \"task\" is prominent in LinguaVerse.",
+    "example_cn": "\"task\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "tele": {
+    "word": "tele",
+    "phonetic_us": "/tele/",
+    "phonetic_uk": "/tele/",
+    "pos": "n.",
+    "trans": "电视（等于 television）; n. （Tele）人名；（芬）泰莱",
+    "example": "The word \"tele\" is prominent in LinguaVerse.",
+    "example_cn": "\"tele\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "telephone": {
+    "word": "telephone",
+    "phonetic_us": "/telephone/",
+    "phonetic_uk": "/telephone/",
+    "pos": "n.",
+    "trans": "电话通讯系统；电话；（电话机的）话筒，受话器; v. （给……）打电话",
+    "example": "The word \"telephone\" is prominent in LinguaVerse.",
+    "example_cn": "\"telephone\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "telescope": {
+    "word": "telescope",
+    "phonetic_us": "/telescope/",
+    "phonetic_uk": "/telescope/",
+    "pos": "n.",
+    "trans": "望远镜；射电望远镜，无线电望远镜（radio telescope 的简称）; v. 叠套缩短，...",
+    "example": "The word \"telescope\" is prominent in LinguaVerse.",
+    "example_cn": "\"telescope\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "teleport": {
+    "word": "teleport",
+    "phonetic_us": "/teleport/",
+    "phonetic_uk": "/teleport/",
+    "pos": "v.",
+    "trans": "心灵运输（物体、人）；远距离传送; n. 通信卫星；心灵传输",
+    "example": "The word \"teleport\" is prominent in LinguaVerse.",
+    "example_cn": "\"teleport\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "television": {
+    "word": "television",
+    "phonetic_us": "/television/",
+    "phonetic_uk": "/television/",
+    "pos": "n.",
+    "trans": "电视，电视机；电视业",
+    "example": "The word \"television\" is prominent in LinguaVerse.",
+    "example_cn": "\"television\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "tell": {
+    "word": "tell",
+    "phonetic_us": "/tell/",
+    "phonetic_uk": "/tell/",
+    "pos": "v.",
+    "trans": "告诉，告知；说，讲述；吐露，显示；看出，确切地判断；辨别，区别；命令，吩咐；告诉自己，暗自叮嘱...",
+    "example": "The word \"tell\" is prominent in LinguaVerse.",
+    "example_cn": "\"tell\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "telling": {
+    "word": "telling",
+    "phonetic_us": "/telling/",
+    "phonetic_uk": "/telling/",
+    "pos": "adj.",
+    "trans": "生动的，显露真实面目的；强有力的，有重大影响的; n. 讲述，叙述; v. 告诉，告知；说...",
+    "example": "The word \"telling\" is prominent in LinguaVerse.",
+    "example_cn": "\"telling\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "thank": {
+    "word": "thank",
+    "phonetic_us": "/thank/",
+    "phonetic_uk": "/thank/",
+    "pos": "v.",
+    "trans": "感谢，向……表示谢意；（讽）要……负责，责怪; n. 感谢; int. 谢谢（thanks）",
+    "example": "The word \"thank\" is prominent in LinguaVerse.",
+    "example_cn": "\"thank\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "thanks": {
+    "word": "thanks",
+    "phonetic_us": "/thanks/",
+    "phonetic_uk": "/thanks/",
+    "pos": "n.",
+    "trans": "谢谢（只用复数）; int. 谢谢",
+    "example": "The word \"thanks\" is prominent in LinguaVerse.",
+    "example_cn": "\"thanks\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "today": {
+    "word": "today",
+    "phonetic_us": "/today/",
+    "phonetic_uk": "/today/",
+    "pos": "adv.",
+    "trans": "今天，今日；现今，在当代; n. 今天，今日；现在，当代; 【名】 （Today）（印度、...",
+    "example": "The word \"today\" is prominent in LinguaVerse.",
+    "example_cn": "\"today\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "tom": {
+    "word": "tom",
+    "phonetic_us": "/tom/",
+    "phonetic_uk": "/tom/",
+    "pos": "n.",
+    "trans": "雄性动物（尤指雄猫）；汤姆（人名）; v. 〈美口〉(像汤姆叔一样)逆来顺受",
+    "example": "The word \"tom\" is prominent in LinguaVerse.",
+    "example_cn": "\"tom\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "took": {
+    "word": "took",
+    "phonetic_us": "/took/",
+    "phonetic_uk": "/took/",
+    "pos": "v.",
+    "trans": "拿；取；接受（take的过去式）",
+    "example": "The word \"took\" is prominent in LinguaVerse.",
+    "example_cn": "\"took\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "torn": {
+    "word": "torn",
+    "phonetic_us": "/torn/",
+    "phonetic_uk": "/torn/",
+    "pos": "adj.",
+    "trans": "犹豫的; v. 撕碎，撕裂；撕破，划破；撕掉，扯掉（tear 的过去分词）; 【名】 (T...",
+    "example": "The word \"torn\" is prominent in LinguaVerse.",
+    "example_cn": "\"torn\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "tournament": {
+    "word": "tournament",
+    "phonetic_us": "/tournament/",
+    "phonetic_uk": "/tournament/",
+    "pos": "n.",
+    "trans": "锦标赛，联赛；（中世纪的）骑士比武大会；阅兵式",
+    "example": "The word \"tournament\" is prominent in LinguaVerse.",
+    "example_cn": "\"tournament\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "transmutation": {
+    "word": "transmutation",
+    "phonetic_us": "/transmutation/",
+    "phonetic_uk": "/transmutation/",
+    "pos": "n.",
+    "trans": "变形；变化；演变",
+    "example": "The word \"transmutation\" is prominent in LinguaVerse.",
+    "example_cn": "\"transmutation\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "traveler": {
+    "word": "traveler",
+    "phonetic_us": "/traveler/",
+    "phonetic_uk": "/traveler/",
+    "pos": "n.",
+    "trans": "旅行者；旅客；旅行推销员（等于 traveller）",
+    "example": "The word \"traveler\" is prominent in LinguaVerse.",
+    "example_cn": "\"traveler\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "true": {
+    "word": "true",
+    "phonetic_us": "/true/",
+    "phonetic_uk": "/true/",
+    "pos": "adj.",
+    "trans": "真实的；正确的; adv. 真实地；准确地; n. 真实；准确; vt. 装准; n. （...",
+    "example": "The word \"true\" is prominent in LinguaVerse.",
+    "example_cn": "\"true\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "trust": {
+    "word": "trust",
+    "phonetic_us": "/trust/",
+    "phonetic_uk": "/trust/",
+    "pos": "n.",
+    "trans": "信任，信赖；（金钱或财产的）信托，托管；受托基金机构，受托团体；代管的财物，托管的财物；公立医...",
+    "example": "The word \"trust\" is prominent in LinguaVerse.",
+    "example_cn": "\"trust\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "truth": {
+    "word": "truth",
+    "phonetic_us": "/truth/",
+    "phonetic_uk": "/truth/",
+    "pos": "n.",
+    "trans": "事实，真相；真实性；真理，原理；的确，事实上",
+    "example": "The word \"truth\" is prominent in LinguaVerse.",
+    "example_cn": "\"truth\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "waiting": {
+    "word": "waiting",
+    "phonetic_us": "/waiting/",
+    "phonetic_uk": "/waiting/",
+    "pos": "n.",
+    "trans": "等，等待；服侍，侍候，当服务员；宫廷侍候; v. 等候；盼望，期待；推迟，延缓（wait 的现...",
+    "example": "The word \"waiting\" is prominent in LinguaVerse.",
+    "example_cn": "\"waiting\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "welcome": {
+    "word": "welcome",
+    "phonetic_us": "/welcome/",
+    "phonetic_uk": "/welcome/",
+    "pos": "v.",
+    "trans": "欢迎，迎接；迎新；乐意接纳，欣然接受；乐于接受（已发生的事）；庆祝; adj. （某人）受欢迎...",
+    "example": "The word \"welcome\" is prominent in LinguaVerse.",
+    "example_cn": "\"welcome\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "wonderful": {
+    "word": "wonderful",
+    "phonetic_us": "/wonderful/",
+    "phonetic_uk": "/wonderful/",
+    "pos": "adj.",
+    "trans": "绝妙的，令人惊叹的，极好的",
+    "example": "The word \"wonderful\" is prominent in LinguaVerse.",
+    "example_cn": "\"wonderful\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "wondering": {
+    "word": "wondering",
+    "phonetic_us": "/wondering/",
+    "phonetic_uk": "/wondering/",
+    "pos": "v.",
+    "trans": "想知道；（用于询问时）不知道；感到疑惑；感到诧异（wonder 的现在分词）; adj. 感到...",
+    "example": "The word \"wondering\" is prominent in LinguaVerse.",
+    "example_cn": "\"wondering\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "word": {
+    "word": "word",
+    "phonetic_us": "/word/",
+    "phonetic_uk": "/word/",
+    "pos": "n.",
+    "trans": "字，词，单词；（某人说的）话，言语（words）；简短的交谈，谈话；命令，指示；消息，信息；诺...",
+    "example": "The word \"word\" is prominent in LinguaVerse.",
+    "example_cn": "\"word\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "words": {
+    "word": "words",
+    "phonetic_us": "/words/",
+    "phonetic_uk": "/words/",
+    "pos": "n.",
+    "trans": "[计]字（word 的复数）；话语；言语; v. 用言语表达（word 的三单形式）",
+    "example": "The word \"words\" is prominent in LinguaVerse.",
+    "example_cn": "\"words\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "worked": {
+    "word": "worked",
+    "phonetic_us": "/worked/",
+    "phonetic_uk": "/worked/",
+    "pos": "adj.",
+    "trans": "发展过的；技术娴熟的; v. 工作；从事于……；（使）干活；在……从事活动；运转（work...",
+    "example": "The word \"worked\" is prominent in LinguaVerse.",
+    "example_cn": "\"worked\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
+  },
+  "zone": {
+    "word": "zone",
+    "phonetic_us": "/zone/",
+    "phonetic_uk": "/zone/",
+    "pos": "n.",
+    "trans": "（有某特色或作用的）地区，地带；（允许或禁止某种活动的）范围；（尤指有别于周围的）区域，部份；...",
+    "example": "The word \"zone\" is prominent in LinguaVerse.",
+    "example_cn": "\"zone\" 是灵语世界探索中非常重要的词汇。",
+    "tags": [
+      "对话精选",
+      "高频词汇"
+    ]
   }
 };

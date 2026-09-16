@@ -1,70 +1,7 @@
 <template>
   <Transition name="slide-up">
-    <div v-if="visible" class="npc-dialogue-wrap">
-      <!-- 悬浮在对话框右上方的轻量伴读微词卡 (不遮挡对话框，无全屏黑幕) -->
-      <Transition name="mini-card-pop">
-        <div v-if="activeWordDetail" class="dialogue-mini-wordcard" @click.stop>
-          <div class="mini-card-header">
-            <div class="mini-word-left">
-              <span class="mini-word-title">{{ activeWordDetail.word.toUpperCase() }}</span>
-              <span v-if="activeWordDetail.isInflected" class="mini-base-badge">
-                原型: {{ activeWordDetail.baseWord }}
-              </span>
-            </div>
-            <div class="mini-card-actions">
-              <button
-                class="mini-btn-fav"
-                :class="{ active: isWordFav }"
-                @click="toggleWordFav"
-                :title="isWordFav ? '已收藏到生词本' : '收藏到生词本'"
-                type="button"
-              >
-                {{ isWordFav ? '⭐ 已收藏' : '☆ 收藏' }}
-              </button>
-              <button class="mini-btn-close" @click="closeMiniCard" title="关闭词卡" type="button">✕</button>
-            </div>
-          </div>
-
-          <div class="mini-card-body">
-            <!-- 读音与考纲标签 -->
-            <div class="mini-phonetic-row">
-              <button
-                class="mini-btn-audio"
-                :class="{ playing: isAudioPlaying }"
-                @click="playWordAudioDirect(activeWordDetail.word)"
-                title="播放真人美音发音"
-                type="button"
-              >
-                <span class="audio-icon">{{ isAudioPlaying ? '🔊' : '🔈' }}</span>
-                <span class="phonetic-text">{{ activeWordDetail.phonetic_us || activeWordDetail.phonetic_uk || ('/' + activeWordDetail.word + '/') }}</span>
-              </button>
-
-              <div v-if="activeWordDetail.tags && activeWordDetail.tags.length" class="mini-tags">
-                <span
-                  v-for="tag in activeWordDetail.tags.slice(0, 2)"
-                  :key="tag"
-                  class="mini-tag"
-                >{{ tag }}</span>
-              </div>
-            </div>
-
-            <!-- 词性与中文释义 -->
-            <div class="mini-def-box">
-              <span class="mini-pos">{{ activeWordDetail.pos || '释义' }}</span>
-              <span class="mini-trans">{{ activeWordDetail.trans }}</span>
-            </div>
-
-            <!-- 精选简明语境例句 -->
-            <div v-if="activeWordDetail.example" class="mini-example-box">
-              <div class="mini-ex-en">"{{ activeWordDetail.example }}"</div>
-              <div v-if="activeWordDetail.example_cn" class="mini-ex-cn">{{ activeWordDetail.example_cn }}</div>
-            </div>
-          </div>
-        </div>
-      </Transition>
-
-      <div class="npc-dialogue">
-        <!-- NPC 头部 -->
+    <div v-if="visible" class="npc-dialogue">
+      <!-- NPC 头部 -->
         <div class="npc-header">
           <div class="npc-avatar-badge">
             <div class="npc-avatar">{{ npcName[0] }}</div>
@@ -212,14 +149,20 @@
         </button>
       </div>
     </div>
-  </div>
-</Transition>
+  </Transition>
+
+  <!-- 灵语词典单词卡片 (420px 精致紧凑，上移展示不遮挡，完整保留全套内容与中文释义) -->
+  <WordCardModal
+    :visible="showWordCard"
+    :word="selectedWordForCard"
+    @close="showWordCard = false"
+  />
 </template>
 
 
 <script setup>
 import { ref, computed, nextTick } from 'vue'
-import { getWordDetail, playWordAudio, isFavorite, toggleFavorite } from './games/dictService.js'
+import WordCardModal from './games/WordCardModal.vue'
 
 const props = defineProps({
   visible:     { type: Boolean, default: false },
@@ -244,10 +187,9 @@ const currentNodeKey  = ref('')
 const currentRewardCoins = ref(props.rewardCoins)
 const chatListRef     = ref(null)
 
-// 轻量伴读微词卡状态 (悬浮在对话框上方，不挡对话)
-const activeWordDetail = ref(null)
-const isWordFav        = ref(false)
-const isAudioPlaying   = ref(false)
+// 单词即查卡片状态
+const showWordCard        = ref(false)
+const selectedWordForCard = ref('')
 
 const inputPlaceholder = computed(() =>
   'Type your reply in English... Press Enter to send'
@@ -280,41 +222,14 @@ function tokenizeText(text) {
 }
 
 /**
- * 点击对话中的任意英文单词，在对话框上方唤出轻量伴读微词卡
+ * 点击对话中的任意英文单词，呼出灵语单词卡片
  */
 function handleWordClick(word) {
   if (!word) return
   const clean = word.toLowerCase().replace(/[^a-zA-Z]/g, '').trim()
   if (clean.length < 2) return
-
-  // 点击同一词时切换关闭
-  if (activeWordDetail.value && activeWordDetail.value.word === clean) {
-    activeWordDetail.value = null
-    return
-  }
-
-  const detail = getWordDetail(clean)
-  if (detail) {
-    activeWordDetail.value = detail
-    isWordFav.value = isFavorite(clean)
-    playWordAudioDirect(clean)
-  }
-}
-
-function playWordAudioDirect(word) {
-  isAudioPlaying.value = true
-  playWordAudio(word, 'us').finally(() => {
-    isAudioPlaying.value = false
-  })
-}
-
-function toggleWordFav() {
-  if (!activeWordDetail.value) return
-  isWordFav.value = toggleFavorite(activeWordDetail.value)
-}
-
-function closeMiniCard() {
-  activeWordDetail.value = null
+  selectedWordForCard.value = clean
+  showWordCard.value = true
 }
 
 /**
@@ -432,8 +347,8 @@ function reset() {
   failHint.value       = ''
   taskComplete.value   = false
   currentNodeKey.value = ''
-  currentRewardCoins.value = props.rewardCoins
-  activeWordDetail.value = null
+  showWordCard.value   = false
+  selectedWordForCard.value = ''
 }
 
 // 发送玩家回复
@@ -458,246 +373,19 @@ defineExpose({ onChunk, onTaskResult, reset, setNodeKey: (k) => { currentNodeKey
 </script>
 
 <style scoped>
-/* 对话框外层包裹器（作为定位基准，方便上方悬浮微词卡，不限制溢出） */
-.npc-dialogue-wrap {
+.npc-dialogue {
   position: fixed;
   bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
   width: 580px;
   max-width: calc(100vw - 32px);
-  z-index: 1000;
-  pointer-events: none;
-}
-
-/* 伴读轻量微词卡 (悬浮于对话框上方，不遮挡对话框与选项) */
-.dialogue-mini-wordcard {
-  pointer-events: auto;
-  position: absolute;
-  bottom: calc(100% + 10px);
-  right: 0;
-  width: 380px;
-  max-width: 100%;
-  background: linear-gradient(145deg, rgba(23, 20, 48, 0.97) 0%, rgba(15, 23, 42, 0.98) 100%);
-  border: 1.5px solid rgba(167, 139, 250, 0.45);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 25px rgba(139, 92, 246, 0.2);
-  border-radius: 16px;
-  backdrop-filter: blur(16px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.mini-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  background: rgba(139, 92, 246, 0.15);
-  border-bottom: 1px solid rgba(167, 139, 250, 0.2);
-}
-
-.mini-word-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.mini-word-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #f8fafc;
-  letter-spacing: 0.5px;
-}
-
-.mini-base-badge {
-  font-size: 11px;
-  background: rgba(245, 158, 11, 0.2);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  padding: 1px 6px;
-  border-radius: 6px;
-  font-weight: 600;
-}
-
-.mini-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mini-btn-fav {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #e2e8f0;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.mini-btn-fav:hover {
-  background: rgba(245, 158, 11, 0.2);
-  border-color: #fbbf24;
-  color: #fbbf24;
-}
-
-.mini-btn-fav.active {
-  background: rgba(245, 158, 11, 0.25);
-  border-color: #f59e0b;
-  color: #fcd34d;
-}
-
-.mini-btn-close {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-size: 14px;
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-}
-
-.mini-btn-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-.mini-card-body {
-  padding: 10px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mini-phonetic-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.mini-btn-audio {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  padding: 3px 8px;
-  border-radius: 8px;
-  color: #c4b5fd;
-  font-size: 12px;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.mini-btn-audio:hover {
-  background: rgba(139, 92, 246, 0.3);
-  color: #ede9fe;
-}
-
-.mini-btn-audio.playing {
-  border-color: #38bdf8;
-  color: #7dd3fc;
-}
-
-.phonetic-text {
-  font-style: italic;
-}
-
-.mini-tags {
-  display: flex;
-  gap: 4px;
-}
-
-.mini-tag {
-  font-size: 10px;
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  color: #93c5fd;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.mini-def-box {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.mini-pos {
-  font-size: 11px;
-  font-weight: 700;
-  color: #a78bfa;
-  flex-shrink: 0;
-  font-style: italic;
-}
-
-.mini-trans {
-  font-size: 13px;
-  font-weight: 600;
-  color: #f1f5f9;
-  line-height: 1.4;
-}
-
-.mini-example-box {
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 2px solid #8b5cf6;
-  padding: 5px 8px;
-  border-radius: 0 6px 6px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.mini-ex-en {
-  font-size: 11.5px;
-  color: #cbd5e1;
-  font-style: italic;
-  line-height: 1.35;
-}
-
-.mini-ex-cn {
-  font-size: 11px;
-  color: #94a3b8;
-  line-height: 1.35;
-}
-
-/* 微词卡淡入淡出动效 */
-.mini-card-pop-enter-active,
-.mini-card-pop-leave-active {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mini-card-pop-enter-from,
-.mini-card-pop-leave-to {
-  opacity: 0;
-  transform: translateY(8px) scale(0.96);
-}
-
-/* 对话框本体 */
-.npc-dialogue {
-  pointer-events: auto;
-  width: 100%;
   background: linear-gradient(180deg, rgba(20, 27, 45, 0.96) 0%, rgba(11, 16, 30, 0.98) 100%);
   border: 1.5px solid rgba(251, 191, 36, 0.35);
   border-radius: 20px;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 28px rgba(251, 191, 36, 0.12);
   backdrop-filter: blur(16px);
+  z-index: 1000;
   overflow: hidden;
   display: flex;
   flex-direction: column;

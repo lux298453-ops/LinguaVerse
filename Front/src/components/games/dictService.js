@@ -179,6 +179,38 @@ export function getWordDetail(inputWord) {
   }
 }
 
+/**
+ * 异步在线查词兜底服务（若本地未收录，自动从后端 /api/linguaverse/dict/lookup 拉取权威释义并存入缓存）
+ */
+export async function fetchWordDetailOnline(inputWord) {
+  if (!inputWord || typeof inputWord !== 'string') return null
+  const clean = inputWord.trim().toLowerCase()
+  if (!clean) return null
+
+  // 已在本地库且不是占位文本，直接返回
+  if (DICT_DATABASE[clean] && DICT_DATABASE[clean].trans && !DICT_DATABASE[clean].trans.includes('灵语词汇')) {
+    return DICT_DATABASE[clean]
+  }
+
+  try {
+    const res = await fetch(`/api/linguaverse/dict/lookup?word=${encodeURIComponent(clean)}`)
+    if (res.ok) {
+      const json = await res.json()
+      if (json.code === 200 && json.data) {
+        DICT_DATABASE[clean] = {
+          ...json.data,
+          isInflected: false,
+          baseWord: clean
+        }
+        return DICT_DATABASE[clean]
+      }
+    }
+  } catch (e) {
+    console.warn('[dictService] 在线查词请求失败:', e)
+  }
+  return null
+}
+
 // ─── 生词本本地持久化 (Favorites) ──────────────────────────────────────────
 const FAVORITES_STORAGE_KEY = 'linguaverse_favorite_words'
 
