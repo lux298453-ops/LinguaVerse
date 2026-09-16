@@ -183,7 +183,6 @@ export class HallScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, W, H)
     this.cameras.main.setBounds(0, 0, W, H)
 
-    // 绘制铺满全屏的特色背景与装潢
     if (config.mapId === 'hall') {
       this._drawSunshineHall(config, W, H)
       this._createHallPortals(W, H)
@@ -192,6 +191,10 @@ export class HallScene extends Phaser.Scene {
       this._drawGameZone(config, W, H)
       this._createGameZonePortals(W, H)
       this._createGameZoneNpcs(W, H)
+    } else if (config.mapId === 'library') {
+      this._drawArcaneLibrary(config, W, H)
+      this._createLibraryPortals(W, H)
+      this._createLibraryNpcs(W, H)
     }
 
     if (this._npcDialogBus?.onMapChanged) {
@@ -289,7 +292,7 @@ export class HallScene extends Phaser.Scene {
   }
 
   _createHallPortals(W, H) {
-    // 阳光大厅通往奇幻游戏区传送门：精准坐落在红地毯尽头的高台金色太阳法阵上（W * 0.50, H * 0.39）
+    // 1. 阳光大厅通往奇幻游戏区传送门：精准坐落在红地毯尽头的高台金色太阳法阵上（W * 0.50, H * 0.39）
     const portalData = {
       id: 'portal_to_game_zone',
       x: Math.round(W * 0.50),
@@ -303,6 +306,21 @@ export class HallScene extends Phaser.Scene {
       this.switchMap(p.targetMapId, p.targetSpawn.x, p.targetSpawn.y)
     })
     this._portals.push(portal)
+
+    // 2. 阳光大厅通往奥术图书馆传送门：坐落在大厅左侧幽蓝拱门回廊处（W * 0.12, H * 0.56）
+    const libraryPortalData = {
+      id: 'portal_to_library',
+      x: Math.round(W * 0.12),
+      y: Math.round(H * 0.56),
+      targetMapId: 'library',
+      targetSpawn: { x: Math.round(W * 0.50), y: Math.round(H * 0.74) },
+      label: '📚 奥术图书馆 ➜',
+      color: 0x38bdf8
+    }
+    const libraryPortal = new Portal(this, libraryPortalData, (p) => {
+      this.switchMap(p.targetMapId, p.targetSpawn.x, p.targetSpawn.y)
+    })
+    this._portals.push(libraryPortal)
   }
 
   _createHallNpcs(W, H) {
@@ -469,6 +487,113 @@ export class HallScene extends Phaser.Scene {
       badge: '💜'
     }
     const npc = new NpcSprite(this, lunaData, (targetNpc) => {
+      this._onNpcClick(targetNpc)
+    })
+    this._npcs.push(npc)
+  }
+
+  // ─── 地图绘制：奥术图书馆（2.5D 星界古籍与星空穹顶系统）───────────────────
+  _drawArcaneLibrary(config, W, H) {
+    // 1. 铺底：2.5D 奥术图书馆手绘原画背景
+    this._bgImage = this.add.image(W / 2, H / 2, 'map_library').setDepth(0)
+    this._bgImage.setDisplaySize(W, H)
+
+    // 2. 顶部奥术场景招牌（微透星海蓝金边）
+    const signBox = this.add.rectangle(W / 2, 38, 420, 36, 0x080e24, 0.85).setDepth(2210)
+    signBox.setStrokeStyle(1.5, 0x38bdf8, 0.8)
+    const sign = this.add.text(W / 2, 38, '📚 ARCANE LIBRARY · 奥术图书馆', {
+      fontSize: '16px',
+      fontStyle: 'bold',
+      color: '#7dd3fc',
+      stroke: '#082f49',
+      strokeThickness: 2
+    }).setOrigin(0.5).setDepth(2211)
+    this._mapObjects.push(signBox, sign)
+
+    // 招牌微弱呼吸动效
+    this.tweens.add({
+      targets: signBox,
+      alpha: 0.65,
+      duration: 1500,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut'
+    })
+
+    // 3. 悬浮的星界魔法书与知识符文微粒动画
+    const bookPositions = [
+      { x: Math.round(W * 0.28), y: Math.round(H * 0.42), icon: '📖', delay: 0 },
+      { x: Math.round(W * 0.72), y: Math.round(H * 0.42), icon: '📜', delay: 400 },
+      { x: Math.round(W * 0.50), y: Math.round(H * 0.26), icon: '✨', delay: 800 }
+    ]
+    for (const b of bookPositions) {
+      const floatBook = this.add.text(b.x, b.y, b.icon, { fontSize: '24px' })
+        .setOrigin(0.5).setDepth(25).setAlpha(0.85)
+      this._mapObjects.push(floatBook)
+      this.tweens.add({
+        targets: floatBook,
+        y: b.y - 14,
+        alpha: 1,
+        duration: 2200,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut',
+        delay: b.delay
+      })
+    }
+
+    // 4. 星辉微尘与奥术光点（Starlight & Arcane Motes）
+    for (let i = 0; i < 32; i++) {
+      const rx = Phaser.Math.Between(40, W - 40)
+      const ry = Phaser.Math.Between(60, H - 40)
+      const color = (i % 3 === 0) ? 0x38bdf8 : (i % 3 === 1 ? 0x818cf8 : 0xfef08a)
+      const mote = this.add.circle(rx, ry, Phaser.Math.Between(1.5, 3.5), color, 0.65).setDepth(20)
+      this._mapObjects.push(mote)
+
+      this.tweens.add({
+        targets: mote,
+        y: ry - Phaser.Math.Between(25, 75),
+        x: rx + Phaser.Math.Between(-25, 25),
+        alpha: 0.15,
+        duration: Phaser.Math.Between(2200, 4800),
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut'
+      })
+    }
+  }
+
+  _createLibraryPortals(W, H) {
+    // 奥术图书馆返回大厅传送门：坐落在底部中央入口拱门处（W * 0.50, H * 0.92）
+    const portalData = {
+      id: 'portal_to_hall',
+      x: Math.round(W * 0.50),
+      y: Math.round(H * 0.92),
+      targetMapId: 'hall',
+      targetSpawn: { x: Math.round(W * 0.18), y: Math.round(H * 0.56) },
+      label: '➜ ☀️ 阳光大厅',
+      color: 0xf59e0b
+    }
+    const portal = new Portal(this, portalData, (p) => {
+      this.switchMap(p.targetMapId, p.targetSpawn.x, p.targetSpawn.y)
+    })
+    this._portals.push(portal)
+  }
+
+  _createLibraryNpcs(W, H) {
+    // Evelyn 馆长优雅驻立在中央星环法阵核心位置
+    const ex = Math.round(W * 0.50)
+    const ey = Math.round(H * 0.54)
+    const evelynData = {
+      npcKey: 'evelyn_archivist',
+      name: 'Evelyn',
+      posX: ex,
+      posY: ey,
+      taskId: 4,
+      color: 0x38bdf8,
+      badge: '📖'
+    }
+    const npc = new NpcSprite(this, evelynData, (targetNpc) => {
       this._onNpcClick(targetNpc)
     })
     this._npcs.push(npc)

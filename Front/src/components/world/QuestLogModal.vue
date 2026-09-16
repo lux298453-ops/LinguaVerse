@@ -254,6 +254,7 @@ function getStatusText(q) {
 function getMapLabel(mapId) {
   if (mapId === 'hall') return '阳光大厅'
   if (mapId === 'game_zone') return '奇幻游戏区'
+  if (mapId === 'library') return '奥术图书馆'
   return mapId || '未知世界'
 }
 

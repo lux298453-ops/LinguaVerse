@@ -157,6 +157,7 @@ public class LvTaskController {
             case "mary_message_delivery" -> "前往阳光大厅向 Mary 自我介绍，学习并记住传达给 Luna 的口信。";
             case "luna_receive_message" -> "穿越阳光大厅右侧传送门前往奇幻游戏区，将口信传达给戴紫帽子的 Luna。";
             case "tom_word_alchemy" -> "与阳光大厅炼金学者 Tom 交流，提供一个包含 'tele-' 词根的单词并造句。";
+            case "evelyn_lost_codex" -> "穿越阳光大厅左侧传送门进入奥术图书馆，协助馆长 Evelyn 补全星界法典名言并造句。";
             default -> "按照指引寻找对应 NPC 对话交互。";
         };
     }

@@ -28,6 +28,7 @@ public class LinguaVerseDataInitializer implements ApplicationRunner {
         initMaryNpc();
         initLunaNpc();
         initTomNpc();
+        initEvelynNpc();
     }
 
     private void initLunaNpc() {
@@ -139,6 +140,77 @@ public class LinguaVerseDataInitializer implements ApplicationRunner {
             "Write a meaningful sentence about what this word does! For example: 'A telescope helps us see far away stars.' or 'We use a telephone to call someone.' 💬");
 
         log.info("✅ LinguaVerse 初始数据写入完成：Tom NPC + 词根炼金任务剧本");
+    }
+
+    private void initEvelynNpc() {
+        if (npcMapper.selectCount(new LambdaQueryWrapper<LvNpc>().eq(LvNpc::getNpcKey, "evelyn_archivist")) > 0) {
+            return;
+        }
+
+        // 1. NPC Evelyn
+        LvNpc evelyn = new LvNpc();
+        evelyn.setNpcKey("evelyn_archivist");
+        evelyn.setName("Evelyn");
+        evelyn.setMapId("library");
+        evelyn.setPosX(600);
+        evelyn.setPosY(380);
+        evelyn.setSpriteKey("npc_evelyn");
+        evelyn.setPersonality("The Grand Archivist of the Arcane Library. Scholar of classical literary maxims, grammar, and starry codices.");
+        npcMapper.insert(evelyn);
+
+        // 2. 任务：失落的星界法典
+        LvTask task = new LvTask();
+        task.setTaskKey("evelyn_lost_codex");
+        task.setNpcId(evelyn.getId());
+        task.setTitle("The Lost Astral Codex");
+        task.setGoalDesc("Help Archivist Evelyn restore the damaged Astral Codex with the philosophical keyword 'exercise' and write a sentence about reading.");
+        task.setRewardCoins(20);
+        task.setCategory("ACADEMIC");
+        task.setIsActive(1);
+        taskMapper.insert(task);
+        Long taskId = task.getId();
+
+        // 3. 对话节点
+        List<LvDialogueNode> nodes = List.of(
+            node(taskId, "evelyn_greeting", "NPC_SPEAK",
+                "Welcome, seeker of wisdom! 📖 I am Evelyn, Grand Archivist of the Arcane Library. Here, millions of starry grimoires record the wisdom of the cosmos. Right now, I am restoring a torn page of our Astral Codex, which contains a celebrated proverb. Can you help me decipher it?",
+                "player_ready", 0, 0),
+            node(taskId, "player_ready", "PLAYER_INPUT", null, "evelyn_riddle", 0, 1),
+            node(taskId, "evelyn_riddle", "NPC_SPEAK",
+                "Listen closely to the ancient inscription: 'Reading is to the mind what _______ is to the body.' What physical discipline or activity is compared to reading here?",
+                "player_keyword", 0, 2),
+            node(taskId, "player_keyword", "PLAYER_INPUT", null, "evelyn_ask_sentence", 0, 3),
+            node(taskId, "evelyn_ask_sentence", "NPC_SPEAK",
+                "Exquisite! 'Reading is to the mind what exercise is to the body!' The golden runes are illuminating! ✨ Now, to anchor this cosmic truth forever into the codex, write a short English sentence telling me how reading empowers your mind!",
+                "player_sentence", 0, 4),
+            node(taskId, "player_sentence", "PLAYER_INPUT", null, "evelyn_success", 0, 5),
+            node(taskId, "evelyn_success", "NPC_SPEAK",
+                "Magnificent! The Astral Codex is fully restored and glowing with starlight! 🌟 As promised, receive 20 gold coins and the eternal honor of a true Codex Keeper! May your pursuit of knowledge never dim!",
+                null, 1, 6)
+        );
+        nodes.forEach(n -> nodeMapper.insert(n));
+
+        Long readyNodeId = getNodeId(taskId, "player_ready");
+        Long keywordNodeId = getNodeId(taskId, "player_keyword");
+        Long sentenceNodeId = getNodeId(taskId, "player_sentence");
+
+        // 4. 语义规则
+        insertRule(readyNodeId,
+            "[{\"phrases\":[\"yes\",\"sure\",\"ok\",\"okay\",\"i can\",\"help\",\"ready\",\"tell me\",\"of course\",\"glad to\",\"happy to\"],\"dimension\":\"AGREE_HELP\"}]",
+            "evelyn_riddle",
+            "Tell Evelyn you are ready to help decipher the codex! Try: 'Sure, I can help!' or 'I am ready.' 📜");
+
+        insertRule(keywordNodeId,
+            "[{\"phrases\":[\"exercise\",\"sport\",\"sports\",\"workout\",\"training\",\"gym\",\"running\"],\"dimension\":\"EXERCISE_KEYWORD\"}]",
+            "evelyn_ask_sentence",
+            "What physical activity strengthens the body like reading strengthens the mind? Hint: The word starts with 'ex' (exercise)! 💡");
+
+        insertRule(sentenceNodeId,
+            "[{\"phrases\":[\"read\",\"reading\",\"book\",\"books\",\"mind\",\"brain\",\"knowledge\",\"learn\",\"help\",\"makes\",\"grow\",\"world\",\"think\",\"smart\"],\"dimension\":\"READING_BENEFIT\"}]",
+            "evelyn_success",
+            "Write a sentence in English about how reading helps your mind! For example: 'Reading books makes my mind strong.' or 'Reading expands our knowledge.' 💬");
+
+        log.info("✅ LinguaVerse 初始数据写入完成：Evelyn NPC + 失落星界法典任务剧本");
     }
 
     private void initMaryNpc() {

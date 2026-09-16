@@ -478,6 +478,16 @@ const npcDialogBus = {
             duration: 7000
           })
         }, 1200)
+      } else if (completedTaskId === 4) {
+        setTimeout(() => {
+          ElNotification({
+            title: '📖 星界法典重光',
+            message: '你已协助奥术馆长 Evelyn 补全古卷哲学名言，荣获【典籍守护者】称号！',
+            type: 'success',
+            position: 'top-right',
+            duration: 7000
+          })
+        }, 1200)
       }
     }
   },

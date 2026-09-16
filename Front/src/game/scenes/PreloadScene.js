@@ -25,6 +25,7 @@ export class PreloadScene extends Phaser.Scene {
     // 加载 2.5D 童话魔法场景高品质背景原画大图
     this.load.image('map_hall', '/assets/maps/sunshine_hall.jpg')
     this.load.image('map_game_zone', '/assets/maps/fantasy_arcade.jpg')
+    this.load.image('map_library', '/assets/maps/arcane_library.jpg')
 
     // ─── 2.5D 地表地砖与地毯纹理 ──────────────────────────────────────────
     this.load.image('tile_marble', '/assets/tiles/floor_marble.png')
