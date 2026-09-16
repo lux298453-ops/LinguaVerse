@@ -159,7 +159,7 @@ public class WorldWebSocketHandler extends TextWebSocketHandler {
         } else {
             nextInputKey = firstNode.getNextNodeKey() != null ? firstNode.getNextNodeKey() : firstNode.getNodeKey();
         }
-        streamNpcSpeak(session, firstNode.getContent(), nextInputKey);
+        streamNpcSpeak(session, firstNode.getContent(), nextInputKey, firstNode.getContentZh());
     }
 
     private void handleNpcReply(WebSocketSession session, Long userId, WorldMessage msg) throws IOException {
@@ -178,7 +178,7 @@ public class WorldWebSocketHandler extends TextWebSocketHandler {
             taskResult.setTaskId(msg.getTaskId());
             sendTo(session, taskResult);
             if (result.nextNode() != null && "NPC_SPEAK".equals(result.nextNode().getNodeType())) {
-                streamNpcSpeak(session, result.nextNode().getContent(), "COMPLETE");
+                streamNpcSpeak(session, result.nextNode().getContent(), "COMPLETE", result.nextNode().getContentZh());
             }
         } else if (result.passed() && result.nextNode() != null) {
             String nextInputKey = result.nextInputNodeKey();
@@ -186,7 +186,7 @@ public class WorldWebSocketHandler extends TextWebSocketHandler {
             sendTo(session, taskResult);
             // 流式发送下一段 NPC 对话
             if ("NPC_SPEAK".equals(result.nextNode().getNodeType())) {
-                streamNpcSpeak(session, result.nextNode().getContent(), nextInputKey);
+                streamNpcSpeak(session, result.nextNode().getContent(), nextInputKey, result.nextNode().getContentZh());
             }
         } else {
             sendTo(session, taskResult);
@@ -194,9 +194,9 @@ public class WorldWebSocketHandler extends TextWebSocketHandler {
     }
 
     /**
-     * 模拟流式打字机输出：按词分片，每片延迟 80ms 发送
+     * 模拟流式打字机输出：按词分片，每片延迟 80ms 发送，并在终帧附带中文参考翻译
      */
-    private void streamNpcSpeak(WebSocketSession session, String content, String nextNodeKey) {
+    private void streamNpcSpeak(WebSocketSession session, String content, String nextNodeKey, String translation) {
         if (content == null || content.isBlank()) {
             content = "Hello there! How can I help you today?";
         }
@@ -213,6 +213,9 @@ public class WorldWebSocketHandler extends TextWebSocketHandler {
                 chunk.setChunk((i == 0 ? "" : " ") + words[i]);
                 chunk.setIsEnd(isEnd);
                 chunk.setNodeKey(nextNodeKey);
+                if (isEnd) {
+                    chunk.setTranslation(translation);
+                }
                 try {
                     sendTo(session, chunk);
                     if (!isEnd) Thread.sleep(80);

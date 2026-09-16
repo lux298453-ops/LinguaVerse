@@ -12,6 +12,7 @@ public class LvDialogueNode {
     private String nodeKey;
     private String nodeType; // NPC_SPEAK / PLAYER_INPUT
     private String content;
+    private String contentZh;
     private String nextNodeKey;
     private Integer isTerminal;
     private Integer sortOrder;

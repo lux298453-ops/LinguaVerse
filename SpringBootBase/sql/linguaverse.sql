@@ -54,6 +54,7 @@ CREATE TABLE lv_dialogue_node (
     node_key      VARCHAR(100) NOT NULL,
     node_type     VARCHAR(20)  NOT NULL,
     content       TEXT,
+    content_zh    TEXT,
     next_node_key VARCHAR(100),
     is_terminal   TINYINT      NOT NULL DEFAULT 0,
     sort_order    INT          NOT NULL DEFAULT 0,

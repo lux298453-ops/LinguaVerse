@@ -24,6 +24,7 @@ public class WorldMessage {
     private Boolean success;
     private String nextNode;
     private String hint;
+    private String translation;
     private String npcKey;
     private String emote;
     // 玩家间定向社交交互

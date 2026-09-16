@@ -11,7 +11,7 @@
             <span class="npc-name">{{ npcName }}</span>
             <span class="npc-badge">NPC · QUEST</span>
           </div>
-          <span class="npc-desc">Sunshine Hall Resident</span>
+          <span class="npc-desc">{{ getNpcSubtitle(npcName) }}</span>
         </div>
         <button class="dialogue-close-btn" @click="$emit('close')" title="Close">✕</button>
       </div>
@@ -28,11 +28,57 @@
             {{ msg.sender === 'player' ? '🧙‍♂️' : npcName[0] }}
           </div>
           <div class="chat-bubble-wrap">
-            <div class="chat-sender-name">
-              {{ msg.sender === 'player' ? 'You' : npcName }}
+            <div class="chat-sender-name-row">
+              <span class="chat-sender-name">{{ msg.sender === 'player' ? 'You' : npcName }}</span>
+              <!-- NPC 对话专属操作栏：朗读与翻译 -->
+              <div v-if="msg.sender === 'npc'" class="bubble-action-dock">
+                <button
+                  class="bubble-btn bubble-btn-speak"
+                  @click="playSpeech(msg.text)"
+                  title="朗读英语语音 (Web Speech)"
+                  type="button"
+                >
+                  🔊
+                </button>
+                <button
+                  v-if="msg.translation"
+                  class="bubble-btn bubble-btn-trans"
+                  :class="{ active: msg.showTranslate }"
+                  @click="msg.showTranslate = !msg.showTranslate"
+                  title="展开/收起中文翻译"
+                  type="button"
+                >
+                  🌐 译
+                </button>
+              </div>
             </div>
+
             <div class="speech-bubble" :class="msg.sender === 'player' ? 'player-bubble' : 'npc-bubble'">
-              {{ msg.text }}
+              <!-- 玩家自己的输入直接展示纯文本 -->
+              <template v-if="msg.sender === 'player'">
+                {{ msg.text }}
+              </template>
+              <!-- NPC 的英文支持点击查词 -->
+              <template v-else>
+                <span
+                  v-for="(tok, tIdx) in tokenizeText(msg.text)"
+                  :key="tIdx"
+                  :class="{ 'clickable-word': tok.type === 'word' }"
+                  :title="tok.type === 'word' ? '点击查词: ' + tok.text : ''"
+                  @click="tok.type === 'word' ? handleWordClick(tok.text) : null"
+                >{{ tok.text }}</span>
+              </template>
+
+              <!-- 折叠中文翻译卡片 -->
+              <Transition name="trans-slide">
+                <div v-if="msg.showTranslate && msg.translation" class="translation-card">
+                  <div class="trans-header">
+                    <span class="trans-icon">🌐</span>
+                    <span class="trans-tag">中文参考</span>
+                  </div>
+                  <div class="trans-text">{{ msg.translation }}</div>
+                </div>
+              </Transition>
             </div>
           </div>
         </div>
@@ -102,6 +148,13 @@
           <span v-else>Send 🚀</span>
         </button>
       </div>
+
+      <!-- 单词卡片弹窗 (支持在对话中点击生词即查) -->
+      <WordCardModal
+        :visible="showWordCard"
+        :word="selectedWordForCard"
+        @close="showWordCard = false"
+      />
     </div>
   </Transition>
 </template>
@@ -109,6 +162,7 @@
 
 <script setup>
 import { ref, computed, nextTick } from 'vue'
+import WordCardModal from './games/WordCardModal.vue'
 
 const props = defineProps({
   visible:     { type: Boolean, default: false },
@@ -119,8 +173,9 @@ const props = defineProps({
 const emit = defineEmits(['close', 'reply'])
 
 // 对话历史与状态
-const messageHistory  = ref([]) // { sender: 'npc' | 'player', text: string }
+const messageHistory  = ref([]) // { sender: 'npc' | 'player', text: string, translation?: string, showTranslate?: boolean }
 const currentNpcText  = ref('')
+const currentNpcTranslation = ref('')
 const isNpcTyping     = ref(false)
 const isTypingDone    = ref(true)
 const waitingInput    = ref(false)
@@ -132,9 +187,64 @@ const currentNodeKey  = ref('')
 const currentRewardCoins = ref(props.rewardCoins)
 const chatListRef     = ref(null)
 
+// 单词即查卡片状态
+const showWordCard        = ref(false)
+const selectedWordForCard = ref('')
+
 const inputPlaceholder = computed(() =>
   'Type your reply in English... Press Enter to send'
 )
+
+function getNpcSubtitle(name) {
+  if (name === 'Mary') return 'Sunshine Hall Guide · 阳光向导'
+  if (name === 'Luna') return 'Arcade Gamer · 奇幻玩家'
+  if (name === 'Tom') return 'Lexical Alchemist · 词根学者'
+  if (name === 'Evelyn') return 'Grand Archivist · 奥术馆长'
+  return 'World Resident · 星界居民'
+}
+
+/**
+ * 将英文长句分词，拆分成纯单词（可点击）与标点/空白字符（不可点击）
+ */
+function tokenizeText(text) {
+  if (!text) return []
+  const regex = /([a-zA-Z]+(?:'[a-zA-Z]+)?)|([^a-zA-Z]+)/g
+  const tokens = []
+  let match
+  while ((match = regex.exec(text)) !== null) {
+    if (match[1]) {
+      tokens.push({ type: 'word', text: match[1] })
+    } else if (match[2]) {
+      tokens.push({ type: 'punct', text: match[2] })
+    }
+  }
+  return tokens
+}
+
+/**
+ * 点击对话中的任意英文单词，呼出灵语单词卡片
+ */
+function handleWordClick(word) {
+  if (!word) return
+  const clean = word.toLowerCase().replace(/[^a-zA-Z]/g, '').trim()
+  if (clean.length < 2) return
+  selectedWordForCard.value = clean
+  showWordCard.value = true
+}
+
+/**
+ * 原生 Web Speech API 朗读英语文本
+ */
+function playSpeech(text) {
+  if (!window.speechSynthesis || !text) return
+  window.speechSynthesis.cancel() // 停止之前的发音
+  // 清理文本中的 emoji 避免语音合成报读
+  const clean = text.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+  const utterance = new SpeechSynthesisUtterance(clean)
+  utterance.lang = 'en-US'
+  utterance.rate = 0.95
+  window.speechSynthesis.speak(utterance)
+}
 
 function scrollToBottom() {
   nextTick(() => {
@@ -152,6 +262,7 @@ function appendChunk(chunk) {
 
 function startNewSpeech() {
   currentNpcText.value = ''
+  currentNpcTranslation.value = ''
   isNpcTyping.value    = true
   isTypingDone.value   = false
   waitingInput.value   = false
@@ -164,9 +275,12 @@ function finishTyping() {
   if (currentNpcText.value) {
     messageHistory.value.push({
       sender: 'npc',
-      text: currentNpcText.value
+      text: currentNpcText.value,
+      translation: currentNpcTranslation.value,
+      showTranslate: false
     })
     currentNpcText.value = ''
+    currentNpcTranslation.value = ''
     isNpcTyping.value = false
   }
   scrollToBottom()
@@ -177,6 +291,9 @@ function onChunk(msg) {
   console.log('[NpcDialogue] 收到 chunk:', msg)
   if (msg.nodeKey) {
     currentNodeKey.value = msg.nodeKey
+  }
+  if (msg.translation) {
+    currentNpcTranslation.value = msg.translation
   }
   if (!isNpcTyping.value) startNewSpeech()
   appendChunk(msg.chunk)
@@ -221,6 +338,7 @@ function onTaskResult(msg) {
 function reset() {
   messageHistory.value = []
   currentNpcText.value = ''
+  currentNpcTranslation.value = ''
   isNpcTyping.value    = false
   isTypingDone.value   = true
   waitingInput.value   = false
@@ -230,6 +348,8 @@ function reset() {
   taskComplete.value   = false
   currentNodeKey.value = ''
   currentRewardCoins.value = props.rewardCoins
+  showWordCard.value   = false
+  selectedWordForCard.value = ''
 }
 
 // 发送玩家回复
@@ -426,16 +546,132 @@ defineExpose({ onChunk, onTaskResult, reset, setNodeKey: (k) => { currentNodeKey
   align-items: flex-end;
 }
 
+.chat-sender-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  padding: 0 4px;
+  gap: 8px;
+}
+
 .chat-sender-name {
   font-size: 11px;
   font-weight: 700;
   color: #64748b;
-  margin-bottom: 4px;
-  padding: 0 4px;
 }
 
 .chat-row-player .chat-sender-name {
   color: #818cf8;
+}
+
+/* NPC 对话操作按键 Dock (朗读 + 翻译) */
+.bubble-action-dock {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bubble-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 7px;
+  font-size: 11px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(30, 41, 59, 0.65);
+  color: #cbd5e1;
+  cursor: pointer;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.bubble-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(165, 180, 252, 0.5);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.bubble-btn-speak:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.bubble-btn-trans.active {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: rgba(56, 189, 248, 0.7);
+  color: #38bdf8;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+}
+
+/* 可交互英文单词 */
+.clickable-word {
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0 1px;
+  transition: all 0.15s ease;
+}
+
+.clickable-word:hover {
+  background: rgba(99, 102, 241, 0.35);
+  color: #93c5fd;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 折叠中文翻译卡片 */
+.translation-card {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(15, 23, 42, 0.92);
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.trans-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.trans-icon {
+  font-size: 11px;
+}
+
+.trans-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.trans-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #e2e8f0;
+  font-family: system-ui, -apple-system, sans-serif;
+  user-select: text;
+}
+
+.trans-slide-enter-active,
+.trans-slide-leave-active {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.trans-slide-enter-from,
+.trans-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
 /* 气泡样式 */
