@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaVerse · 登录注册视觉美化方案预览工作台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+
+    body {
+      background: #090c15;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部控制台 */
+    .top-hub {
+      background: rgba(15, 20, 36, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .hub-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f59e0b, #b91c1c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+    }
+
+    .hub-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .hub-tag {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* 方案切换按键组 */
+    .scheme-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 5px;
+    }
+
+    .scheme-tab-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .scheme-tab-btn:hover {
+      color: #f1f5f9;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .scheme-tab-btn.active {
+      background: linear-gradient(135deg, #b45309 0%, #b91c1c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(185, 28, 28, 0.4);
+    }
+
+    /* 视口与全屏工具栏 */
+    .viewport-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vp-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .vp-btn:hover, .vp-btn.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .open-raw-btn {
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fcd34d;
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .open-raw-btn:hover {
+      background: rgba(245, 158, 11, 0.3);
+      color: #fff;
+    }
+
+    /* 主舞台与 iframe 容器 */
+    .stage-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 20px;
+      background: #060810;
+      position: relative;
+    }
+
+    .iframe-wrapper {
+      width: 100%;
+      height: 720px;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      background: #000;
+    }
+
+    .iframe-wrapper.device-desktop {
+      max-width: 100%;
+      height: 740px;
+    }
+
+    .iframe-wrapper.device-laptop {
+      max-width: 1080px;
+      height: 710px;
+    }
+
+    .iframe-wrapper.device-mobile {
+      max-width: 420px;
+      height: 760px;
+      border-radius: 36px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 0 10px #1e293b, 0 0 0 11px rgba(255, 255, 255, 0.2);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* 底部方案深度分析卡片 */
+    .scheme-intel-bar {
+      width: 100%;
+      max-width: 1240px;
+      margin: 20px auto 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .intel-card {
+      background: rgba(18, 24, 43, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px 18px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .intel-card:hover {
+      background: rgba(26, 34, 60, 0.85);
+      transform: translateY(-2px);
+    }
+
+    .intel-card.current {
+      border-color: #f59e0b;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+    }
+
+    .intel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .intel-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+
+    .badge-deluxe { background: rgba(245, 158, 11, 0.25); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-scroll { background: rgba(185, 28, 28, 0.25); color: #fca5a5; }
+    .badge-arcane { background: rgba(139, 92, 246, 0.2); color: #c084fc; }
+    .badge-cyber { background: rgba(6, 182, 212, 0.2); color: #67e8f9; }
+
+    .intel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .intel-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1000px) {
+      .scheme-intel-bar { grid-template-columns: 1fr; }
+      .hub-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部控制台 -->
+  <header class="top-hub">
+    <div class="hub-brand">
+      <div class="brand-logo-badge">⚔️</div>
+      <div>
+        <div class="hub-title">LinguaVerse · 登录注册方案二进阶预览</div>
+        <div class="hub-tag">厚重公会典籍 · 皇家垂挂卷轴 · 极具游戏仪式感</div>
+      </div>
+    </div>
+
+    <!-- 方案选择 -->
+    <div class="scheme-tabs">
+      <button class="scheme-tab-btn active" id="btnVrc" onclick="loadScheme('scheme-vrchat.html', 'btnVrc', 'cardVrc')">
+        <span>🎮 VRChat 经典元宇宙青碧风 (强推)</span>
+      </button>
+      <button class="scheme-tab-btn" id="btnLingua" onclick="loadScheme('scheme-linguaverse.html', 'btnLingua', 'cardLingua')">
+        <span>🎨 5色实时试衣间 (含暖阳米白)</span>
+      </button>
+      <button class="scheme-tab-btn" id="btnDeluxe" onclick="loadScheme('scheme2-deluxe-codex.html', 'btnDeluxe', 'cardDeluxe')">
+        <span>📖 厚革公会典籍手账</span>
+      </button>
+      <button class="scheme-tab-btn" id="btnArcane" onclick="loadScheme('scheme1-arcane.html', 'btnArcane', 'cardArcane')">
+        <span>✨ 奥术星穹学院</span>
+      </button>
+    </div>
+
+    <!-- 视口模拟器 & 原生打开 -->
+    <div class="viewport-controls">
+      <button class="vp-btn active" id="vpDesktop" onclick="setDevice('device-desktop', 'vpDesktop')">🖥️ 宽屏</button>
+      <button class="vp-btn" id="vpLaptop" onclick="setDevice('device-laptop', 'vpLaptop')">💻 笔记本</button>
+      <button class="vp-btn" id="vpMobile" onclick="setDevice('device-mobile', 'vpMobile')">📱 手机</button>
+      <a href="./scheme-vrchat.html" target="_blank" class="open-raw-btn" id="rawLink">
+        <span>↗ 新标签全屏</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- 中间舞台与 iframe -->
+  <main class="stage-container">
+    <div class="iframe-wrapper device-desktop" id="iframeWrapper">
+      <iframe src="./scheme-vrchat.html" id="previewIframe"></iframe>
+    </div>
+
+    <!-- 方案特征对比卡片 -->
+    <div class="scheme-intel-bar" style="grid-template-columns: repeat(4, 1fr); max-width: 1240px;">
+      
+      <div class="intel-card current" id="cardVrc" onclick="loadScheme('scheme-vrchat.html', 'btnVrc', 'cardVrc')">
+        <div class="intel-head">
+          <span class="intel-badge" style="background: rgba(0, 180, 197, 0.25); color: #00d2e5; border: 1px solid rgba(0, 180, 197, 0.4);">VRChat 经典</span>
+          <span style="font-size: 10px; color: #00b4c5;">极度耐看</span>
+        </div>
+        <div class="intel-title">VRChat 经典虚拟元宇宙风</div>
+        <div class="intel-desc">
+          深渊曜石青墨（#080d11）+ 标志性 VRChat 青碧松石绿（#00b4c5）+ 冰川纯白。专为虚拟社交元宇宙打造的工业级高级质感。
+        </div>
+      </div>
+
+      <div class="intel-card" id="cardDeluxe" onclick="loadScheme('scheme2-deluxe-codex.html', 'btnDeluxe', 'cardDeluxe')">
+        <div class="intel-head">
+          <span class="intel-badge badge-deluxe">厚重典籍手账</span>
+          <span style="font-size: 10px; color: #facc15;">双页实木</span>
+        </div>
+        <div class="intel-title">方案 2A：厚革公会典籍</div>
+        <div class="intel-desc">
+          厚重皮革封面与纯黄铜雕花包角、立体书脊与丝缎飘带、壁炉余烬微粒与物理印章动效。
+        </div>
+      </div>
+
+      <div class="intel-card" id="cardScroll" onclick="loadScheme('scheme2-scroll-deluxe.html', 'btnScroll', 'cardScroll')">
+        <div class="intel-head">
+          <span class="intel-badge badge-scroll">羊皮长卷轴</span>
+          <span style="font-size: 10px; color: #fca5a5;">实木轴心</span>
+        </div>
+        <div class="intel-title">方案 2B：垂挂羊皮卷轴</div>
+        <div class="intel-desc">
+          雕花实木卷轴轴心、纯金火漆吊坠印章，古符文边框，飘浮星尘，浓郁的中世纪魔法羊皮纸氛围。
+        </div>
+      </div>
+
+      <div class="intel-card" id="cardArcane" onclick="loadScheme('scheme1-arcane.html', 'btnArcane', 'cardArcane')">
+        <div class="intel-head">
+          <span class="intel-badge badge-arcane">现代魔导</span>
+          <span style="font-size: 10px; color: #c084fc;">双栏毛玻璃</span>
+        </div>
+        <div class="intel-title">方案一：奥术星穹</div>
+        <div class="intel-desc">
+          深邃午夜星空背景与星尘流光，半透明毛玻璃卡片与鎏金渐变细边，平滑 Tab。
+        </div>
+      </div>
+
+      <div class="intel-card" id="cardCyber" onclick="loadScheme('scheme3-cyber.html', 'btnCyber', 'cardCyber')">
+        <div class="intel-head">
+          <span class="intel-badge badge-cyber">未来前卫</span>
+          <span style="font-size: 10px; color: #67e8f9;">HUD 终端</span>
+        </div>
+        <div class="intel-title">方案三：赛博霓虹</div>
+        <div class="intel-desc">
+          3D 网格地表、全息切角卡片、霓虹青空蓝与紫晶脉冲光效、充能能量按钮。
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    let currentUrl = 'scheme-linguaverse.html';
+
+    function loadScheme(url, btnId, cardId) {
+      currentUrl = url;
+      document.getElementById('previewIframe').src = url;
+      document.getElementById('rawLink').href = url;
+
+      // 更新 Tab 按钮状态
+      ['btnVrc', 'btnLingua', 'btnDeluxe', 'btnArcane'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('active', id === btnId);
+      });
+
+      // 更新卡片状态
+      ['cardVrc', 'cardLingua', 'cardDeluxe', 'cardArcane'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('current', id === cardId);
+      });
+    }
+
+    function setDevice(deviceClass, btnId) {
+      const wrapper = document.getElementById('iframeWrapper');
+      wrapper.className = 'iframe-wrapper ' + deviceClass;
+
+      ['vpDesktop', 'vpLaptop', 'vpMobile'].forEach(id => {
+        document.getElementById(id).classList.toggle('active', id === btnId);
+      });
+    }
+  </script>
+</body>
+</html>

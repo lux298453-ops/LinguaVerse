@@ -503,9 +503,9 @@ const handleRefresh = async () => {
 }
 
 .preset-item.active {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  background: #e6f7fa;
+  border-color: #00b4c5;
+  box-shadow: 0 4px 12px rgba(0, 180, 197, 0.2);
 }
 
 .preset-name {
@@ -516,7 +516,7 @@ const handleRefresh = async () => {
 }
 
 .preset-item.active .preset-name {
-  color: #2563eb;
+  color: #008a97;
   font-weight: 700;
 }
 
@@ -525,7 +525,7 @@ const handleRefresh = async () => {
   top: 4px;
   right: 6px;
   font-size: 11px;
-  color: #2563eb;
+  color: #00b4c5;
   font-weight: 900;
 }
 
@@ -546,9 +546,9 @@ const handleRefresh = async () => {
 }
 
 .local-upload-dropzone:hover {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.08);
+  background: #e6f7fa;
+  border-color: #00b4c5;
+  box-shadow: 0 4px 14px rgba(0, 180, 197, 0.12);
   transform: translateY(-1px);
 }
 
@@ -556,8 +556,8 @@ const handleRefresh = async () => {
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  background: #eff6ff;
-  color: #2563eb;
+  background: #e6f7fa;
+  color: #008a97;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -565,7 +565,7 @@ const handleRefresh = async () => {
 }
 
 .local-upload-dropzone:hover .dropzone-icon {
-  background: #dbeafe;
+  background: #cceffa;
   transform: translateY(-2px);
 }
 
@@ -653,7 +653,7 @@ const handleRefresh = async () => {
   flex-shrink: 0;
 }
 
-.icon-book { background: #eff6ff; color: #2563eb; }
+.icon-book { background: #e6f7fa; color: #008a97; }
 .icon-slang { background: #fffbeb; color: #d97706; }
 .icon-fav { background: #fdf2f8; color: #db2777; }
 .icon-shield { background: #ecfdf5; color: #059669; }
@@ -675,7 +675,7 @@ const handleRefresh = async () => {
   margin-top: 4px;
 }
 
-.text-book { color: #2563eb; }
+.text-book { color: #008a97; }
 .text-slang { color: #d97706; }
 .text-fav { color: #db2777; }
 .text-status { color: #059669; }

@@ -196,13 +196,13 @@ const handleLogout = () => {
   width: 32px;
   height: 32px;
   border-radius: 9px;
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: linear-gradient(135deg, #008f9d, #00b4c5);
   color: #ffffff;
   font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 180, 197, 0.35);
 }
 
 .logo-info {
@@ -215,7 +215,7 @@ const handleLogout = () => {
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.3px;
-  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  background: linear-gradient(135deg, #063940, #008f9d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -227,21 +227,21 @@ const handleLogout = () => {
   margin-top: 1px;
 }
 
-/* 侧边栏游戏快捷卡片 */
+/* 侧边栏游戏快捷卡片 (VRChat 松石青绿高光卡片) */
 .quick-world-entry {
   margin: 14px 14px 8px 14px;
   padding: 11px 14px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #088c99 0%, #00b4c5 100%);
   color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
+  box-shadow: 0 4px 14px rgba(0, 180, 197, 0.35);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .quick-world-entry:hover {
   transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.42);
+  box-shadow: 0 6px 20px rgba(0, 180, 197, 0.48);
 }
 
 .quick-world-entry:active {
@@ -330,9 +330,13 @@ const handleLogout = () => {
 }
 
 .custom-nav-menu :deep(.el-menu-item.is-active) {
-  background: #eff6ff !important;
-  color: #2563eb !important;
+  background: #e6f7fa !important;
+  color: #008a97 !important;
   font-weight: 700;
+}
+
+.custom-nav-menu :deep(.el-menu-item.is-active .el-icon) {
+  color: #00b4c5 !important;
 }
 
 .custom-nav-menu :deep(.el-menu-item .el-icon) {
@@ -365,7 +369,7 @@ const handleLogout = () => {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: linear-gradient(135deg, #008f9d, #00b4c5);
   color: #fff;
   display: flex;
   align-items: center;
@@ -373,7 +377,7 @@ const handleLogout = () => {
   font-weight: 800;
   font-size: 15px;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 180, 197, 0.3);
 }
 
 .user-info {
@@ -462,7 +466,7 @@ const handleLogout = () => {
 }
 
 .breadcrumb-dot {
-  color: #3b82f6;
+  color: #00b4c5;
   font-size: 10px;
 }
 
@@ -528,8 +532,8 @@ const handleLogout = () => {
 }
 
 .badge-role.user {
-  background: #e0f2fe;
-  color: #0284c7;
+  background: #e6f7fa;
+  color: #008a97;
 }
 
 .header-divider {

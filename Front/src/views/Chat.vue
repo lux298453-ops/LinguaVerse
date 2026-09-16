@@ -218,10 +218,11 @@ onUnmounted(() => {
   border-bottom: 1px solid #f2f2f2;
 }
 .user-item:hover {
-  background: #f0f7ff;
+  background: #f0fafb;
 }
 .user-item.active {
-  background: #e6f4ff;
+  background: #e6f7fa;
+  border-left: 3px solid #00b4c5;
 }
 .user-info {
   flex: 1;
@@ -322,7 +323,7 @@ onUnmounted(() => {
   stroke: #c0c4cc;
 }
 .tick.read path {
-  stroke: #1677ff;
+  stroke: #00b4c5;
 }
 .empty-tip,
 .chat-placeholder {
@@ -340,7 +341,7 @@ onUnmounted(() => {
   margin-top: 8px;
 }
 .avatar {
-  background: #409eff;
+  background: #00b4c5;
   color: #fff;
   flex-shrink: 0;
 }

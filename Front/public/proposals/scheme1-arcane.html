@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方案一：奥术星穹与秘境学院 · Arcane Celestial Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070913;
+      --card-bg: rgba(18, 22, 38, 0.72);
+      --card-border: rgba(147, 112, 219, 0.28);
+      --card-glow: rgba(138, 75, 255, 0.18);
+      --gold-primary: #f6c85f;
+      --gold-hover: #ffd978;
+      --purple-primary: #8b5cf6;
+      --purple-light: #a78bfa;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --input-bg: rgba(13, 17, 30, 0.65);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --input-focus: #8b5cf6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      color: var(--text-main);
+      position: relative;
+      padding: 24px;
+    }
+
+    /* 动态星空粒子与流光背景 */
+    .space-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 75%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 60%),
+                  #070913;
+      overflow: hidden;
+    }
+
+    .nebula-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: floatSlow 18s ease-in-out infinite alternate;
+    }
+
+    .nebula-glow-2 {
+      position: absolute;
+      right: 5%;
+      bottom: 5%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(234, 179, 8, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: floatSlow 22s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.08); }
+      100% { transform: translate(-30px, 50px) scale(0.95); }
+    }
+
+    /* 宇宙双栏卡片容器 */
+    .portal-card {
+      position: relative;
+      z-index: 10;
+      width: 1000px;
+      max-width: 100%;
+      min-height: 620px;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      box-shadow: 0 24px 70px -12px rgba(0, 0, 0, 0.75),
+                  0 0 45px -10px var(--card-glow),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      overflow: hidden;
+      animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 左侧：品牌世界展示栏 */
+    .hero-side {
+      position: relative;
+      padding: 48px 44px;
+      background: linear-gradient(145deg, rgba(30, 27, 75, 0.75) 0%, rgba(15, 23, 42, 0.6) 100%);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .hero-side::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(246, 200, 95, 0.15) 0%, transparent 40%),
+                  radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.25) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .brand-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f6c85f 0%, #d97706 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(246, 200, 95, 0.4);
+    }
+
+    .brand-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #0d111e;
+    }
+
+    .brand-name {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      background: linear-gradient(135deg, #ffffff 30%, #f6c85f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+
+    .hero-main {
+      position: relative;
+      margin: 40px 0;
+    }
+
+    .hero-title {
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #c084fc 0%, #f6c85f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 380px;
+    }
+
+    /* 冒险特色标签与实时浮动徽章 */
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-footer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-stack img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #1e1b4b;
+      margin-left: -8px;
+    }
+    .avatar-stack img:first-child { margin-left: 0; }
+
+    /* 右侧：表单操作区 */
+    .form-side {
+      padding: 48px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Tab 切换器 */
+    .tab-nav {
+      display: flex;
+      background: rgba(13, 17, 30, 0.7);
+      padding: 5px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(124, 58, 237, 0.25) 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+    }
+
+    .form-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .form-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 26px;
+    }
+
+    /* 输入组 */
+    .input-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 7px;
+      letter-spacing: 0.3px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      width: 18px;
+      height: 18px;
+      color: #64748b;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .auth-input {
+      width: 100%;
+      height: 48px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 0 42px 0 44px;
+      font-size: 14px;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .auth-input::placeholder {
+      color: #475569;
+    }
+
+    .auth-input:focus {
+      border-color: var(--purple-light);
+      background: rgba(22, 28, 48, 0.85);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25), 0 0 16px rgba(139, 92, 246, 0.15);
+    }
+
+    .auth-input:focus + .input-icon,
+    .input-wrapper:focus-within .input-icon {
+      color: var(--purple-light);
+    }
+
+    .pwd-toggle {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+    .pwd-toggle:hover { color: #cbd5e1; }
+
+    /* 选项栏（记住我 / 忘记密码） */
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 8px 0 24px;
+      font-size: 13px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .custom-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(13, 17, 30, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .remember-me input { display: none; }
+    .remember-me input:checked + .custom-check {
+      background: var(--purple-primary);
+      border-color: var(--purple-light);
+    }
+
+    .remember-me input:checked + .custom-check::after {
+      content: '✓';
+      font-size: 11px;
+      color: white;
+      font-weight: bold;
+    }
+
+    .forgot-link {
+      color: #a78bfa;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .forgot-link:hover { color: #c4b5fd; text-decoration: underline; }
+
+    /* 提交按钮 */
+    .submit-btn {
+      width: 100%;
+      height: 48px;
+      background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px -6px rgba(124, 58, 237, 0.5),
+                  0 0 16px rgba(139, 92, 246, 0.3);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -6px rgba(124, 58, 237, 0.65), 0 0 24px rgba(167, 139, 250, 0.45);
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    }
+
+    .submit-btn:hover::before { left: 100%; }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* 底部快速访客通道 */
+    .guest-btn {
+      margin-top: 14px;
+      width: 100%;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+    .guest-btn:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #f8fafc;
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    /* 响应式 */
+    @media (max-width: 860px) {
+      .portal-card {
+        grid-template-columns: 1fr;
+        max-width: 460px;
+      }
+      .hero-side { display: none; }
+      .form-side { padding: 36px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 星空背景与星云光晕 -->
+  <div class="space-bg">
+    <div class="nebula-glow" style="top: -100px; left: -100px;"></div>
+    <div class="nebula-glow-2"></div>
+  </div>
+
+  <!-- 双栏主卡片 -->
+  <div class="portal-card">
+
+    <!-- 左侧：学院品牌与故事 -->
+    <div class="hero-side">
+      <div class="brand-header">
+        <div class="brand-icon">
+          <!-- 魔法书/星芒 SVG -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">LINGUAVERSE</div>
+          <div class="brand-tag">Language Metaverse RPG</div>
+        </div>
+      </div>
+
+      <div class="hero-main">
+        <h1 class="hero-title">
+          唤醒沉睡的星语，<br>
+          踏入<span>无限冒险领域</span>
+        </h1>
+        <p class="hero-desc">
+          在沉浸式像素开放世界中结识好友、破解奥术词语谜题、与智能 NPC 自由对话。开启属于你的语言奇幻史诗！
+        </p>
+        <div class="feature-tags">
+          <span class="feature-pill">✦ 沉浸式 RPG 地图</span>
+          <span class="feature-pill">◈ 语义智能裁决</span>
+          <span class="feature-pill">⬡ 空间实时群聊</span>
+          <span class="feature-pill">★ 词根造句共鸣</span>
+        </div>
+      </div>
+
+      <div class="hero-footer">
+        <div class="avatar-stack">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Mary" alt="avatar">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Luna" alt="avatar">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Evelyn" alt="avatar">
+        </div>
+        <span>已有 <strong>12,480+</strong> 位冒险家在此探索</span>
+      </div>
+    </div>
+
+    <!-- 右侧：表单交互区 -->
+    <div class="form-side">
+
+      <!-- 登录 / 注册 Tab -->
+      <div class="tab-nav">
+        <button class="tab-btn active" id="tabLogin" onclick="switchMode('login')">登录通行证</button>
+        <button class="tab-btn" id="tabRegister" onclick="switchMode('register')">新冒险者注册</button>
+      </div>
+
+      <!-- 动态标题 -->
+      <h2 class="form-title" id="formTitle">欢迎回到阳光大厅</h2>
+      <p class="form-sub" id="formSub">请输入你的冒险者身份信息，继续未完成的旅途</p>
+
+      <form id="authForm" onsubmit="event.preventDefault(); simulateSubmit();">
+        
+        <!-- 用户名 -->
+        <div class="input-group">
+          <label class="input-label">冒险者代号 (USERNAME)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" class="auth-input" id="username" placeholder="请输入用户名" required value="admin">
+          </div>
+        </div>
+
+        <!-- 昵称（注册时显示） -->
+        <div class="input-group" id="nicknameGroup" style="display: none;">
+          <label class="input-label">世界称谓 / 昵称 (NICKNAME - 选填)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <input type="text" class="auth-input" id="nickname" placeholder="例如：星穹学者 Leo">
+          </div>
+        </div>
+
+        <!-- 密码 -->
+        <div class="input-group">
+          <label class="input-label">奥术密钥 (PASSWORD)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" class="auth-input" id="password" placeholder="请输入密码" required value="123456">
+            <button type="button" class="pwd-toggle" onclick="togglePwd('password', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 确认密码（注册时显示） -->
+        <div class="input-group" id="confirmGroup" style="display: none;">
+          <label class="input-label">确认奥术密钥 (CONFIRM PASSWORD)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <input type="password" class="auth-input" id="confirmPassword" placeholder="再次输入密码">
+            <button type="button" class="pwd-toggle" onclick="togglePwd('confirmPassword', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 记住与忘记密码（登录时显示） -->
+        <div class="form-options" id="formOptions">
+          <label class="remember-me">
+            <input type="checkbox" checked>
+            <span class="custom-check"></span>
+            <span>记住登录状态</span>
+          </label>
+          <a href="javascript:alert('已发送重置邮件至关联导师处');" class="forgot-link">遗忘密码？</a>
+        </div>
+
+        <!-- 提交按钮 -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span>进入灵语世界</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+        <!-- 快速体验按钮 -->
+        <button type="button" class="guest-btn" onclick="quickDemo()">
+          <span>⚡ 快速试玩通道（填入测试账号）</span>
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+
+  <script>
+    let currentMode = 'login';
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+      const title = document.getElementById('formTitle');
+      const sub = document.getElementById('formSub');
+      const nicknameGroup = document.getElementById('nicknameGroup');
+      const confirmGroup = document.getElementById('confirmGroup');
+      const formOptions = document.getElementById('formOptions');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (mode === 'login') {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        title.innerText = '欢迎回到阳光大厅';
+        sub.innerText = '请输入你的冒险者身份信息，继续未完成的旅途';
+        nicknameGroup.style.display = 'none';
+        confirmGroup.style.display = 'none';
+        formOptions.style.display = 'flex';
+        submitBtn.querySelector('span').innerText = '进入灵语世界';
+      } else {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        title.innerText = '缔结冒险者契约';
+        sub.innerText = '创建专属的宇宙身份，开启全新语言探索篇章';
+        nicknameGroup.style.display = 'block';
+        confirmGroup.style.display = 'block';
+        formOptions.style.display = 'none';
+        submitBtn.querySelector('span').innerText = '完成登记并启程';
+      }
+    }
+
+    function togglePwd(id, btn) {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.style.color = '#c084fc';
+      } else {
+        input.type = 'password';
+        btn.style.color = '#64748b';
+      }
+    }
+
+    function quickDemo() {
+      document.getElementById('username').value = 'admin';
+      document.getElementById('password').value = '123456';
+      alert('已填入预设管理员凭证，点击【进入灵语世界】即可模拟进入！');
+    }
+
+    function simulateSubmit() {
+      const btn = document.getElementById('submitBtn');
+      const origText = btn.querySelector('span').innerText;
+      btn.querySelector('span').innerText = currentMode === 'login' ? '正在连接星门...' : '正在登记契约...';
+      btn.style.opacity = '0.8';
+      setTimeout(() => {
+        alert(currentMode === 'login' ? '🎉 验证通过！即将传送至 LinguaVerse 大厅！' : '✨ 注册成功！欢迎加入灵语宇宙！');
+        btn.querySelector('span').innerText = origText;
+        btn.style.opacity = '1';
+      }, 700);
+    }
+  </script>
+</body>
+</html>

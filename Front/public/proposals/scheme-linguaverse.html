@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaVerse · 登录注册多配色方案试衣间</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 预设 5 款完全不同的高品质人类精调配色系统（0% 紫色） */
+    
+    /* 默认：【风格一 · 暖阳米白 / 阳光大厅明亮风】(Light Cozy Mode) */
+    body.theme-sunlight {
+      --bg-canvas: #f4f1ea;
+      --bg-gradient: radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+                     radial-gradient(circle at 85% 85%, rgba(217, 119, 6, 0.08) 0%, transparent 60%), #f4f1ea;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(214, 204, 187, 0.7);
+      --card-shadow: 0 20px 50px -10px rgba(120, 90, 40, 0.12), 0 0 0 1px rgba(0,0,0,0.04);
+      --left-bg: linear-gradient(150deg, #fbf9f4 0%, #f1ebdf 100%);
+      --left-border: rgba(0, 0, 0, 0.06);
+      --text-main: #1c1917;
+      --text-muted: #78716c;
+      --headline-gradient: linear-gradient(135deg, #b45309 0%, #d97706 50%, #1c1917 100%);
+      --input-bg: #ffffff;
+      --input-border: #d6d0c4;
+      --input-focus: #d97706;
+      --tab-bg: #e8e2d5;
+      --tab-active-bg: #ffffff;
+      --tab-active-text: #b45309;
+      --tab-active-border: rgba(180, 83, 9, 0.3);
+      --btn-bg: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      --btn-text: #ffffff;
+      --btn-shadow: 0 8px 18px -4px rgba(217, 119, 6, 0.4);
+      --accent: #b45309;
+      --chip-bg: rgba(255, 255, 255, 0.7);
+      --chip-border: rgba(0, 0, 0, 0.06);
+      --letter-color: rgba(120, 80, 30, 0.06);
+    }
+
+    /* 【风格二 · 苍翠深林 / 鼠尾草与自然护眼】(Sage Forest) */
+    body.theme-forest {
+      --bg-canvas: #091310;
+      --bg-gradient: radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.14) 0%, transparent 50%),
+                     radial-gradient(circle at 85% 85%, rgba(5, 150, 105, 0.1) 0%, transparent 60%), #091310;
+      --card-bg: rgba(13, 27, 23, 0.88);
+      --card-border: rgba(52, 211, 153, 0.22);
+      --card-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 35px -5px rgba(16, 185, 129, 0.15);
+      --left-bg: linear-gradient(150deg, rgba(19, 39, 33, 0.8) 0%, rgba(10, 20, 17, 0.9) 100%);
+      --left-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f0fdf4;
+      --text-muted: #86efac;
+      --headline-gradient: linear-gradient(135deg, #ffffff 30%, #34d399 100%);
+      --input-bg: rgba(8, 16, 14, 0.75);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --input-focus: #10b981;
+      --tab-bg: rgba(8, 16, 14, 0.8);
+      --tab-active-bg: rgba(16, 185, 129, 0.22);
+      --tab-active-text: #a7f3d0;
+      --tab-active-border: rgba(52, 211, 153, 0.4);
+      --btn-bg: linear-gradient(135deg, #059669 0%, #047857 100%);
+      --btn-text: #ffffff;
+      --btn-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.45);
+      --accent: #10b981;
+      --chip-bg: rgba(255, 255, 255, 0.04);
+      --chip-border: rgba(255, 255, 255, 0.08);
+      --letter-color: rgba(52, 211, 153, 0.08);
+    }
+
+    /* 【风格三 · 曜石极简 / 黑白灰纯净无色】(Monochrome Minimalist) */
+    body.theme-monochrome {
+      --bg-canvas: #09090b;
+      --bg-gradient: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%), #09090b;
+      --card-bg: rgba(18, 18, 20, 0.92);
+      --card-border: rgba(255, 255, 255, 0.14);
+      --card-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.95);
+      --left-bg: linear-gradient(150deg, #18181b 0%, #111113 100%);
+      --left-border: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-muted: #a1a1aa;
+      --headline-gradient: linear-gradient(135deg, #ffffff 40%, #a1a1aa 100%);
+      --input-bg: #141417;
+      --input-border: #27272a;
+      --input-focus: #ffffff;
+      --tab-bg: #141417;
+      --tab-active-bg: #27272a;
+      --tab-active-text: #ffffff;
+      --tab-active-border: rgba(255, 255, 255, 0.3);
+      --btn-bg: #f4f4f5;
+      --btn-text: #09090b;
+      --btn-shadow: 0 8px 20px -4px rgba(255, 255, 255, 0.25);
+      --accent: #e4e4e7;
+      --chip-bg: rgba(255, 255, 255, 0.04);
+      --chip-border: rgba(255, 255, 255, 0.1);
+      --letter-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* 【风格四 · 静谧深海 / 经典北欧冷蓝】(Nordic Deep Cobalt) */
+    body.theme-cobalt {
+      --bg-canvas: #070d18;
+      --bg-gradient: radial-gradient(circle at 20% 20%, rgba(2, 132, 199, 0.15) 0%, transparent 50%),
+                     radial-gradient(circle at 80% 80%, rgba(30, 58, 138, 0.2) 0%, transparent 60%), #070d18;
+      --card-bg: rgba(12, 20, 36, 0.88);
+      --card-border: rgba(56, 189, 248, 0.2);
+      --card-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 35px -5px rgba(2, 132, 199, 0.15);
+      --left-bg: linear-gradient(150deg, rgba(15, 29, 54, 0.85) 0%, rgba(9, 16, 30, 0.9) 100%);
+      --left-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f0f9ff;
+      --text-muted: #7dd3fc;
+      --headline-gradient: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
+      --input-bg: rgba(7, 13, 24, 0.75);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --input-focus: #0284c7;
+      --tab-bg: rgba(7, 13, 24, 0.8);
+      --tab-active-bg: rgba(2, 132, 199, 0.25);
+      --tab-active-text: #bae6fd;
+      --tab-active-border: rgba(56, 189, 248, 0.4);
+      --btn-bg: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      --btn-text: #ffffff;
+      --btn-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.45);
+      --accent: #0284c7;
+      --chip-bg: rgba(255, 255, 255, 0.04);
+      --chip-border: rgba(255, 255, 255, 0.08);
+      --letter-color: rgba(56, 189, 248, 0.07);
+    }
+
+    /* 【风格五 · 温暖焦糖 / 暖咖与复古陶土】(Warm Mocha & Terracotta) */
+    body.theme-mocha {
+      --bg-canvas: #120e0c;
+      --bg-gradient: radial-gradient(circle at 15% 15%, rgba(234, 88, 12, 0.14) 0%, transparent 50%),
+                     radial-gradient(circle at 85% 85%, rgba(180, 83, 9, 0.12) 0%, transparent 60%), #120e0c;
+      --card-bg: rgba(26, 20, 17, 0.9);
+      --card-border: rgba(249, 115, 22, 0.22);
+      --card-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.9), 0 0 35px -5px rgba(234, 88, 12, 0.15);
+      --left-bg: linear-gradient(150deg, rgba(38, 28, 23, 0.85) 0%, rgba(20, 15, 12, 0.9) 100%);
+      --left-border: rgba(255, 255, 255, 0.08);
+      --text-main: #fff7ed;
+      --text-muted: #fdba74;
+      --headline-gradient: linear-gradient(135deg, #ffffff 40%, #fb923c 100%);
+      --input-bg: rgba(18, 14, 12, 0.75);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --input-focus: #ea580c;
+      --tab-bg: rgba(18, 14, 12, 0.8);
+      --tab-active-bg: rgba(234, 88, 12, 0.22);
+      --tab-active-text: #fed7aa;
+      --tab-active-border: rgba(249, 115, 22, 0.4);
+      --btn-bg: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+      --btn-text: #ffffff;
+      --btn-shadow: 0 8px 20px -4px rgba(234, 88, 12, 0.45);
+      --accent: #ea580c;
+      --chip-bg: rgba(255, 255, 255, 0.04);
+      --chip-border: rgba(255, 255, 255, 0.08);
+      --letter-color: rgba(249, 115, 22, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    body {
+      background: var(--bg-canvas);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 24px 24px;
+      color: var(--text-main);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 顶部配色试衣间工具条 (THEME PICKER BAR) */
+    .theme-picker-dock {
+      position: fixed;
+      top: 14px;
+      z-index: 100;
+      background: rgba(18, 24, 38, 0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      border-radius: 999px;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-picker-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      padding: 0 10px 0 6px;
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .palette-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .palette-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .palette-btn.active {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      font-weight: 700;
+    }
+
+    /* 背景与微粒 */
+    .space-canvas-bg {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-gradient);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .floating-letter {
+      position: absolute;
+      color: var(--letter-color);
+      font-family: 'Fredoka', cursive;
+      font-weight: 700;
+      user-select: none;
+      pointer-events: none;
+      animation: floatWord 14s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatWord {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(-20px) rotate(4deg); opacity: 1; }
+      100% { transform: translateY(15px) rotate(-3deg); opacity: 0.5; }
+    }
+
+    /* 主卡片容器 */
+    .portal-frame {
+      position: relative;
+      z-index: 10;
+      width: 1000px;
+      max-width: 100%;
+      min-height: 580px;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      overflow: hidden;
+      animation: enterCard 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes enterCard {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ===== 左栏：真实玩法展示舱 ===== */
+    .left-display {
+      padding: 44px 42px;
+      background: var(--left-bg);
+      border-right: 1px solid var(--left-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .brand-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-gem {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand-title {
+      font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .world-highlights {
+      margin: 28px 0 20px;
+    }
+
+    .headline {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+
+    .headline span {
+      background: var(--headline-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .headline-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    /* 四大真实游戏区域卡片 */
+    .game-scenes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .scene-pill-card {
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+
+    .scene-pill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .scene-icon-bubble {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.06);
+    }
+
+    .scene-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .scene-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .left-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--left-border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ===== 右栏：操作表单区 ===== */
+    .right-form-pane {
+      padding: 44px 42px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .auth-tab-bar {
+      display: flex;
+      background: var(--tab-bg);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 28px;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .auth-tab-btn.active {
+      background: var(--tab-active-bg);
+      color: var(--tab-active-text);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--tab-active-border);
+    }
+
+    .form-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .input-box {
+      margin-bottom: 18px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 7px;
+      letter-spacing: 0.3px;
+    }
+
+    .input-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 48px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 0 44px;
+      font-size: 14px;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-control::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .form-control:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-control:focus + .input-icon,
+    .input-inner:focus-within .input-icon {
+      color: var(--input-focus);
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+    .eye-btn:hover { color: var(--text-main); }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0 24px;
+      font-size: 13px;
+    }
+
+    .remember-opt {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-chip {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .remember-opt input { display: none; }
+    .remember-opt input:checked + .checkbox-chip {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .remember-opt input:checked + .checkbox-chip::after {
+      content: '✓';
+      font-size: 11px;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .forgot-txt {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .forgot-txt:hover { text-decoration: underline; }
+
+    /* 主按钮 */
+    .enter-btn {
+      width: 100%;
+      height: 48px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: var(--btn-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .enter-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .enter-btn:active { transform: translateY(0); }
+
+    @media (max-width: 860px) {
+      .portal-frame { grid-template-columns: 1fr; max-width: 460px; }
+      .left-display { display: none; }
+      .right-form-pane { padding: 36px 26px; }
+      .theme-picker-dock { flex-wrap: wrap; border-radius: 16px; justify-content: center; max-width: 90%; }
+      body { padding-top: 100px; }
+    }
+  </style>
+</head>
+<body class="theme-sunlight">
+
+  <!-- 顶部配色试衣间选择坞 -->
+  <div class="theme-picker-dock">
+    <div class="theme-picker-title">
+      <span>🎨 配色试衣间：</span>
+    </div>
+    <button class="palette-btn active" onclick="setPalette('theme-sunlight', this)">
+      <span>☀️ 暖阳米白 (明朗浅色)</span>
+    </button>
+    <button class="palette-btn" onclick="setPalette('theme-forest', this)">
+      <span>🌿 森林薄荷 (自然深调)</span>
+    </button>
+    <button class="palette-btn" onclick="setPalette('theme-monochrome', this)">
+      <span>🌑 曜石极简 (黑白纯净)</span>
+    </button>
+    <button class="palette-btn" onclick="setPalette('theme-cobalt', this)">
+      <span>🌊 静谧深海 (北欧深蓝)</span>
+    </button>
+    <button class="palette-btn" onclick="setPalette('theme-mocha', this)">
+      <span>☕ 暖咖焦糖 (复古陶土)</span>
+    </button>
+  </div>
+
+  <!-- 动态背景微粒 -->
+  <div class="space-canvas-bg">
+    <div class="floating-letter" style="top: 12%; left: 8%; font-size: 32px;">A</div>
+    <div class="floating-letter" style="top: 25%; left: 20%; font-size: 18px;">Vocab</div>
+    <div class="floating-letter" style="top: 75%; left: 12%; font-size: 26px;">Hello</div>
+    <div class="floating-letter" style="top: 15%; right: 10%; font-size: 34px;">Z</div>
+    <div class="floating-letter" style="top: 70%; right: 15%; font-size: 22px;">Explore</div>
+    <div class="floating-letter" style="bottom: 8%; left: 45%; font-size: 20px;">Speak</div>
+  </div>
+
+  <!-- 主卡片容器 -->
+  <div class="portal-frame">
+
+    <!-- ===== 左侧：展示真实的 LinguaVerse 玩法世界 ===== -->
+    <div class="left-display">
+      
+      <!-- 品牌名与标语 -->
+      <div class="brand-bar">
+        <div class="brand-logo-gem">☀️</div>
+        <div>
+          <div class="brand-title">LINGUAVERSE</div>
+          <div class="brand-sub">Language Metaverse · 灵语宇宙</div>
+        </div>
+      </div>
+
+      <!-- 核心文案 -->
+      <div class="world-highlights">
+        <h1 class="headline">
+          漫步像素世界，<br>
+          开启<span>沉浸式英语探索</span>
+        </h1>
+        <p class="headline-desc">
+          打破枯燥死记硬背！在开放的像素世界中与智能向导对话、与好友实时单词接龙、品尝地道俚语文化。
+        </p>
+
+        <!-- 四大真实游戏区域卡片 -->
+        <div class="game-scenes-grid">
+          
+          <div class="scene-pill-card">
+            <div class="scene-icon-bubble">☀️</div>
+            <div>
+              <div class="scene-title">Sunshine Hall</div>
+              <div class="scene-desc">阳光大厅 · 自由漫步与向导</div>
+            </div>
+          </div>
+
+          <div class="scene-pill-card">
+            <div class="scene-icon-bubble">🎮</div>
+            <div>
+              <div class="scene-title">Arcade Zone</div>
+              <div class="scene-desc">接龙对战 · 打字竞速挑战</div>
+            </div>
+          </div>
+
+          <div class="scene-pill-card">
+            <div class="scene-icon-bubble">☕</div>
+            <div>
+              <div class="scene-title">Slang Lounge</div>
+              <div class="scene-desc">俚语茶歇 · 地道原声表达</div>
+            </div>
+          </div>
+
+          <div class="scene-pill-card">
+            <div class="scene-icon-bubble">📖</div>
+            <div>
+              <div class="scene-title">Arcane Codex</div>
+              <div class="scene-desc">奥术书库 · 修复词典残卷</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 左侧底部信息 -->
+      <div class="left-footer">
+        <span>© 2026 LinguaVerse · 沉浸式英语世界</span>
+        <span>按回车键快速提交</span>
+      </div>
+
+    </div>
+
+    <!-- ===== 右侧：真实的登录 / 注册表单 ===== -->
+    <div class="right-form-pane">
+
+      <!-- 登录 / 注册 Tab -->
+      <div class="auth-tab-bar">
+        <button class="auth-tab-btn active" id="tabLogin" onclick="setAuthMode('login')">登录账号</button>
+        <button class="auth-tab-btn" id="tabRegister" onclick="setAuthMode('register')">新用户注册</button>
+      </div>
+
+      <!-- 动态标题 -->
+      <h2 class="form-title" id="formTitle">欢迎回到灵语世界</h2>
+      <p class="form-desc" id="formDesc">请输入你的账号凭证，继续你的英语探索之旅</p>
+
+      <!-- 表单结构 -->
+      <form id="loginForm" onsubmit="event.preventDefault(); submitForm();">
+        
+        <!-- 用户名 -->
+        <div class="input-box">
+          <label class="input-label">用户名 (USERNAME)</label>
+          <div class="input-inner">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" class="form-control" id="uName" placeholder="请输入用户名" required value="admin">
+          </div>
+        </div>
+
+        <!-- 昵称（注册时出现） -->
+        <div class="input-box" id="nickBox" style="display: none;">
+          <label class="input-label">世界昵称 (NICKNAME - 选填)</label>
+          <div class="input-inner">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <input type="text" class="form-control" id="uNick" placeholder="例如：探索者 Leo">
+          </div>
+        </div>
+
+        <!-- 密码 -->
+        <div class="input-box">
+          <label class="input-label">密码 (PASSWORD)</label>
+          <div class="input-inner">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" class="form-control" id="uPass" placeholder="请输入密码" required value="123456">
+            <button type="button" class="eye-btn" onclick="togglePassword('uPass', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 确认密码（注册时出现） -->
+        <div class="input-box" id="confirmBox" style="display: none;">
+          <label class="input-label">确认密码 (CONFIRM PASSWORD)</label>
+          <div class="input-inner">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <input type="password" class="form-control" id="uConfirm" placeholder="再次输入密码">
+            <button type="button" class="eye-btn" onclick="togglePassword('uConfirm', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 记住登录 / 忘记密码 -->
+        <div class="form-row" id="optionsRow">
+          <label class="remember-opt">
+            <input type="checkbox" checked>
+            <span class="checkbox-chip"></span>
+            <span>记住登录状态</span>
+          </label>
+          <a href="javascript:alert('重置密码链接已发送至您的绑定邮箱');" class="forgot-txt">忘记密码？</a>
+        </div>
+
+        <!-- 提交按键 -->
+        <button type="submit" class="enter-btn" id="submitBtn">
+          <span id="btnText">进入灵语世界</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+
+  <script>
+    function setPalette(themeClass, btn) {
+      document.body.className = themeClass;
+      document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    let mode = 'login';
+
+    function setAuthMode(newMode) {
+      mode = newMode;
+      const tabL = document.getElementById('tabLogin');
+      const tabR = document.getElementById('tabRegister');
+      const title = document.getElementById('formTitle');
+      const desc = document.getElementById('formDesc');
+      const nick = document.getElementById('nickBox');
+      const conf = document.getElementById('confirmBox');
+      const opts = document.getElementById('optionsRow');
+      const btn = document.getElementById('btnText');
+
+      if (mode === 'login') {
+        tabL.classList.add('active');
+        tabR.classList.remove('active');
+        title.innerText = '欢迎回到灵语世界';
+        desc.innerText = '请输入你的账号凭证，继续你的英语探索之旅';
+        nick.style.display = 'none';
+        conf.style.display = 'none';
+        opts.style.display = 'flex';
+        btn.innerText = '进入灵语世界';
+      } else {
+        tabR.classList.add('active');
+        tabL.classList.remove('active');
+        title.innerText = '开启灵语探索旅程';
+        desc.innerText = '注册专属账号，即可获赠 20 星语金币初始探索包';
+        nick.style.display = 'block';
+        conf.style.display = 'block';
+        opts.style.display = 'none';
+        btn.innerText = '完成注册并启程';
+      }
+    }
+
+    function togglePassword(id, btn) {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.style.opacity = '1';
+      } else {
+        input.type = 'password';
+        btn.style.opacity = '0.6';
+      }
+    }
+
+    function submitForm() {
+      alert(mode === 'login' ? '🎉 验证成功！即将进入阳光大厅！' : '✨ 注册成功！欢迎开启英语探索之旅！');
+    }
+  </script>
+</body>
+</html>

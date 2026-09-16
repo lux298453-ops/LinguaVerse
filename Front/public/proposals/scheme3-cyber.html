@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方案三：未来全息与赛博霓虹终端 · Cyber-Arcane Neon Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cyber-bg: #040711;
+      --cyan-neon: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.4);
+      --purple-neon: #b5179e;
+      --purple-glow: rgba(181, 23, 158, 0.45);
+      --card-cyber-bg: rgba(7, 12, 28, 0.85);
+      --text-glow: #e2f9ff;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Chakra Petch', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--cyber-bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text-glow);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 3D 赛博网格地面与极光光晕 */
+    .cyber-grid {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50vh;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.15) 1px, transparent 1px);
+      background-size: 50px 50px;
+      transform: perspective(400px) rotateX(60deg);
+      transform-origin: bottom center;
+      mask-image: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 90%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 90%);
+      pointer-events: none;
+      animation: gridScroll 12s linear infinite;
+    }
+
+    @keyframes gridScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 50px; }
+    }
+
+    .neon-aurora {
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 350px;
+      background: radial-gradient(ellipse at center, rgba(181, 23, 158, 0.25) 0%, rgba(0, 240, 255, 0.15) 50%, transparent 75%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    /* 科幻全息终端卡片 */
+    .cyber-terminal {
+      position: relative;
+      z-index: 10;
+      width: 520px;
+      max-width: 100%;
+      background: var(--card-cyber-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 4px;
+      /* 科幻切角样式 */
+      clip-path: polygon(
+        0 16px, 16px 0, 
+        calc(100% - 16px) 0, 100% 16px, 
+        100% calc(100% - 16px), calc(100% - 16px) 100%, 
+        16px 100%, 0 calc(100% - 16px)
+      );
+      box-shadow: 
+        0 0 35px rgba(0, 240, 255, 0.2),
+        inset 0 0 25px rgba(0, 240, 255, 0.08),
+        0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      padding: 40px 42px;
+      animation: terminalPowerOn 0.6s ease-out;
+    }
+
+    @keyframes terminalPowerOn {
+      0% { opacity: 0; transform: scaleY(0.01) scaleX(0.9); }
+      50% { opacity: 0.8; transform: scaleY(1.05) scaleX(1); }
+      100% { opacity: 1; transform: scaleY(1) scaleX(1); }
+    }
+
+    /* 终端顶部状态标头 */
+    .terminal-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+      margin-bottom: 24px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+    }
+
+    .telemetry-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--cyan-neon);
+      text-transform: uppercase;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--cyan-neon);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--cyan-neon);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .terminal-id {
+      color: #94a3b8;
+      font-family: 'Orbitron', monospace;
+    }
+
+    /* 品牌标题与全息 LOGO */
+    .cyber-title-group {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .cyber-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan-neon) 60%, #b5179e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    .cyber-subtitle {
+      font-size: 12px;
+      color: #7dd3fc;
+      letter-spacing: 2px;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    /* 模式切换器 */
+    .cyber-tab-group {
+      display: flex;
+      margin-bottom: 28px;
+      background: rgba(0, 240, 255, 0.05);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      padding: 3px;
+    }
+
+    .cyber-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+
+    .cyber-tab-btn.active {
+      background: rgba(0, 240, 255, 0.2);
+      color: var(--cyan-neon);
+      border: 1px solid var(--cyan-neon);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.3), inset 0 0 8px rgba(0, 240, 255, 0.15);
+    }
+
+    /* 输入框样式 */
+    .cyber-input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .cyber-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .cyber-label span:last-child {
+      color: var(--cyan-neon);
+    }
+
+    .cyber-input-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: rgba(4, 9, 23, 0.9);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      transition: all 0.25s;
+    }
+
+    .cyber-input-box::before {
+      content: '//';
+      padding-left: 12px;
+      color: rgba(0, 240, 255, 0.4);
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .cyber-input {
+      width: 100%;
+      height: 46px;
+      background: transparent;
+      border: none;
+      padding: 0 12px;
+      font-size: 14px;
+      color: #ffffff;
+      outline: none;
+      font-family: 'Chakra Petch', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .cyber-input::placeholder {
+      color: #334155;
+    }
+
+    .cyber-input-box:focus-within {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.35), inset 0 0 10px rgba(0, 240, 255, 0.15);
+    }
+
+    /* 充能脉冲按钮 */
+    .cyber-pulse-btn {
+      width: 100%;
+      height: 50px;
+      margin-top: 12px;
+      background: linear-gradient(90deg, #00f0ff 0%, #7000ff 100%);
+      border: none;
+      color: #030712;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.6);
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .cyber-pulse-btn:hover {
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.8), inset 0 0 14px rgba(255, 255, 255, 0.8);
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .cyber-pulse-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* 底部通讯信标与诊断 */
+    .terminal-footer {
+      margin-top: 26px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .bypass-link {
+      color: var(--cyan-neon);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .bypass-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- 动态全息网格与极光 -->
+  <div class="cyber-grid"></div>
+  <div class="neon-aurora"></div>
+
+  <!-- 赛博终端卡片 -->
+  <div class="cyber-terminal">
+
+    <!-- 顶部遥测栏 -->
+    <div class="terminal-top-bar">
+      <div class="telemetry-tag">
+        <span class="pulse-dot"></span>
+        <span>NEURAL LINK ONLINE</span>
+      </div>
+      <div class="terminal-id">GATEWAY // 0x7F-LV</div>
+    </div>
+
+    <!-- 品牌标志 -->
+    <div class="cyber-title-group">
+      <div class="cyber-logo">LINGUAVERSE</div>
+      <div class="cyber-subtitle" id="cyberSub">NEURAL LANGUAGE MATRIX · AUTHENTICATION</div>
+    </div>
+
+    <!-- 模式切换 -->
+    <div class="cyber-tab-group">
+      <button class="cyber-tab-btn active" id="tabLogin" onclick="switchCyber('login')">[ 接入协议 / 登录 ]</button>
+      <button class="cyber-tab-btn" id="tabRegister" onclick="switchCyber('register')">[ 载入神经网 / 注册 ]</button>
+    </div>
+
+    <!-- 表单交互 -->
+    <form onsubmit="event.preventDefault(); submitCyber();">
+
+      <!-- 用户名 -->
+      <div class="cyber-input-group">
+        <div class="cyber-label">
+          <span>OPERATOR CODENAME</span>
+          <span>UID-REQ</span>
+        </div>
+        <div class="cyber-input-box">
+          <input type="text" id="cyberUser" class="cyber-input" placeholder="输入控制者代号" required value="admin">
+        </div>
+      </div>
+
+      <!-- 昵称（注册时） -->
+      <div class="cyber-input-group" id="cyberNickGroup" style="display: none;">
+        <div class="cyber-label">
+          <span>NEURAL ALIAS</span>
+          <span>OPTIONAL</span>
+        </div>
+        <div class="cyber-input-box">
+          <input type="text" id="cyberNick" class="cyber-input" placeholder="设定显示昵称代号">
+        </div>
+      </div>
+
+      <!-- 密钥 -->
+      <div class="cyber-input-group">
+        <div class="cyber-label">
+          <span>SECURITY CIPHER</span>
+          <span>ENCRYPTED</span>
+        </div>
+        <div class="cyber-input-box">
+          <input type="password" id="cyberPwd" class="cyber-input" placeholder="输入访问密钥" required value="123456">
+        </div>
+      </div>
+
+      <!-- 确认密钥（注册时） -->
+      <div class="cyber-input-group" id="cyberConfirmGroup" style="display: none;">
+        <div class="cyber-label">
+          <span>CONFIRM CIPHER</span>
+          <span>VERIFY</span>
+        </div>
+        <div class="cyber-input-box">
+          <input type="password" id="cyberConfirm" class="cyber-input" placeholder="再次确认访问密钥">
+        </div>
+      </div>
+
+      <!-- 提交按键 -->
+      <button type="submit" class="cyber-pulse-btn" id="cyberBtn">
+        <span>INITIALIZE SYNC</span>
+      </button>
+
+      <!-- 底部辅助 -->
+      <div class="terminal-footer">
+        <span>PROTOCOL: V3.2-SECURE</span>
+        <span class="bypass-link" onclick="alert('应急全息信标已点亮，请重置密钥或联系系统网格管理员')">EMERGENCY BYPASS</span>
+      </div>
+    </form>
+
+  </div>
+
+  <script>
+    let mode = 'login';
+
+    function switchCyber(m) {
+      mode = m;
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+      const sub = document.getElementById('cyberSub');
+      const nickGroup = document.getElementById('cyberNickGroup');
+      const confirmGroup = document.getElementById('cyberConfirmGroup');
+      const btn = document.getElementById('cyberBtn');
+
+      if (mode === 'login') {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        sub.innerText = 'NEURAL LANGUAGE MATRIX · AUTHENTICATION';
+        nickGroup.style.display = 'none';
+        confirmGroup.style.display = 'none';
+        btn.querySelector('span').innerText = 'INITIALIZE SYNC';
+      } else {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        sub.innerText = 'CONSTRUCT NEW OPERATOR PROFILE';
+        nickGroup.style.display = 'block';
+        confirmGroup.style.display = 'block';
+        btn.querySelector('span').innerText = 'DEPLOY OPERATOR';
+      }
+    }
+
+    function submitCyber() {
+      const btn = document.getElementById('cyberBtn');
+      const text = btn.querySelector('span').innerText;
+      btn.querySelector('span').innerText = 'TRANSMITTING PACKETS...';
+      setTimeout(() => {
+        alert(mode === 'login' ? '🚀 神经矩阵同步成功！欢迎载入 LinguaVerse 主网！' : '⚡ 节点建立成功！专属神经身份已激活！');
+        btn.querySelector('span').innerText = text;
+      }, 600);
+    }
+  </script>
+</body>
+</html>

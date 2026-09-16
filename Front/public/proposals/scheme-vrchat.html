@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaVerse · VRChat 经典虚拟元宇宙定制方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       VRChat 官方标志性经典配色规范 (The Iconic VRChat Metaverse Palette)
+       - 主基底色：深渊曜石墨黑 (Abyssal Slate Black: #090e13 / #0e151c)
+       - 表面卡片色：暗夜青黑板岩 (Dark Slate Teal: #131d24 / #18252f)
+       - 标志灵魂色：VRChat 经典青碧松石绿/青空蓝 (Signature VRChat Teal: #00b4c5 / #06b6d4)
+       - 悬浮高亮色：明澈极光青 (Vibrant Cyan: #00d2e5)
+       - 边框与微光：精致暗岩描边 (Border: #1f2f3d, Focus Glow: rgba(0, 180, 197, 0.35))
+       - 字体颜色：冰川纯白 (#ffffff) + 工业冷灰蓝 (#7f91a3 / #9bb0c1)
+       ========================================================= */
+
+    :root {
+      --vrc-bg-dark: #080d11;
+      --vrc-bg-canvas: #0c141a;
+      --vrc-card-bg: rgba(18, 28, 36, 0.92);
+      --vrc-card-border: #1c2b37;
+      --vrc-card-hover-border: #283e4f;
+      
+      --vrc-teal: #00b4c5;
+      --vrc-teal-hover: #00cadc;
+      --vrc-teal-active: #009aa8;
+      --vrc-teal-glow: rgba(0, 180, 197, 0.28);
+      
+      --vrc-text-main: #ffffff;
+      --vrc-text-muted: #7f91a3;
+      --vrc-text-sub: #9bb0c1;
+      
+      --vrc-input-bg: #0b1218;
+      --vrc-input-border: #1f303e;
+      --vrc-input-focus: #00b4c5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--vrc-bg-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--vrc-text-main);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* VRChat 标志性极简深暗空间背景：低饱和度暗青光晕 */
+    .vrchat-ambient-bg {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 18% 20%, rgba(0, 180, 197, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 82% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.5) 0%, transparent 60%),
+        #080d11;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* 极细微的虚拟网格微光（经典元宇宙呼吸感） */
+    .vrchat-grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 1;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.8) 0%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.8) 0%, transparent 80%);
+    }
+
+    /* VRChat 经典漂浮微光粒子画布 */
+    #vrcParticlesCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* 主卡片容器：工业级精琢的双栏面板 */
+    .vrc-main-card {
+      position: relative;
+      z-index: 10;
+      width: 1000px;
+      max-width: 100%;
+      height: 580px;
+      min-height: 580px;
+      background: var(--vrc-card-bg);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--vrc-card-border);
+      border-radius: 20px;
+      box-shadow: 
+        0 30px 80px -15px rgba(0, 0, 0, 0.95),
+        0 0 40px -5px var(--vrc-teal-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      overflow: hidden;
+      animation: vrcCardFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes vrcCardFadeIn {
+      0% { opacity: 0; transform: translateY(18px) scale(0.985); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ===== 左栏：虚拟世界与场景空间展示 ===== */
+    .vrc-left-column {
+      padding: 38px 40px;
+      background: linear-gradient(155deg, rgba(17, 28, 37, 0.95) 0%, rgba(10, 17, 22, 0.98) 100%);
+      border-right: 1px solid var(--vrc-card-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    /* 顶部 Brand 区域（VRChat 经典小方标 + 字母标排版） */
+    .vrc-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .vrc-logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00b4c5 0%, #007a87 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 180, 197, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .vrc-logo-badge svg {
+      width: 26px;
+      height: 26px;
+      fill: #ffffff;
+    }
+
+    .vrc-brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vrc-brand-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .vrc-brand-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--vrc-teal);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* 核心介绍与四大多人场景卡 */
+    .vrc-hero-section {
+      margin: 0;
+    }
+
+    .vrc-headline {
+      font-size: 29px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .vrc-headline span {
+      color: var(--vrc-teal);
+      text-shadow: 0 0 20px rgba(0, 180, 197, 0.4);
+    }
+
+    .vrc-description {
+      font-size: 13px;
+      color: var(--vrc-text-muted);
+      line-height: 1.65;
+      margin-bottom: 26px;
+      max-width: 420px;
+    }
+
+    /* 场景卡（VRChat 世界风格模块） */
+    .vrc-worlds-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .vrc-world-item {
+      background: #0e161c;
+      border: 1px solid var(--vrc-card-border);
+      border-radius: 12px;
+      padding: 13px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .vrc-world-item:hover {
+      background: #142029;
+      border-color: rgba(0, 180, 197, 0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 180, 197, 0.15);
+    }
+
+    .vrc-world-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #17242e;
+      border: 1px solid #233746;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .vrc-world-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vrc-world-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .vrc-world-sub {
+      font-size: 10px;
+      color: var(--vrc-text-muted);
+      margin-top: 2px;
+    }
+
+    /* 空间特性标签 */
+    .vrc-feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .vrc-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--vrc-teal);
+      background: rgba(0, 180, 197, 0.08);
+      border: 1px solid rgba(0, 180, 197, 0.22);
+      border-radius: 999px;
+      padding: 4px 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* 沉浸式提示小栏 */
+    .vrc-immersion-tip {
+      margin-top: 14px;
+      background: rgba(11, 18, 24, 0.6);
+      border: 1px dashed rgba(0, 180, 197, 0.25);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      color: #8da4b8;
+      line-height: 1.45;
+    }
+
+    .vrc-immersion-tip-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* 底部状态指示栏 */
+    .vrc-left-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--vrc-card-border);
+      font-size: 11.5px;
+      color: #627688;
+    }
+
+    /* 跳动的光点动效 (Bouncing / Pulsing Light Dots) */
+    .vrc-pulsing-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 18px;
+    }
+
+    .vrc-pulsing-dots .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--vrc-teal);
+      box-shadow: 0 0 8px rgba(0, 180, 197, 0.5);
+      animation: vrcBounceDot 1.4s ease-in-out infinite;
+    }
+
+    .vrc-pulsing-dots .dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .vrc-pulsing-dots .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .vrc-pulsing-dots .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes vrcBounceDot {
+      0%, 80%, 100% {
+        transform: translateY(0) scale(0.85);
+        opacity: 0.35;
+        box-shadow: 0 0 4px rgba(0, 180, 197, 0.2);
+      }
+      40% {
+        transform: translateY(-5px) scale(1.2);
+        opacity: 1;
+        box-shadow: 0 0 12px var(--vrc-teal), 0 0 20px rgba(0, 180, 197, 0.7);
+      }
+    }
+
+    /* ===== 右栏：表单操作区 ===== */
+    .vrc-right-column {
+      padding: 46px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--vrc-card-bg);
+      position: relative;
+    }
+
+    /* VRChat 经典胶囊切换器 (Tab Bar) */
+    .vrc-tab-bar {
+      display: flex;
+      background: #0b1217;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--vrc-card-border);
+      margin-bottom: 20px;
+    }
+
+    .vrc-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--vrc-text-muted);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.3px;
+    }
+
+    .vrc-tab-btn.active {
+      background: #17242e;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 180, 197, 0.4);
+    }
+
+    .vrc-form-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+
+    .vrc-form-desc {
+      font-size: 13px;
+      color: var(--vrc-text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* VRChat 标志性输入框 */
+    .vrc-field-group {
+      margin-bottom: 14px;
+    }
+
+    .vrc-field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--vrc-text-sub);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .vrc-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .vrc-input-icon {
+      position: absolute;
+      left: 14px;
+      width: 17px;
+      height: 17px;
+      color: var(--vrc-text-muted);
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .vrc-input {
+      width: 100%;
+      height: 44px;
+      background: var(--vrc-input-bg);
+      border: 1px solid var(--vrc-input-border);
+      border-radius: 10px;
+      padding: 0 42px;
+      font-size: 14px;
+      color: #ffffff;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-weight: 500;
+    }
+
+    .vrc-input::placeholder {
+      color: #4b5d6e;
+    }
+
+    .vrc-input:focus {
+      border-color: var(--vrc-teal);
+      background: #0f1820;
+      box-shadow: 0 0 0 3px rgba(0, 180, 197, 0.25), 0 0 16px rgba(0, 180, 197, 0.15);
+    }
+
+    .vrc-input:focus + .vrc-input-icon,
+    .vrc-input-wrap:focus-within .vrc-input-icon {
+      color: var(--vrc-teal);
+    }
+
+    .vrc-eye-toggle {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: #5a7082;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .vrc-eye-toggle:hover { color: #ffffff; }
+
+    /* 选项栏 */
+    .vrc-options-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0 24px;
+      font-size: 13px;
+    }
+
+    .vrc-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--vrc-text-sub);
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+    }
+
+    .vrc-check-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid var(--vrc-input-border);
+      background: var(--vrc-input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .vrc-checkbox-label input { display: none; }
+    .vrc-checkbox-label input:checked + .vrc-check-box {
+      background: var(--vrc-teal);
+      border-color: var(--vrc-teal);
+    }
+
+    .vrc-checkbox-label input:checked + .vrc-check-box::after {
+      content: '✓';
+      font-size: 11px;
+      color: #080d11;
+      font-weight: 900;
+    }
+
+    .vrc-forgot-btn {
+      color: var(--vrc-teal);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .vrc-forgot-btn:hover { color: var(--vrc-teal-hover); text-decoration: underline; }
+
+    /* VRChat 标志性实心青色主按键 */
+    .vrc-submit-btn {
+      width: 100%;
+      height: 48px;
+      background: var(--vrc-teal);
+      color: #061016;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px -4px rgba(0, 180, 197, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .vrc-submit-btn:hover {
+      background: var(--vrc-teal-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -4px rgba(0, 180, 197, 0.6);
+      color: #000000;
+    }
+
+    .vrc-submit-btn:active {
+      background: var(--vrc-teal-active);
+      transform: translateY(0);
+    }
+
+    @media (max-width: 860px) {
+      .vrc-main-card { grid-template-columns: 1fr; max-width: 460px; }
+      .vrc-left-column { display: none; }
+      .vrc-right-column { padding: 36px 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VRChat 标志性深渊空间背景与微光网格 -->
+  <div class="vrchat-ambient-bg"></div>
+  <div class="vrchat-grid-overlay"></div>
+  <!-- VRChat 标志性漂浮微光粒子画布 -->
+  <canvas id="vrcParticlesCanvas"></canvas>
+
+  <!-- 双栏主卡片容器 -->
+  <div class="vrc-main-card">
+
+    <!-- ===== 左栏：虚拟世界探索总览 ===== -->
+    <div class="vrc-left-column">
+      
+      <!-- Brand Logo -->
+      <div class="vrc-brand-group">
+        <div class="vrc-logo-badge">
+          <!-- 经典元宇宙面具 / 头显 SVG 矢量徽标 -->
+          <svg viewBox="0 0 24 24">
+            <path d="M21 7H3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v-2H3V9h18v6h-2v2h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM7 11a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+          </svg>
+        </div>
+        <div class="vrc-brand-text">
+          <div class="vrc-brand-name">LINGUAVERSE</div>
+          <div class="vrc-brand-tag">Virtual Language Metaverse</div>
+        </div>
+      </div>
+
+      <!-- 核心文案 -->
+      <div class="vrc-hero-section">
+        <h1 class="vrc-headline">
+          漫步虚拟世界，<br>
+          开启<span>多维沉浸式英语探索</span>
+        </h1>
+        <p class="vrc-description">
+          与全球英语探索者同聚一堂！在开放自由的虚拟大厅中自由对话、在接龙区同台较量、漫游学术藏书楼与地道茶歇空间。
+        </p>
+
+        <!-- 四大核心场景空间 -->
+        <div class="vrc-worlds-grid">
+          
+          <div class="vrc-world-item">
+            <div class="vrc-world-icon">☀️</div>
+            <div class="vrc-world-info">
+              <span class="vrc-world-name">Sunshine Hall</span>
+              <span class="vrc-world-sub">阳光大厅 · 自由漫步与向导</span>
+            </div>
+          </div>
+
+          <div class="vrc-world-item">
+            <div class="vrc-world-icon">🎮</div>
+            <div class="vrc-world-info">
+              <span class="vrc-world-name">Arcade Zone</span>
+              <span class="vrc-world-sub">单词接龙 · 打字竞速擂台</span>
+            </div>
+          </div>
+
+          <div class="vrc-world-item">
+            <div class="vrc-world-icon">☕</div>
+            <div class="vrc-world-info">
+              <span class="vrc-world-name">Slang Lounge</span>
+              <span class="vrc-world-sub">俚语茶歇 · 地道原声表达</span>
+            </div>
+          </div>
+
+          <div class="vrc-world-item">
+            <div class="vrc-world-icon">🏛️</div>
+            <div class="vrc-world-info">
+              <span class="vrc-world-name">Arcane Codex</span>
+              <span class="vrc-world-sub">奥术藏书阁 · 修复残卷任务</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 空间特性标签 -->
+        <div class="vrc-feature-tags">
+          <span class="vrc-tag">✦ 空间实时漫游</span>
+          <span class="vrc-tag">✦ 智能NPC口语对话</span>
+          <span class="vrc-tag">✦ 单词接龙与打字对战</span>
+        </div>
+
+        <!-- 沉浸式功能提示 -->
+        <div class="vrc-immersion-tip">
+          <span class="vrc-immersion-tip-icon">🎙️</span>
+          <span>支持空间距离立体语音衰减，靠近同伴即可畅聊交互</span>
+        </div>
+
+      </div>
+
+      <!-- 底部状态指示 -->
+      <div class="vrc-left-footer">
+        <div class="vrc-pulsing-dots" title="System Ready">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <span>↵ Enter 快速登录</span>
+      </div>
+
+    </div>
+
+    <!-- ===== 右栏：登录 / 注册操作区 ===== -->
+    <div class="vrc-right-column">
+
+      <!-- 模式切换 Tab -->
+      <div class="vrc-tab-bar">
+        <button class="vrc-tab-btn active" id="tabLogin" onclick="switchVrc('login')">登录账号</button>
+        <button class="vrc-tab-btn" id="tabRegister" onclick="switchVrc('register')">新用户注册</button>
+      </div>
+
+      <!-- 动态标题 -->
+      <h2 class="vrc-form-title" id="formTitle">欢迎回到灵语世界</h2>
+      <p class="vrc-form-desc" id="formDesc">请输入你的账号密码，载入虚拟世界</p>
+
+      <!-- 表单结构 -->
+      <form onsubmit="event.preventDefault(); submitVrc();">
+        
+        <!-- 用户名 -->
+        <div class="vrc-field-group">
+          <label class="vrc-field-label">用户名 (USERNAME)</label>
+          <div class="vrc-input-wrap">
+            <svg class="vrc-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" class="vrc-input" id="vrcUser" placeholder="请输入你的账号用户名" required value="admin">
+          </div>
+        </div>
+
+        <!-- 昵称（注册时出现） -->
+        <div class="vrc-field-group" id="nickGroup" style="display: none;">
+          <label class="vrc-field-label">世界昵称 (NICKNAME - 选填)</label>
+          <div class="vrc-input-wrap">
+            <svg class="vrc-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <input type="text" class="vrc-input" id="vrcNick" placeholder="头顶展示昵称（例如：Leo）">
+          </div>
+        </div>
+
+        <!-- 密码 -->
+        <div class="vrc-field-group">
+          <label class="vrc-field-label">密码 (PASSWORD)</label>
+          <div class="vrc-input-wrap">
+            <svg class="vrc-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" class="vrc-input" id="vrcPwd" placeholder="请输入密码" required value="123456">
+            <button type="button" class="vrc-eye-toggle" onclick="toggleVrcPwd('vrcPwd', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 确认密码（注册时出现） -->
+        <div class="vrc-field-group" id="confirmGroup" style="display: none;">
+          <label class="vrc-field-label">确认密码 (CONFIRM PASSWORD)</label>
+          <div class="vrc-input-wrap">
+            <svg class="vrc-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <input type="password" class="vrc-input" id="vrcConfirm" placeholder="请再次输入相同密码">
+            <button type="button" class="vrc-eye-toggle" onclick="toggleVrcPwd('vrcConfirm', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 保持登录 / 忘记密码 -->
+        <div class="vrc-options-row" id="optsRow">
+          <label class="vrc-checkbox-label">
+            <input type="checkbox" checked>
+            <span class="vrc-check-box"></span>
+            <span>记住登录状态</span>
+          </label>
+          <a href="javascript:alert('密码重置信件已发送至您的绑定邮箱');" class="vrc-forgot-btn">忘记密码？</a>
+        </div>
+
+        <!-- VRChat 实心青绿大按键 -->
+        <button type="submit" class="vrc-submit-btn" id="submitBtn">
+          <span id="btnText">进入灵语世界</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+
+  <script>
+    let mode = 'login';
+
+    function switchVrc(newMode) {
+      mode = newMode;
+      const tabL = document.getElementById('tabLogin');
+      const tabR = document.getElementById('tabRegister');
+      const title = document.getElementById('formTitle');
+      const desc = document.getElementById('formDesc');
+      const nick = document.getElementById('nickGroup');
+      const conf = document.getElementById('confirmGroup');
+      const opts = document.getElementById('optsRow');
+      const btn = document.getElementById('btnText');
+
+      if (mode === 'login') {
+        tabL.classList.add('active');
+        tabR.classList.remove('active');
+        title.innerText = '欢迎回到灵语世界';
+        desc.innerText = '请输入你的账号密码，载入虚拟世界';
+        nick.style.display = 'none';
+        conf.style.display = 'none';
+        opts.style.display = 'flex';
+        btn.innerText = '进入灵语世界';
+      } else {
+        tabR.classList.add('active');
+        tabL.classList.remove('active');
+        title.innerText = '注册新账号';
+        desc.innerText = '请填写账号信息以创建新账号';
+        nick.style.display = 'block';
+        conf.style.display = 'block';
+        opts.style.display = 'none';
+        btn.innerText = '注 册';
+      }
+    }
+
+    function toggleVrcPwd(id, btn) {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.style.color = '#00b4c5';
+      } else {
+        input.type = 'password';
+        btn.style.color = '#5a7082';
+      }
+    }
+
+    function submitVrc() {
+      alert(mode === 'login' ? '🚀 登录成功！正在载入阳光大厅...' : '✨ 注册成功！欢迎进入 LinguaVerse 虚拟世界！');
+    }
+
+    /* ===== VRChat 经典漂浮微光粒子动效引擎 ===== */
+    (function initVrcParticles() {
+      const canvas = document.getElementById('vrcParticlesCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let animationId = null;
+
+      function resize() {
+        dpr = window.devicePixelRatio || 1;
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // 粒子池
+      const particles = [];
+      const particleCount = Math.min(65, Math.floor((width * height) / 22000));
+
+      class Particle {
+        constructor(isInitial = false) {
+          this.reset(isInitial);
+        }
+
+        reset(isInitial = false) {
+          this.x = Math.random() * width;
+          this.y = isInitial ? Math.random() * height : height + 10 + Math.random() * 20;
+          this.radius = 1.0 + Math.random() * 2.4;
+          // 向上慢速飘移，微弱水平摆动
+          this.vx = (Math.random() - 0.5) * 0.32;
+          this.vy = -(0.18 + Math.random() * 0.45);
+          this.baseAlpha = 0.2 + Math.random() * 0.55;
+          this.pulseSpeed = 0.015 + Math.random() * 0.025;
+          this.pulsePhase = Math.random() * Math.PI * 2;
+          
+          // 颜色采样：经典 VRChat 青绿 (80%)、高光青蓝 (15%)、极光冰白 (5%)
+          const colorRoll = Math.random();
+          if (colorRoll < 0.8) {
+            this.color = '0, 180, 197'; // VRChat Teal
+          } else if (colorRoll < 0.95) {
+            this.color = '0, 225, 245'; // Bright Cyan
+          } else {
+            this.color = '210, 245, 255'; // Ice Glow
+          }
+
+          // 10% 概率生成大虚焦散斑光晕
+          this.isBokeh = Math.random() < 0.12;
+          if (this.isBokeh) {
+            this.radius = 14 + Math.random() * 26;
+            this.baseAlpha = 0.03 + Math.random() * 0.05;
+            this.vy = -(0.08 + Math.random() * 0.15);
+          }
+        }
+
+        update() {
+          this.x += this.vx + Math.sin(this.pulsePhase) * 0.12;
+          this.y += this.vy;
+          this.pulsePhase += this.pulseSpeed;
+
+          // 越界重置
+          if (this.y < -this.radius * 2) {
+            this.reset(false);
+          }
+          if (this.x < -this.radius * 2) {
+            this.x = width + this.radius;
+          } else if (this.x > width + this.radius * 2) {
+            this.x = -this.radius;
+          }
+        }
+
+        draw() {
+          const alpha = Math.max(0.05, this.baseAlpha + Math.sin(this.pulsePhase) * 0.18);
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+
+          if (this.isBokeh) {
+            const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+            grad.addColorStop(0, `rgba(${this.color}, ${alpha})`);
+            grad.addColorStop(0.6, `rgba(${this.color}, ${alpha * 0.4})`);
+            grad.addColorStop(1, `rgba(${this.color}, 0)`);
+            ctx.fillStyle = grad;
+            ctx.shadowBlur = 0;
+          } else {
+            ctx.fillStyle = `rgba(${this.color}, ${alpha})`;
+            ctx.shadowColor = `rgba(${this.color}, 0.8)`;
+            ctx.shadowBlur = this.radius * 3.5;
+          }
+
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(true));
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        animationId = requestAnimationFrame(render);
+      }
+
+      render();
+    })();
+  </script>
+</body>
+</html>

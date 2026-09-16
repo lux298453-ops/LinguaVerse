@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方案二·卷轴版：皇家秘术垂挂卷轴 · The Royal Arcane Scroll</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=MedievalSharp&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wood-top: #381f10;
+      --wood-rim: #1f0f06;
+      --parchment-base: #f9f1d8;
+      --parchment-border: #7c4819;
+      --wax-red: #b91c1c;
+      --gold-accent: #d97706;
+      --text-ink: #2b180d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0b0711;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-ink);
+      position: relative;
+      overflow-x: hidden;
+      background: 
+        radial-gradient(circle at 50% 25%, rgba(217, 119, 6, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 10% 90%, rgba(185, 28, 28, 0.15) 0%, transparent 50%),
+        #0c0813;
+    }
+
+    /* 魔法星尘与余烬飘动背景 */
+    .sparkle-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fef08a, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #f59e0b, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #fef08a, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      opacity: 0.6;
+      animation: sparkleDrift 20s linear infinite;
+    }
+
+    @keyframes sparkleDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(-200px); }
+    }
+
+    /* 垂挂卷轴整体 */
+    .scroll-wrapper {
+      position: relative;
+      width: 580px;
+      max-width: 100%;
+      z-index: 10;
+      filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.85));
+      animation: unroll 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes unroll {
+      0% { transform: scaleY(0.3) translateY(-60px); opacity: 0; }
+      100% { transform: scaleY(1) translateY(0); opacity: 1; }
+    }
+
+    /* 上部实木卷轴芯与象牙把手 */
+    .scroll-rod {
+      height: 32px;
+      background: linear-gradient(180deg, #5c3519 0%, #301708 50%, #5c3519 100%);
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.6);
+      border: 1px solid #78401a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      z-index: 15;
+    }
+
+    .rod-knob {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fef08a 0%, #c69234 40%, #522d0d 100%);
+      border: 2px solid #301708;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+      margin: 0 -18px;
+    }
+
+    /* 卷轴羊皮纸主体 */
+    .scroll-paper {
+      background: var(--parchment-base);
+      margin: -10px 14px;
+      padding: 44px 44px 38px;
+      border-left: 5px double #6b3e15;
+      border-right: 5px double #6b3e15;
+      box-shadow: 
+        inset 0 0 50px rgba(120, 68, 22, 0.35),
+        inset 0 15px 25px rgba(0, 0, 0, 0.25),
+        inset 0 -15px 25px rgba(0, 0, 0, 0.25);
+      position: relative;
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(254, 243, 199, 0.8) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(120, 68, 22, 0.07) 28px);
+    }
+
+    /* 垂挂的皇家火漆吊坠印章 */
+    .pendant-seal {
+      position: absolute;
+      top: -6px;
+      right: 28px;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .seal-ribbon {
+      width: 20px;
+      height: 46px;
+      background: linear-gradient(180deg, #b91c1c, #7f1d1d);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+    }
+
+    .seal-medallion {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #dc2626 35%, #881337 100%);
+      border: 3px solid #450a0a;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 900;
+      color: #fef08a;
+      margin-top: -8px;
+      transform: rotate(-10deg);
+      user-select: none;
+    }
+
+    /* 标题与符文标头 */
+    .scroll-head {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      padding-bottom: 16px;
+      border-bottom: 2px dashed rgba(107, 62, 21, 0.35);
+    }
+
+    .scroll-crest {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: #78350f;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+
+    .scroll-title {
+      font-family: 'MedievalSharp', 'Cinzel', cursive;
+      font-size: 28px;
+      color: #3b1d06;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+      margin-bottom: 4px;
+    }
+
+    .scroll-desc {
+      font-size: 12px;
+      color: #633c19;
+      font-style: italic;
+    }
+
+    /* 模式切换器 */
+    .scroll-tab-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .scroll-tab {
+      background: #ebdcb6;
+      border: 2px solid #7c4819;
+      border-radius: 6px;
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4a270d;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+    }
+
+    .scroll-tab.active {
+      background: #d97706;
+      color: #ffffff;
+      border-color: #78350f;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 3px 8px rgba(180, 83, 9, 0.4);
+    }
+
+    /* 古典表单项 */
+    .scroll-field {
+      margin-bottom: 16px;
+    }
+
+    .field-label-text {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4a280d;
+      margin-bottom: 5px;
+    }
+
+    .field-scroll-input {
+      width: 100%;
+      height: 44px;
+      background: #fffdf5;
+      border: 2px solid #8c5d2b;
+      border-radius: 6px;
+      padding: 0 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2e1708;
+      outline: none;
+      box-shadow: inset 1px 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+
+    .field-scroll-input:focus {
+      border-color: #b45309;
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25), inset 1px 2px 4px rgba(0,0,0,0.08);
+      background: #ffffff;
+    }
+
+    /* 誓约主按钮 */
+    .covenant-btn {
+      width: 100%;
+      height: 50px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+      border: 3px solid #14532d;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #14532d, 0 10px 18px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.1s;
+    }
+
+    .covenant-btn:hover {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 #14532d, 0 14px 22px rgba(0,0,0,0.4);
+    }
+
+    .covenant-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 0 0 #14532d;
+    }
+
+    /* 卷轴底部修饰 */
+    .scroll-foot {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11px;
+      color: #78441b;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(120, 68, 22, 0.2);
+      padding-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sparkle-bg"></div>
+
+  <div class="scroll-wrapper">
+    
+    <!-- 上卷轴木心与象牙头 -->
+    <div class="scroll-rod">
+      <div class="rod-knob"></div>
+      <div style="font-size: 10px; color: #fde68a; letter-spacing: 4px; font-weight: bold;">✦ LINGUAVERSE ROYAL DECREE ✦</div>
+      <div class="rod-knob"></div>
+    </div>
+
+    <!-- 羊皮纸纸体 -->
+    <div class="scroll-paper">
+      
+      <!-- 火漆吊坠印章 -->
+      <div class="pendant-seal">
+        <div class="seal-ribbon"></div>
+        <div class="seal-medallion">LV</div>
+      </div>
+
+      <!-- 头部 -->
+      <div class="scroll-head">
+        <div class="scroll-crest">✦ ADVENTURER'S COVENANT ✦</div>
+        <h1 class="scroll-title" id="sTitle">冒险者入馆誓约</h1>
+        <p class="scroll-desc" id="sDesc">呈递你的冒险誓约，前往阳光大厅与神秘遗迹</p>
+      </div>
+
+      <!-- 模式切换 -->
+      <div class="scroll-tab-bar">
+        <button class="scroll-tab active" id="tabSLogin" onclick="setScrollMode('login')">📜 验照入馆</button>
+        <button class="scroll-tab" id="tabSReg" onclick="setScrollMode('register')">✍️ 签署新誓约</button>
+      </div>
+
+      <!-- 表单区 -->
+      <form onsubmit="event.preventDefault(); submitScroll();">
+        <div class="scroll-field">
+          <label class="field-label-text">🛡️ 冒险者名号 (Username)</label>
+          <input type="text" class="field-scroll-input" id="sUser" placeholder="输入公会名号" required value="admin">
+        </div>
+
+        <div class="scroll-field" id="sNickBlock" style="display: none;">
+          <label class="field-label-text">✨ 冒险公开称号 (Nickname - 选填)</label>
+          <input type="text" class="field-scroll-input" id="sNick" placeholder="例如：星穹学者 艾略特">
+        </div>
+
+        <div class="scroll-field">
+          <label class="field-label-text">🗝️ 通关奥术密语 (Password)</label>
+          <input type="password" class="field-scroll-input" id="sPwd" placeholder="输入密语" required value="123456">
+        </div>
+
+        <div class="scroll-field" id="sConfirmBlock" style="display: none;">
+          <label class="field-label-text">📜 再次确认密语 (Confirm Password)</label>
+          <input type="password" class="field-scroll-input" id="sConfirm" placeholder="再次输入密语">
+        </div>
+
+        <button type="submit" class="covenant-btn" id="sBtn">
+          <span>⚔️ 呈递誓约 · 准予通行</span>
+        </button>
+
+        <div class="scroll-foot">
+          <span>🪙 首次入驻即赠 20 金币</span>
+          <span>🏛️ Sunshine Hall 认证</span>
+        </div>
+      </form>
+
+    </div>
+
+    <!-- 下卷轴木心与象牙头 -->
+    <div class="scroll-rod">
+      <div class="rod-knob"></div>
+      <div style="font-size: 9px; color: #d4a373;">— ASTRAL COVENANT SEALED —</div>
+      <div class="rod-knob"></div>
+    </div>
+
+  </div>
+
+  <script>
+    let sMode = 'login';
+    function setScrollMode(m) {
+      sMode = m;
+      const tabL = document.getElementById('tabSLogin');
+      const tabR = document.getElementById('tabSReg');
+      const title = document.getElementById('sTitle');
+      const desc = document.getElementById('sDesc');
+      const nick = document.getElementById('sNickBlock');
+      const conf = document.getElementById('sConfirmBlock');
+      const btn = document.getElementById('sBtn');
+
+      if (m === 'login') {
+        tabL.classList.add('active');
+        tabR.classList.remove('active');
+        title.innerText = '冒险者入馆誓约';
+        desc.innerText = '出示你的公会代号与通关密语，继续冒险征程';
+        nick.style.display = 'none';
+        conf.style.display = 'none';
+        btn.querySelector('span').innerText = '⚔️ 呈递誓约 · 准予通行';
+        btn.style.background = 'linear-gradient(135deg, #15803d, #166534)';
+        btn.style.borderColor = '#14532d';
+      } else {
+        tabR.classList.add('active');
+        tabL.classList.remove('active');
+        title.innerText = '缔结终身冒险契约';
+        desc.innerText = '签署皇家公会羊皮纸契约，即获 20 金币初始物资';
+        nick.style.display = 'block';
+        conf.style.display = 'block';
+        btn.querySelector('span').innerText = '📜 签署契约并领取 20 金币！';
+        btn.style.background = 'linear-gradient(135deg, #ea580c, #9a3412)';
+        btn.style.borderColor = '#7c2d12';
+      }
+    }
+
+    function submitScroll() {
+      alert(sMode === 'login' ? '🏰 欢迎回归公会！卷轴封印已解！' : '🌟 恭喜成为新晋冒险者！已发放 20 金币！');
+    }
+  </script>
+</body>
+</html>

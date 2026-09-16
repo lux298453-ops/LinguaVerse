@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方案二·重构豪华版：冒险公会典籍手账 · The Guildmaster's Codex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=MedievalSharp&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --leather-dark: #1e130b;
+      --leather-border: #3d2314;
+      --brass-gold: #c69234;
+      --brass-light: #fad674;
+      --brass-shadow: #6b470f;
+      --paper-bg: #f5eed3;
+      --paper-edge: #deb887;
+      --paper-texture: #e9dfbe;
+      --ink-dark: #22140a;
+      --ink-sub: #5c422c;
+      --wax-red: #9e1919;
+      --wax-glow: rgba(185, 28, 28, 0.4);
+      --highlight-gold: #b45309;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: #0d0914;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--ink-dark);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      position: relative;
+      overflow-x: hidden;
+      perspective: 1200px;
+    }
+
+    /* 沉浸式酒馆背景：暗色石砖与动态暖光壁炉微粒 */
+    #emberCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ambient-tavern {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 50% 30%, rgba(217, 119, 6, 0.18) 0%, transparent 65%),
+        radial-gradient(circle at 10% 80%, rgba(180, 83, 9, 0.22) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(220, 38, 38, 0.15) 0%, transparent 55%),
+        linear-gradient(180deg, #0d0914 0%, #170d18 100%);
+      z-index: 0;
+    }
+
+    /* 主手账外壳：厚重深棕皮革装订与双层木质衬板 */
+    .codex-container {
+      position: relative;
+      z-index: 10;
+      width: 1060px;
+      max-width: 100%;
+      background: var(--leather-dark);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.9),
+        0 10px 25px rgba(0, 0, 0, 0.7),
+        0 0 0 3px #452615,
+        0 0 0 6px #1a0f07;
+      border: 2px solid #573319;
+      animation: bookAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes bookAppear {
+      0% { opacity: 0; transform: translateY(30px) rotateX(10deg); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+    }
+
+    /* 黄铜复古雕花包角（四个角落） */
+    .brass-corner {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      z-index: 25;
+      pointer-events: none;
+      filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.6));
+    }
+    .brass-corner.tl { top: 6px; left: 6px; }
+    .brass-corner.tr { top: 6px; right: 6px; transform: rotate(90deg); }
+    .brass-corner.bl { bottom: 6px; left: 6px; transform: rotate(-90deg); }
+    .brass-corner.br { bottom: 6px; right: 6px; transform: rotate(180deg); }
+
+    /* 摊开的书本主体（双页展开） */
+    .codex-spread {
+      background: var(--paper-bg);
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: 
+        inset 0 0 60px rgba(133, 85, 34, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.5);
+      border: 1px solid #c9a46c;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 书脊立体中缝阴影与金色锁线装订 */
+    .book-spine {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 40px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, 
+        rgba(0, 0, 0, 0.28) 0%, 
+        rgba(74, 43, 16, 0.4) 40%, 
+        rgba(0, 0, 0, 0.5) 50%, 
+        rgba(74, 43, 16, 0.4) 60%, 
+        rgba(0, 0, 0, 0.28) 100%
+      );
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .book-spine::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      bottom: 15px;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(180deg, #c69234, #c69234 10px, transparent 10px, transparent 18px);
+      box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    }
+
+    /* 红色丝缎书签飘带（从书脊上方垂下） */
+    .silk-ribbon {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 120px;
+      background: linear-gradient(180deg, #b91c1c 0%, #7f1d1d 85%, #991b1b 100%);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      z-index: 22;
+      border-radius: 0 0 4px 4px;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 22px;
+      transition: all 0.3s;
+    }
+
+    .ribbon-coin {
+      width: 14px;
+      height: 14px;
+      background: #facc15;
+      border: 1px solid #78350f;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ====== 左页：公会冒险者通行档案 (PASSPORT SIDE) ====== */
+    .left-page {
+      padding: 44px 42px 36px 44px;
+      border-right: 1px solid rgba(133, 85, 34, 0.3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: 
+        radial-gradient(circle at 10% 10%, rgba(254, 243, 199, 0.6) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(133, 85, 34, 0.08) 28px);
+    }
+
+    /* 水印底纹 */
+    .watermark-crest {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .passport-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #a87d46;
+      padding-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .guild-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #78350f;
+      letter-spacing: 2px;
+    }
+
+    .passport-id-badge {
+      font-family: monospace;
+      font-size: 11px;
+      background: #e9dfbe;
+      border: 1px solid #a87d46;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #5c3b17;
+      font-weight: bold;
+    }
+
+    /* 冒险者肖像相框与职业选择 */
+    .portrait-section {
+      margin: 20px 0;
+      display: flex;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .photo-frame {
+      width: 120px;
+      height: 140px;
+      background: #ebdcb6;
+      border: 3px solid #855522;
+      box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.2),
+        3px 4px 10px rgba(0,0,0,0.25);
+      border-radius: 6px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      background-image: radial-gradient(#d6c295 1px, transparent 1px);
+      background-size: 8px 8px;
+    }
+
+    .photo-frame::after {
+      content: 'GUILD VERIFIED';
+      font-size: 8px;
+      font-weight: 800;
+      color: #991b1b;
+      letter-spacing: 1px;
+      border-top: 1px dashed #b91c1c;
+      width: 100%;
+      text-align: center;
+      padding-top: 3px;
+    }
+
+    .avatar-preview-img {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+      transition: transform 0.2s;
+    }
+
+    .photo-frame:hover .avatar-preview-img {
+      transform: scale(1.08);
+    }
+
+    .char-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .char-name-title {
+      font-family: 'MedievalSharp', cursive;
+      font-size: 22px;
+      font-weight: 700;
+      color: #381f0d;
+      margin-bottom: 4px;
+    }
+
+    .char-rank-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef3c7;
+      border: 1px solid #d97706;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400e;
+      width: fit-content;
+      margin-bottom: 10px;
+    }
+
+    /* 快速挑选冒险者职业 (4 款) */
+    .class-picker-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #78350f;
+      margin-bottom: 6px;
+    }
+
+    .class-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .class-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      background: #eedfad;
+      border: 1px solid #aa804c;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #4a280e;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    .class-pill:hover {
+      background: #fde68a;
+      border-color: #b45309;
+    }
+
+    .class-pill.active {
+      background: #d97706;
+      color: #fff;
+      border-color: #78350f;
+      box-shadow: 0 2px 4px rgba(180, 83, 9, 0.4);
+    }
+
+    /* 公会档案指标（金币、技能、初始道具） */
+    .passport-data-grid {
+      border: 1px solid #c9a46c;
+      background: rgba(254, 243, 199, 0.5);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .data-item {
+      font-size: 12px;
+    }
+
+    .data-label {
+      color: #78350f;
+      font-weight: 600;
+      font-size: 11px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .data-val {
+      font-weight: 700;
+      color: #2e1a0b;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* 左页底部盖章 */
+    .guild-stamp-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px dashed #b8860b;
+      padding-top: 12px;
+      font-size: 11px;
+      color: #6b4317;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ====== 右页：检录入馆与签署誓约 (FORM SIDE) ====== */
+    .right-page {
+      padding: 44px 44px 36px 42px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: 
+        radial-gradient(circle at 90% 10%, rgba(254, 243, 199, 0.5) 0%, transparent 50%),
+        repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(133, 85, 34, 0.08) 28px);
+    }
+
+    /* 顶部羊皮纸 Tab 标签切换 */
+    .parchment-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
+      border-bottom: 2px solid #855522;
+      padding-bottom: 8px;
+    }
+
+    .parchment-tab-btn {
+      background: #e4d3a7;
+      border: 2px solid #855522;
+      border-bottom: none;
+      padding: 8px 18px;
+      border-radius: 8px 8px 0 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #5c3514;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .parchment-tab-btn.active {
+      background: #fbf6e8;
+      color: #854d0e;
+      border-color: #855522;
+      position: relative;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+      transform: translateY(2px);
+    }
+
+    .parchment-tab-btn:hover:not(.active) {
+      background: #eeddaf;
+    }
+
+    .form-heading {
+      margin-bottom: 18px;
+    }
+
+    .form-heading h2 {
+      font-family: 'MedievalSharp', 'Cinzel', cursive;
+      font-size: 24px;
+      color: #3b1d06;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-heading p {
+      font-size: 12px;
+      color: var(--ink-sub);
+      margin-top: 3px;
+    }
+
+    /* 手账式古典输入栏 */
+    .tome-field {
+      margin-bottom: 16px;
+    }
+
+    .tome-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .tome-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #4a280d;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tome-input-box {
+      background: #fffdf5;
+      border: 2px solid #926438;
+      border-radius: 6px;
+      box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      transition: all 0.2s;
+    }
+
+    .tome-input-box:focus-within {
+      border-color: #b45309;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3), inset 1px 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .tome-input {
+      width: 100%;
+      height: 44px;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      color: #271408;
+      font-weight: 600;
+    }
+
+    .tome-input::placeholder {
+      color: #a38970;
+      font-weight: 400;
+    }
+
+    .key-toggle-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #8c6747;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+    .key-toggle-btn:hover { color: #b45309; }
+
+    /* 选项行（记住密语 / 飞鸽寻回） */
+    .tome-options-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin: 10px 0 20px;
+    }
+
+    .remember-seal {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #633c19;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .seal-checkbox {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #855522;
+      border-radius: 4px;
+      background: #fdfaf2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .remember-seal input { display: none; }
+    .remember-seal input:checked + .seal-checkbox {
+      background: #b91c1c;
+      border-color: #7f1d1d;
+    }
+    .remember-seal input:checked + .seal-checkbox::after {
+      content: '✦';
+      color: #fef08a;
+      font-size: 10px;
+    }
+
+    .pigeon-link {
+      color: #b45309;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .pigeon-link:hover { text-decoration: underline; }
+
+    /* 终极火漆印章按键 (WAX SEAL STAMP BUTTON) */
+    .seal-action-btn {
+      width: 100%;
+      height: 52px;
+      background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+      border: 2px solid #450a0a;
+      border-radius: 8px;
+      color: #fffbeb;
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      box-shadow: 
+        0 6px 0 #450a0a,
+        0 12px 20px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.1s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .seal-action-btn:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #450a0a, 0 16px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .seal-action-btn:active {
+      transform: translateY(6px);
+      box-shadow: 0 0 0 #450a0a, 0 3px 6px rgba(0,0,0,0.3);
+    }
+
+    /* 快速体验徽章 */
+    .quick-adventurer-btn {
+      margin-top: 12px;
+      width: 100%;
+      height: 38px;
+      background: #ebdcb6;
+      border: 1px dashed #855522;
+      border-radius: 6px;
+      color: #5c3b17;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .quick-adventurer-btn:hover {
+      background: #faecc8;
+      border-color: #b45309;
+      color: #9a3412;
+    }
+
+    /* 盖章成功印记覆盖层 (STAMP OVERLAY) */
+    .stamp-overlay {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-12deg) scale(2);
+      width: 200px;
+      height: 90px;
+      border: 5px solid #dc2626;
+      border-radius: 12px;
+      color: #dc2626;
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      font-weight: 900;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 100;
+      text-shadow: 0 0 4px rgba(220, 38, 38, 0.4);
+      background: rgba(254, 226, 226, 0.2);
+    }
+
+    .stamp-overlay.active {
+      opacity: 0.92;
+      transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 900px) {
+      .codex-spread { grid-template-columns: 1fr; }
+      .left-page { display: none; }
+      .silk-ribbon { display: none; }
+      .book-spine { display: none; }
+      .right-page { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 酒馆背景火光粒子 Canvas -->
+  <div class="ambient-tavern"></div>
+  <canvas id="emberCanvas"></canvas>
+
+  <!-- 手账主卡片 -->
+  <div class="codex-container">
+
+    <!-- 四角纯黄铜复古雕花包角 (SVG 矢量打造) -->
+    <svg class="brass-corner tl" viewBox="0 0 100 100">
+      <path d="M0,0 L100,0 C70,10 50,20 40,40 C20,50 10,70 0,100 Z" fill="url(#brassGrad)" stroke="#573319" stroke-width="3"/>
+      <circle cx="25" cy="25" r="8" fill="#573319"/>
+      <circle cx="25" cy="25" r="5" fill="#facc15"/>
+    </svg>
+    <svg class="brass-corner tr" viewBox="0 0 100 100">
+      <path d="M0,0 L100,0 C70,10 50,20 40,40 C20,50 10,70 0,100 Z" fill="url(#brassGrad)" stroke="#573319" stroke-width="3"/>
+      <circle cx="25" cy="25" r="8" fill="#573319"/>
+      <circle cx="25" cy="25" r="5" fill="#facc15"/>
+    </svg>
+    <svg class="brass-corner bl" viewBox="0 0 100 100">
+      <path d="M0,0 L100,0 C70,10 50,20 40,40 C20,50 10,70 0,100 Z" fill="url(#brassGrad)" stroke="#573319" stroke-width="3"/>
+      <circle cx="25" cy="25" r="8" fill="#573319"/>
+      <circle cx="25" cy="25" r="5" fill="#facc15"/>
+    </svg>
+    <svg class="brass-corner br" viewBox="0 0 100 100">
+      <path d="M0,0 L100,0 C70,10 50,20 40,40 C20,50 10,70 0,100 Z" fill="url(#brassGrad)" stroke="#573319" stroke-width="3"/>
+      <circle cx="25" cy="25" r="8" fill="#573319"/>
+      <circle cx="25" cy="25" r="5" fill="#facc15"/>
+    </svg>
+
+    <!-- 渐变色定义定义池 -->
+    <svg width="0" height="0" style="position: absolute;">
+      <defs>
+        <linearGradient id="brassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fad674"/>
+          <stop offset="50%" stop-color="#c69234"/>
+          <stop offset="100%" stop-color="#7c4e13"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- 展开的书页主体 -->
+    <div class="codex-spread">
+      
+      <!-- 立体书脊与丝缎书签 -->
+      <div class="book-spine"></div>
+      <div class="silk-ribbon">
+        <div class="ribbon-coin"></div>
+      </div>
+
+      <!-- ================= 左页：冒险者通行档案 ================= -->
+      <div class="left-page">
+
+        <!-- 背景公会徽章水印 -->
+        <svg class="watermark-crest" viewBox="0 0 24 24" fill="#6d411b">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.67-3.13 9.04-7 10.18-3.87-1.14-7-5.51-7-10.18V6.3l7-3.12z"/>
+        </svg>
+
+        <div>
+          <!-- 顶部公会标头 -->
+          <div class="passport-header">
+            <div>
+              <div class="guild-tag">LINGUAVERSE GUILD</div>
+              <div style="font-size: 11px; color: #855522; font-style: italic;">Official Passport Codex</div>
+            </div>
+            <div class="passport-id-badge" id="displayUid">PASSPORT #LV-2026-8941</div>
+          </div>
+
+          <!-- 肖像照相框与职业选择 -->
+          <div class="portrait-section">
+            <div class="photo-frame">
+              <img id="avatarImg" class="avatar-preview-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=WizardLeo" alt="Adventurer Avatar">
+              <span style="font-size: 9px; font-weight: bold; color: #5c3514;" id="avatarLabel">秘术法师</span>
+            </div>
+
+            <div class="char-info">
+              <div class="char-name-title" id="avatarName">学者 · 艾略特 (Leo)</div>
+              <div class="char-rank-tag">
+                <span>⭐ 冒险等级：</span>
+                <strong>RANK E (初级探求者)</strong>
+              </div>
+
+              <!-- 职业切换药丸 -->
+              <div class="class-picker-title">✨ 选择你的初始公会职业：</div>
+              <div class="class-pills">
+                <button type="button" class="class-pill active" onclick="selectClass('WizardLeo', '秘术法师', '法师 · 艾略特 (Leo)', this)">🧙 法师</button>
+                <button type="button" class="class-pill" onclick="selectClass('RangerLuna', '风行游侠', '游侠 · 露娜 (Luna)', this)">🏹 游侠</button>
+                <button type="button" class="class-pill" onclick="selectClass('AlchemistMary', '灵药学者', '学者 · 玛丽 (Mary)', this)">🧪 学者</button>
+                <button type="button" class="class-pill" onclick="selectClass('PaladinArthur', '誓约圣骑', '圣骑 · 亚瑟 (Arthur)', this)">🛡️ 圣骑</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 通行档案数据表单格 -->
+          <div class="passport-data-grid">
+            <div class="data-item">
+              <span class="data-label">签发大厅 (ISSUED AT)</span>
+              <span class="data-val">🏛️ Sunshine Hall · 阳光大厅</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">初始物资 (PROVISIONS)</span>
+              <span class="data-val">🪙 20 金币 + 📖 灵语词典</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">语言魔法亲和 (AFFINITY)</span>
+              <span class="data-val">🌟 词根共鸣 +15%</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">公会通行许可 (STATUS)</span>
+              <span class="data-val" style="color: #15803d;">✓ 准予进入星门</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 左页底部誓言 -->
+        <div class="guild-stamp-foot">
+          <span>“以誓约为引，愿星光与知识庇佑求索者”</span>
+          <span style="font-weight: 700; color: #991b1b;">[公会大印]</span>
+        </div>
+      </div>
+
+      <!-- ================= 右页：检录入馆与签署誓约 ================= -->
+      <div class="right-page">
+        
+        <!-- 盖章命中覆盖层 -->
+        <div class="stamp-overlay" id="stampOverlay">
+          <span>APPROVED</span>
+          <span style="font-size: 11px; letter-spacing: 2px;">准予通行入馆</span>
+        </div>
+
+        <div>
+          <!-- 羊皮纸 Tab 标签 -->
+          <div class="parchment-tabs">
+            <button class="parchment-tab-btn active" id="tabLogin" onclick="switchCodexMode('login')">
+              <span>📜 验照入馆 (登录)</span>
+            </button>
+            <button class="parchment-tab-btn" id="tabRegister" onclick="switchCodexMode('register')">
+              <span>✍️ 签署誓约 (注册)</span>
+            </button>
+          </div>
+
+          <!-- 标题与誓约引言 -->
+          <div class="form-heading">
+            <h2 id="pageTitle">
+              <span>📜 出示冒险者通行证</span>
+            </h2>
+            <p id="pageDesc">呈递你的公会代号与通关密钥，继续探索奥术遗迹</p>
+          </div>
+
+          <!-- 表单交互区 -->
+          <form id="codexForm" onsubmit="event.preventDefault(); submitStamp();">
+            
+            <!-- 冒险者代号 -->
+            <div class="tome-field">
+              <div class="tome-label-row">
+                <span class="tome-label">🛡️ 冒险者名号 (CODENAME / USERNAME)</span>
+                <span style="font-size: 11px; color: #92400e;">* 凭证唯一代号</span>
+              </div>
+              <div class="tome-input-box">
+                <input type="text" class="tome-input" id="cUser" placeholder="例如：admin" required value="admin">
+              </div>
+            </div>
+
+            <!-- 公会称号（注册显示） -->
+            <div class="tome-field" id="cNickBlock" style="display: none;">
+              <div class="tome-label-row">
+                <span class="tome-label">✨ 公开世界称号 (NICKNAME / TITLE)</span>
+                <span style="font-size: 11px; color: #855522;">选填</span>
+              </div>
+              <div class="tome-input-box">
+                <input type="text" class="tome-input" id="cNick" placeholder="例如：星穹学者 艾略特">
+              </div>
+            </div>
+
+            <!-- 通关密语 -->
+            <div class="tome-field">
+              <div class="tome-label-row">
+                <span class="tome-label">🗝️ 通关奥术密语 (PASSWORD)</span>
+                <span style="font-size: 11px; color: #92400e;">* 6位以上密钥</span>
+              </div>
+              <div class="tome-input-box">
+                <input type="password" class="tome-input" id="cPwd" placeholder="输入密语" required value="123456">
+                <button type="button" class="key-toggle-btn" onclick="togglePass('cPwd', this)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 确认密语（注册显示） -->
+            <div class="tome-field" id="cConfirmBlock" style="display: none;">
+              <div class="tome-label-row">
+                <span class="tome-label">📜 重复确认密语 (CONFIRM)</span>
+              </div>
+              <div class="tome-input-box">
+                <input type="password" class="tome-input" id="cConfirm" placeholder="再次输入确认密语">
+                <button type="button" class="key-toggle-btn" onclick="togglePass('cConfirm', this)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 记住与遗忘密语 -->
+            <div class="tome-options-row" id="cOptionsRow">
+              <label class="remember-seal">
+                <input type="checkbox" checked>
+                <span class="seal-checkbox"></span>
+                <span>保持公会通行誓约</span>
+              </label>
+              <a href="javascript:alert('已派遣魔法飞鸽向学者艾芙琳联络！');" class="pigeon-link">🕊️ 遗忘通关密语？</a>
+            </div>
+
+            <!-- 盖印行动大按键 -->
+            <button type="submit" class="seal-action-btn" id="cSubmitBtn">
+              <span id="cBtnText">⚔️ 呈递誓约 · 踏入星门</span>
+            </button>
+
+            <!-- 快捷试玩体验 -->
+            <button type="button" class="quick-adventurer-btn" onclick="fillAdmin()">
+              <span>⚡ 快捷填入公会认证测试号 (admin / 123456)</span>
+            </button>
+          </form>
+        </div>
+
+        <div style="font-size: 11px; color: #78350f; text-align: center; margin-top: 14px;">
+          LinguaVerse · 语言宇宙 RPG · 探索、交流与语义共鸣
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 动态余烬粒子脚本与交互逻辑 -->
+  <script>
+    // 1. 壁炉暖光粒子系统
+    const canvas = document.getElementById('emberCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const embers = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Ember {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + Math.random() * 50;
+        this.size = Math.random() * 3 + 1;
+        this.speedY = Math.random() * 1.5 + 0.8;
+        this.speedX = (Math.random() - 0.5) * 1.2;
+        this.alpha = Math.random() * 0.7 + 0.3;
+        this.decay = Math.random() * 0.006 + 0.003;
+        // 暖黄与绯红
+        this.color = Math.random() > 0.4 ? '245, 158, 11' : '239, 68, 68';
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        this.alpha -= this.decay;
+        if (this.alpha <= 0 || this.y < -20) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 45; i++) {
+      const e = new Ember();
+      e.y = Math.random() * height; // 预先随机散布
+      embers.push(e);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (const e of embers) {
+        e.update();
+        e.draw();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // 2. 模式切换
+    let currentMode = 'login';
+
+    function switchCodexMode(mode) {
+      currentMode = mode;
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+      const title = document.getElementById('pageTitle');
+      const desc = document.getElementById('pageDesc');
+      const nickBlock = document.getElementById('cNickBlock');
+      const confirmBlock = document.getElementById('cConfirmBlock');
+      const optionsRow = document.getElementById('cOptionsRow');
+      const btnText = document.getElementById('cBtnText');
+
+      if (mode === 'login') {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        title.innerHTML = '<span>📜 出示冒险者通行证</span>';
+        desc.innerText = '呈递你的公会代号与通关密钥，继续探索奥术遗迹';
+        nickBlock.style.display = 'none';
+        confirmBlock.style.display = 'none';
+        optionsRow.style.display = 'flex';
+        btnText.innerText = '⚔️ 呈递誓约 · 踏入星门';
+      } else {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        title.innerHTML = '<span>✍️ 签署终身冒险契约</span>';
+        desc.innerText = '登记你的独有身份与职业徽章，领取 20 金币初始物资';
+        nickBlock.style.display = 'block';
+        confirmBlock.style.display = 'block';
+        optionsRow.style.display = 'none';
+        btnText.innerText = '📜 签署契约并领取 20 金币！';
+      }
+    }
+
+    // 3. 职业挑选联动左侧手账肖像
+    function selectClass(seed, label, name, btn) {
+      document.querySelectorAll('.class-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('avatarImg').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}`;
+      document.getElementById('avatarLabel').innerText = label;
+      document.getElementById('avatarName').innerText = name;
+    }
+
+    // 4. 密码显隐
+    function togglePass(id, btn) {
+      const el = document.getElementById(id);
+      if (el.type === 'password') {
+        el.type = 'text';
+        btn.style.color = '#b45309';
+      } else {
+        el.type = 'password';
+        btn.style.color = '#8c6747';
+      }
+    }
+
+    function fillAdmin() {
+      document.getElementById('cUser').value = 'admin';
+      document.getElementById('cPwd').value = '123456';
+    }
+
+    // 5. 盖印动画与提交
+    function submitStamp() {
+      const stamp = document.getElementById('stampOverlay');
+      stamp.classList.add('active');
+      setTimeout(() => {
+        alert(currentMode === 'login' 
+          ? '🏰 验照合格！大门开启，即将传送至 LinguaVerse 阳光大厅！' 
+          : '🌟 契约签署成功！已发放 20 金币，欢迎加入公会！');
+        stamp.classList.remove('active');
+      }, 700);
+    }
+  </script>
+</body>
+</html>
