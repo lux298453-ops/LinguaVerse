@@ -1017,24 +1017,29 @@ onUnmounted(() => {
 }
 
 .top-action-btn {
+  box-sizing: border-box;
   background: rgba(30, 41, 59, 0.6);
   border: 1px solid rgba(148, 163, 184, 0.2);
   color: #e2e8f0;
   font-size: 12px;
   font-weight: 600;
-  padding: 5px 12px;
+  padding: 0 12px;
   height: 32px;
   border-radius: 16px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 .top-action-btn:hover {
   background: rgba(51, 65, 85, 0.85);
-  border-color: #60a5fa;
+  border-color: #00cadc;
   color: #fff;
   transform: translateY(-1px);
 }
@@ -1043,15 +1048,15 @@ onUnmounted(() => {
 }
 
 .vocab-book-btn {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(30, 41, 59, 0.8));
-  border-color: rgba(129, 140, 248, 0.4);
-  color: #c7d2fe;
+  background: linear-gradient(135deg, rgba(0, 180, 197, 0.18), rgba(30, 41, 59, 0.8));
+  border-color: rgba(0, 180, 197, 0.35);
+  color: #b2f0f5;
 }
 .vocab-book-btn:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(79, 70, 229, 0.9));
-  border-color: #a5b4fc;
+  background: linear-gradient(135deg, rgba(0, 180, 197, 0.35), rgba(0, 143, 157, 0.9));
+  border-color: #00cadc;
   color: #fff;
-  box-shadow: 0 0 14px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 14px rgba(0, 180, 197, 0.35);
 }
 .vocab-btn-icon { font-size: 13px; }
 .vocab-btn-text { font-size: 11px; font-weight: 700; }
@@ -1072,8 +1077,8 @@ onUnmounted(() => {
 .slang-btn-text { font-size: 11px; font-weight: 700; }
 
 .chat-nav-btn:hover {
-  border-color: #818cf8;
-  background: rgba(99, 102, 241, 0.3);
+  border-color: #00cadc;
+  background: rgba(0, 180, 197, 0.25);
 }
 
 .exit-world-btn {
@@ -1118,13 +1123,31 @@ onUnmounted(() => {
 
 /* 🪙 玩家持有金币数徽章 */
 .player-coins-badge {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(30, 41, 59, 0.8));
-  border-color: rgba(245, 158, 11, 0.4);
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 12px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(30, 41, 59, 0.85));
+  border: 1px solid rgba(245, 158, 11, 0.4);
   color: #fde68a;
   cursor: default;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 16px;
+  user-select: none;
 }
-.player-coins-badge .coins-icon { font-size: 13px; }
-.player-coins-badge .coins-count { font-size: 12px; font-weight: 700; color: #fbbf24; }
+.player-coins-badge .coins-icon {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+.player-coins-badge .coins-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fbbf24;
+  line-height: 1;
+}
 
 /* 📜 冒险委托书按钮 */
 .quest-log-btn {
